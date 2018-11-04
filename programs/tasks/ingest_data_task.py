@@ -14,6 +14,6 @@ class IngestDataTask(Task):
         self._movies_df = self._read_json(Config.config["source_s3_file"])
 
         logger.info("Persisting data to staging...")
-        self._persist_movies(self._movies_table_staging, mode_="overwrite")
+        self._persist_movies(table=self._movies_table_staging, mode_="overwrite")
 
         logger.info("Movies ingested successfully.")

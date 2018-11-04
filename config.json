@@ -1,5 +1,5 @@
 {
-   "source_s3_file": "s3a://dwh-test-resources/movies.json",
+   "source_s3_file": "s3a://etl-tests-guido/movies.json",
    "slack": {
       "token": "test_token",
       "channel": "test_channel",
@@ -27,6 +27,6 @@
    "movies": {
       "columns_to_extract": ["title", "year", "cast", "genres"],
       "table_staging": "movies_staging",
-      "table_final": "movies"
+      "table_final": "movies_agg"
    }
 }

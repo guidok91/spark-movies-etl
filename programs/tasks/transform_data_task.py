@@ -1,11 +1,13 @@
 from programs.tasks.task import Task
 from programs.common.logger import logger
-from programs.common.config import Config
 import pyspark
+from pyspark.sql import DataFrame
+from pyspark.sql.functions import explode
 
 
 class TransformDataTask(Task):
     def __init__(self):
+        _agg_movies_df: DataFrame = None
         super().__init__()
 
     def run(self):
@@ -15,9 +17,9 @@ class TransformDataTask(Task):
             logger.info("Staging table not found, please run ingest before transform. Skipping step.")
             return
 
-        self._get_movies_from_staging("XXXXXXXXXXX")
+        self._get_movies_from_staging()
         self._aggregate_movies()
-        self._persist_movies(self._movies_table_final, mode_="append", partition_by="difficulty")
+        self._persist_movies(table=self._movies_table_final, mode_="append", partition_by="genre", agg=True)
 
         logger.info("Movies loaded successfully.")
 
@@ -28,16 +30,21 @@ class TransformDataTask(Task):
             return False
         return True
 
-    def _get_movies_from_staging(self, where: str):
+    def _get_movies_from_staging(self, where: str = None):
         logger.info("Fetching data from staging...")
+        where = "" if where is None else f"where {where}"
         self._movies_df = self._exec_spark_sql(f"""
                      select
                         {self._movies_columns}
                      from
                          {self._movies_table_staging}
-                     where {where}
+                     {where}
                 """)
+        return self._movies_df
 
     def _aggregate_movies(self):
-        # TODO
-        pass
+        logger.info("Aggregating data...")
+        self._agg_movies_df = self._movies_df\
+            .select("year", explode("genres").alias("genre"))\
+            .groupby(["year", "genre"])\
+            .count()

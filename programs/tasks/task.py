@@ -22,8 +22,9 @@ class Task(ABC):
     def _read_json(self, json_file: str) -> DataFrame:
         return self._spark_session.read.json(json_file)
 
-    def _persist_movies(self, table: str, mode_: str, format_: str = "parquet", partition_by: str = None):
-        df_writer = self._movies_df.write
+    def _persist_movies(self, table: str, mode_: str, format_: str = "parquet", partition_by: str = None,
+                        agg: bool = False):
+        df_writer = self._movies_df.write if not agg else self._agg_movies_df.write
 
         if partition_by:
             df_writer = df_writer.partitionBy(partition_by)
