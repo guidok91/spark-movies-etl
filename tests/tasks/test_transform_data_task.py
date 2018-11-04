@@ -2,7 +2,7 @@ from unittest.mock import Mock, patch
 from tests.tasks.fixtures import *
 from programs.tasks.transform_data_task import TransformDataTask
 import pandas as pd
-from pyspark.sql import DataFrame, SparkSession
+from pyspark.sql import DataFrame
 
 
 @patch("programs.tasks.task.Config")
