@@ -1,0 +1,7 @@
+version: "2"
+
+services:
+  movies_etl:
+    image: movies_etl
+    container_name: "movies_etl"
+    build: .

@@ -1,0 +1,11 @@
+movies_venv/
+dist/
+.idea/
+__pycache__/
+*.pyc
+spark-warehouse/
+hive_metastore_movies/
+programs.zip
+packages.zip
+derby.log
+metastore_db/
