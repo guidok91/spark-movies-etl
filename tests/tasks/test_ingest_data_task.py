@@ -1,9 +1,12 @@
-from unittest.mock import Mock
+from unittest.mock import Mock, patch
 from tests.tasks.fixtures import *
 from programs.tasks.ingest_data_task import IngestDataTask
 
 
-def test_ingest_data_task_runs(patch_config):
+@patch("programs.tasks.task.Config")
+def test_ingest_data_task_runs(patch_config, test_config):
+    patch_config.config = test_config
+
     ingest_data_task = IngestDataTask()
 
     ingest_data_task._movies_table_staging = Mock()

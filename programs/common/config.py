@@ -16,7 +16,6 @@ class Config(object):
             with open("config.json", "r") as f:
                 cls.config = json.load(f)
             cls._parse_args(parse_args)
-            cls.execution_datetime = datetime.datetime.today().strftime("%Y-%m-%d %H:%M")
         except FileNotFoundError:
             raise Exception("Configuration file not found")
         except (KeyError, json.decoder.JSONDecodeError):

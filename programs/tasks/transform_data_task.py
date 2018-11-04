@@ -1,8 +1,9 @@
 from programs.tasks.task import Task
 from programs.common.logger import logger
+from programs.common.config import Config
 import pyspark
 from pyspark.sql import DataFrame
-from pyspark.sql.functions import explode
+from pyspark.sql.functions import explode, current_timestamp
 
 
 class TransformDataTask(Task):
@@ -47,4 +48,5 @@ class TransformDataTask(Task):
         self._agg_movies_df = self._movies_df\
             .select("year", explode("genres").alias("genre"))\
             .groupby(["year", "genre"])\
-            .count()
+            .count()\
+            .withColumn("execution_datetime", current_timestamp())
