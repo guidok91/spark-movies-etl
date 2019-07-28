@@ -1,7 +1,6 @@
-import json
+import yaml
 from programs.common.logger import logger
 import argparse
-import datetime
 
 
 class Config(object):
@@ -13,12 +12,12 @@ class Config(object):
     def load_config(cls, parse_args=True):
         logger.info("Loading config...")
         try:
-            with open("config.json", "r") as f:
-                cls.config = json.load(f)
+            with open("config.yaml", "r") as f:
+                cls.config = yaml.safe_load(f)
             cls._parse_args(parse_args)
         except FileNotFoundError:
             raise Exception("Configuration file not found")
-        except (KeyError, json.decoder.JSONDecodeError):
+        except (KeyError, yaml.scanner.ScannerError):
             raise Exception("Invalid configuration file")
 
     @classmethod

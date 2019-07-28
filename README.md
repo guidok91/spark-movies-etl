@@ -7,7 +7,7 @@
 1. Checkout the repository on a machine where Docker is available.
 2. Run **docker-compose up -d** to spin up the container.
 3. Run **docker exec -it movies_etl bash** to get into the container. 
-4. Run **vim config.json** to edit it (AWS credentials need to be specified). Feel free to tweak other options :).
+4. Run **vim config.yaml** to edit it (AWS credentials need to be specified). Feel free to tweak other options :).
 5. Once there, the following make commands are available:
     1. **make test**: run the unit tests.
     2. **make run_standalone**: run the application in standalone mode. Accepts optional **task** argument.

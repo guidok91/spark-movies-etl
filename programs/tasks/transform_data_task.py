@@ -20,7 +20,7 @@ class TransformDataTask(Task):
 
         self._get_movies_from_staging()
         self._aggregate_movies()
-        self._persist_movies(table=self._movies_table_final, mode_="append", partition_by="genre", agg=True)
+        self._persist_movies(table=self._movies_table_final, mode="append", partition_by="genre", is_agg=True)
 
         logger.info("Movies loaded successfully.")
 

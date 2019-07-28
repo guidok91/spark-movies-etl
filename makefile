@@ -2,7 +2,7 @@ SHELL=/bin/bash
 
 init:
 	make clean
-	python3.6 -m venv movies_venv
+	python3.7 -m venv movies_venv
 	. movies_venv/bin/activate && pip install --upgrade pip setuptools && pip install -r requirements.txt
 	make build_spark_dependencies
 
@@ -12,7 +12,7 @@ clean:
 
 build_spark_dependencies:
 	zip -r programs.zip programs && \
-	cd ./movies_venv/lib/python3.6/site-packages && \
+	cd ./movies_venv/lib/python3.7/site-packages && \
 	zip -r packages.zip . && \
 	mv packages.zip ../../../../packages.zip
 

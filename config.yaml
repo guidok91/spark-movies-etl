@@ -1,0 +1,33 @@
+source_s3_file: s3a://etl-tests-guido/movies.json
+slack:
+  token: test_token
+  channel: test_channel
+  username: test_username
+spark:
+  app_name: movies_etl
+  master: local[*]
+  executor:
+    cores: '4'
+    memory: 6g
+  shuffle_partitions: 20
+  log_level: ERROR
+  dependencies:
+  - programs.zip
+  - packages.zip
+  jars:
+  - com.amazonaws:aws-java-sdk:1.7.4
+  - org.apache.hadoop:hadoop-aws:2.7.6
+  hive_metastore_location: hive_metastore_movies
+  aws_key: XXXXXXXXXXXX
+  aws_secret: XXXXXXXXXXXX
+argument_class_mapping:
+  ingest: programs.tasks.ingest_data_task.IngestDataTask
+  transform: programs.tasks.transform_data_task.TransformDataTask
+movies:
+  columns_to_extract:
+  - title
+  - year
+  - cast
+  - genres
+  table_staging: movies_staging
+  table_final: movies_agg

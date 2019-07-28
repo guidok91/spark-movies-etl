@@ -1,4 +1,4 @@
-FROM python:3.6
+FROM python:3.7
 
 RUN echo "deb http://http.debian.net/debian jessie-backports main" | tee --append /etc/apt/sources.list.d/jessie-backports.list > /dev/null && \
     apt-get update -q -y && \
