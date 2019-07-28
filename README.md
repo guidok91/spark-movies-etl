@@ -1,7 +1,6 @@
 ## Considerations, decisions and caveats
 - The ETL process supports execution multiple times a day, preserving the state of the movies at the time of each execution. Another option would have been to preserve one data set per day (deleting the data for the day before loading on each run).
 - The staging table (where the IngestDataTask loads the data directly from S3) is transient (overwritten on every execution).
-- A significant proportion of tests were developed for the application, although more should be created.
 
 ## Running instructions
 1. Checkout the repository on a machine where Docker is available.
