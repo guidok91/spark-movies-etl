@@ -6,7 +6,6 @@ import argparse
 class Config(object):
     config: dict = None
     task: str = None
-    execution_datetime: str = None
 
     @classmethod
     def load_config(cls, parse_args=True):
