@@ -1,8 +1,8 @@
 s3:
   bucket: etl-tests-guido
-  source_file: movies.json
-  directory_staging: movies_staging
-  directory_final: movies_agg
+  source_file: movies/source/movies.json
+  directory_staging: movies/staging
+  directory_final: movies/final
   aws_key:
   aws_secret:
 
