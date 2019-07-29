@@ -25,7 +25,7 @@ class Config(object):
             cls.task = ""
         else:
             logger.info("Parsing arguments...")
-            task_choices = list(Config.config["argument_class_mapping"].keys()) + [""]
+            task_choices = list(Config.config["task_argument_class_mapping"].keys()) + [""]
             parser = argparse.ArgumentParser()
             parser.add_argument("-t", "--task", dest="task", required=True, choices=task_choices,
                                 help="Task to run (leave empty to run all tasks).")

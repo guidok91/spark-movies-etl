@@ -7,7 +7,7 @@ from datautils.spark.repos import S3ParquetRepo
 class Task(ABC):
     def __init__(self, spark_session: SparkSession, config: Config):
         self._spark_session: SparkSession = spark_session
-        self._config: dict = Config.config
+        self._config: dict = config.config
         self._s3_parquet_repo: S3ParquetRepo = S3ParquetRepo(self._spark_session, self._config["s3"]["bucket"])
 
     @abstractmethod

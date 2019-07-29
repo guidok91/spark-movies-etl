@@ -17,6 +17,6 @@ class Executor(object):
     @staticmethod
     def _load_tasks() -> List[callable]:
         logger.info("Loading tasks from config...")
-        task_classes = list(Config.config["argument_class_mapping"].values()) if Config.task == "" \
-            else [Config.config["argument_class_mapping"][Config.task]]
+        task_classes = list(Config.config["task_argument_class_mapping"].values()) if Config.task == "" \
+            else [Config.config["task_argument_class_mapping"][Config.task]]
         return [get_class(task_class) for task_class in task_classes]
