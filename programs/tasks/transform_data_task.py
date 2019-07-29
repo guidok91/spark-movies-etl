@@ -16,4 +16,3 @@ class TransformDataTask(Task):
             mode="overwrite",
             partition_by="year"
         )
-
