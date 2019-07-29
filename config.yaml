@@ -3,8 +3,8 @@ s3:
   source_file: movies.json
   directory_staging: movies_staging
   directory_final: movies_agg
-  aws_key: AKIAUXOVKIUG4MSUHAMK
-  aws_secret: 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
+  aws_key: XXXXX
+  aws_secret: XXXXX
 
 movies:
   columns_to_extract:
