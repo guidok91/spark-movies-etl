@@ -1,33 +1,40 @@
-source_s3_file: s3a://etl-tests-guido/movies.json
-slack:
-  token: test_token
-  channel: test_channel
-  username: test_username
-spark:
-  app_name: movies_etl
-  master: local[*]
-  executor:
-    cores: '4'
-    memory: 6g
-  shuffle_partitions: 20
-  log_level: ERROR
-  dependencies:
-  - programs.zip
-  - packages.zip
-  jars:
-  - com.amazonaws:aws-java-sdk:1.7.4
-  - org.apache.hadoop:hadoop-aws:2.7.6
-  hive_metastore_location: hive_metastore_movies
-  aws_key: XXXXXXXXXXXX
-  aws_secret: XXXXXXXXXXXX
-argument_class_mapping:
-  ingest: programs.tasks.ingest_data_task.IngestDataTask
-  transform: programs.tasks.transform_data_task.TransformDataTask
+s3:
+  bucket: etl-tests-guido
+  source_file: movies.json
+  directory_staging: movies_staging
+  directory_final: movies_agg
+  aws_key: AKIAUXOVKIUG4MSUHAMK
+  aws_secret: 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
+
 movies:
   columns_to_extract:
   - title
   - year
   - cast
   - genres
-  table_staging: movies_staging
-  table_final: movies_agg
+
+slack:
+  token: test_token
+  channel: test_channel
+  username: test_username
+
+spark:
+  app_name: movies_etl
+  master: local[*]
+  executors:
+    instances: 2
+    cores: '2'
+    memory: 6g
+  default_parallelism: 20
+  shuffle_partitions: 20
+  log_level: ERROR
+  python_packages:
+  - programs.zip
+  - packages.zip
+  jars:
+  - com.amazonaws:aws-java-sdk:1.7.4
+  - org.apache.hadoop:hadoop-aws:2.7.6
+
+task_argument_class_mapping:
+  ingest: programs.tasks.ingest_data_task.IngestDataTask
+  transform: programs.tasks.transform_data_task.TransformDataTask
