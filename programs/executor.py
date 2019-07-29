@@ -1,4 +1,4 @@
-from programs.common.logger import logger
+from datautils.logging import logger
 from programs.common.config import Config
 from programs.common.utils import get_class
 from programs.clients.spark_client import SparkClient

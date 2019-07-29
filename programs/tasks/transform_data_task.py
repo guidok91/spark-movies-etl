@@ -1,5 +1,5 @@
 from programs.tasks.task import Task
-from programs.common.logger import logger
+from datautils.logging import logger
 from programs.common.config import Config
 import pyspark
 from pyspark.sql import DataFrame

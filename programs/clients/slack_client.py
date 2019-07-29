@@ -1,4 +1,4 @@
-from programs.common.logger import logger
+from datautils.logging import logger
 
 
 class SlackClient(object):

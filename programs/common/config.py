@@ -1,5 +1,5 @@
 import yaml
-from programs.common.logger import logger
+from datautils.logging import logger
 import argparse
 
 

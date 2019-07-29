@@ -1,7 +1,7 @@
 from programs.tasks.task import Task
 from pyspark.sql import DataFrame
 from programs.common.config import Config
-from programs.common.logger import logger
+from datautils.logging import logger
 
 
 class IngestDataTask(Task):
