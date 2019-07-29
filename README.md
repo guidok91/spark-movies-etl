@@ -1,5 +1,6 @@
-## Considerations, decisions and caveats
-- The ETL process supports execution multiple times a day, preserving the state of the movies at the time of each execution.  
+## Description
+- The ETL ingests and transforms a movies data set in JSON format from S3, persisting in Parquet on the same bucket.
+- One version of the data set per execution date is preserved.
 - The staging directory (where the IngestDataTask loads the data directly from S3) is transient (overwritten on every execution).
 
 ## Running instructions

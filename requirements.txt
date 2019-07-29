@@ -3,4 +3,4 @@ pytest==5.0.1
 pyspark==2.4.3
 pandas==0.25.0
 PyYAML==5.1.1
--e git://github.com/guidok91/data-utils.git@d3b81597efb7972f9e8a3aefd12314c512b5efc1#egg=datautils
+-e git://github.com/guidok91/data-utils.git@48236275bb6681ebc19732cf85c05a9edb1abff1#egg=datautils
