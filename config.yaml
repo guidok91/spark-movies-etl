@@ -7,9 +7,9 @@ s3:
   aws_secret:
 
 slack:
-  token: test_token
-  channel: test_channel
-  username: test_username
+  token:
+  channel:
+  username:
 
 spark:
   app_name: movies_etl
