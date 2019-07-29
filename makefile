@@ -16,13 +16,8 @@ build_spark_dependencies:
 	zip -r packages.zip . && \
 	mv packages.zip ../../../../packages.zip
 
-run_standalone:
+run:
 	. movies_venv/bin/activate && python -m programs.main --task "${task}"
-
-run_yarn:
-	export HADOOP_CONF_DIR=${hadoop_conf_dir} && \
-	. movies_venv/bin/activate && \
-	python -m programs.main --task "${task}"
 
 test:
 	. movies_venv/bin/activate && python -m pytest tests
