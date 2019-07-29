@@ -3,15 +3,8 @@ s3:
   source_file: movies.json
   directory_staging: movies_staging
   directory_final: movies_agg
-  aws_key: XXXXX
-  aws_secret: XXXXX
-
-movies:
-  columns_to_extract:
-  - title
-  - year
-  - cast
-  - genres
+  aws_key:
+  aws_secret: 
 
 slack:
   token: test_token
