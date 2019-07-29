@@ -22,6 +22,6 @@ class TransformDataTask(Task):
         self._s3_repo.write_parquet(
             df=df,
             path=self._config["s3"]["directory_final"],
-            mode="append",
+            mode="overwrite",
             partition_by=["execution_date", "year"]
         )
