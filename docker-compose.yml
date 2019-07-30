@@ -8,3 +8,4 @@ services:
     volumes:
     # volume to share local code folder with container, so we can make changes instantly while developing
       - "./programs:/home/movies/programs"
+      - "./tests:/home/movies/tests"
