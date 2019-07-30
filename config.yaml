@@ -3,8 +3,8 @@ s3:
   source_file: movies/source/movies.json
   directory_staging: movies/staging
   directory_final: movies/final
-  aws_key:
-  aws_secret:
+  aws_key: ""
+  aws_secret: ""
 
 slack:
   token:
