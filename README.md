@@ -1,5 +1,5 @@
 ## Description
-- The ETL ingests and transforms a movies data set in JSON format from an external repository (S3, HDFS, etc), persisting in Parquet on the same repository.
+- The data pipeline ingests and transforms a movies data set in JSON format from an external repository (S3, HDFS, etc), persisting in Parquet on the same repository.
 - One version of the data set per execution date is preserved.
 - The staging directory (where data is ingested directly from the repository) is transient (overwritten on every execution).
 
