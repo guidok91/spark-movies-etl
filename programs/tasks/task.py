@@ -1,4 +1,3 @@
-from programs.common.config import Config
 from pyspark.sql import DataFrame, SparkSession
 from abc import ABC, abstractmethod
 from datautils.spark.repos import SparkDataFrameRepo

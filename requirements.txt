@@ -4,4 +4,4 @@ spark-testing-base == 0.10.0
 pyspark==2.4.3
 pandas==0.25.0
 PyYAML==5.1.1
--e git://github.com/guidok91/data-utils.git@a006bfcefc9a308be4802e27f7ed539c4fdb8210#egg=datautils
+-e git://github.com/guidok91/data-utils.git@8eacdea1aafa95ae2137c1ab964652a335871a27#egg=datautils

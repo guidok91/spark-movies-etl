@@ -1,0 +1,3 @@
+
+class NoSourceDataError(Exception):
+    pass
