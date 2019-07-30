@@ -12,7 +12,7 @@
     1. **make test**: run the unit tests.
     2. **make run**: run the application. Accepts optional **task** argument.
 
-**NOTE**: For the task argument, the values "ingest" and "transform" are accepted. If the argument is not specified, both tasks will be run.  
+**NOTE**: For the task argument, the values **ingest** and **transform** are accepted. If the argument is not specified, both tasks will be run.  
 
 Examples:  
 **make run task=ingest**: Run only the ingest task.  
