@@ -29,8 +29,9 @@ class SparkClient(object):
 
     @classmethod
     def _set_jar_dependencies(cls):
-        for jar in cls._config["spark"]["jars"]:
-            cls._spark_session = cls._spark_session.config("spark.jars.packages", jar)
+        if cls._config["spark"]["jars"] is not None:
+            for jar in cls._config["spark"]["jars"]:
+                cls._spark_session = cls._spark_session.config("spark.jars.packages", jar)
 
     @classmethod
     def _config_spark_session(cls):

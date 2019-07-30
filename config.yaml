@@ -1,8 +1,8 @@
 data_repository:
-  uri_prefix: file://
-  source_data: movies_data_repository/source
-  directory_staging: movies_data_repository/staging
-  directory_final: movies_data_repository/final
+  uri_prefix: file:///
+  source_data: /home/movies/movies_data_repository/source
+  directory_staging: /home/movies/movies_data_repository/staging
+  directory_final: /home/movies/movies_data_repository/final
 
 slack:
   token:
