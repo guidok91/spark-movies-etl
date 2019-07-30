@@ -1,6 +1,6 @@
 flake8==3.7.8
 pytest==5.0.1
-spark-testing-base == 0.10.0
+spark-testing-base==0.10.0
 pyspark==2.4.3
 pandas==0.25.0
 PyYAML==5.1.1
