@@ -1,10 +1,8 @@
-s3:
-  bucket: etl-tests-guido
-  source_file: movies/source/movies.json
-  directory_staging: movies/staging
-  directory_final: movies/final
-  aws_key: ""
-  aws_secret: ""
+data_repository:
+  uri_prefix: file://
+  source_data: movies_data_repository/source
+  directory_staging: movies_data_repository/staging
+  directory_final: movies_data_repository/final
 
 slack:
   token:

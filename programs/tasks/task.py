@@ -1,14 +1,17 @@
 from programs.common.config import Config
 from pyspark.sql import DataFrame, SparkSession
 from abc import ABC, abstractmethod
-from datautils.spark.repos import S3Repo
+from datautils.spark.repos import SparkDataFrameRepo
 
 
 class Task(ABC):
-    def __init__(self, spark_session: SparkSession, config: Config):
+    def __init__(self, spark_session: SparkSession, config: dict):
         self._spark_session: SparkSession = spark_session
-        self._config: dict = config.config
-        self._s3_repo: S3Repo = S3Repo(self._spark_session, self._config["s3"]["bucket"])
+        self._config: dict = config
+        self._spark_dataframe_repo: SparkDataFrameRepo = SparkDataFrameRepo(
+            self._spark_session,
+            self._config["data_repository"]["uri_prefix"]
+        )
 
     def run(self):
         df = self._input()

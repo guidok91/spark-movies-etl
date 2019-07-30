@@ -11,6 +11,7 @@ WORKDIR $MOVIES_HOME
 
 COPY ./programs ./programs
 COPY ./tests ./tests
+COPY ./movies_data_repository ./movies_data_repository
 COPY ["config.yaml", "entrypoint.sh", "makefile", "requirements.txt", "./"]
 
 RUN make init

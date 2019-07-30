@@ -44,8 +44,5 @@ class SparkClient(object):
         cls._spark_session.conf.set("spark.sql.shuffle.partitions", cls._config["spark"]["shuffle_partitions"])
         cls._spark_session.conf.set("spark.sql.sources.partitionOverwriteMode", "dynamic")
 
-        cls._spark_session.conf.set("fs.s3a.access.key", cls._config["s3"]["aws_key"])
-        cls._spark_session.conf.set("fs.s3a.secret.key", cls._config["s3"]["aws_secret"])
-
         for python_package in cls._config["spark"]["python_packages"]:
             cls._spark_session.sparkContext.addPyFile(python_package)

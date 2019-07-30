@@ -12,7 +12,7 @@ class Executor(object):
 
     def run(self):
         for task in self.tasks:
-            task(SparkClient.get_session(), Config).run()
+            task(SparkClient.get_session(), Config.config).run()
 
     @staticmethod
     def _load_tasks() -> List[callable]:

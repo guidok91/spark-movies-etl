@@ -7,7 +7,7 @@
 1. Checkout the repository on a machine where Docker is available.
 2. Run **docker-compose up -d** to spin up the container.
 3. Run **docker exec -it movies_etl bash** to get into the container. 
-4. Run **vim config.yaml** to edit it as needed.
+4. Run **vim config.yaml** to edit it as needed: specify the data repository (default is local filesystem). If it's S3, AWS credentials need to be provided in the environment. 
 5. Once there, the following make commands are available:
     1. **make test**: run the unit tests.
     2. **make run**: run the application. Accepts optional **task** argument.
