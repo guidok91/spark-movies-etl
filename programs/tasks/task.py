@@ -21,8 +21,9 @@ class Task(ABC):
     def _input(self) -> DataFrame:
         raise NotImplementedError
 
+    @staticmethod
     @abstractmethod
-    def _transform(self, df: DataFrame) -> DataFrame:
+    def _transform(df: DataFrame) -> DataFrame:
         raise NotImplementedError
 
     @abstractmethod

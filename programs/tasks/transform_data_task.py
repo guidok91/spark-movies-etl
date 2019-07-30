@@ -7,7 +7,8 @@ class TransformDataTask(Task):
     def _input(self) -> DataFrame:
         return self._spark_dataframe_repo.read_parquet(self._config["data_repository"]["directory_staging"])
 
-    def _transform(self, df: DataFrame) -> DataFrame:
+    @staticmethod
+    def _transform(df: DataFrame) -> DataFrame:
         return df \
             .where(size("genres") != 0) \
             .withColumn("execution_date", current_date()) \

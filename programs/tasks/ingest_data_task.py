@@ -23,7 +23,8 @@ class IngestDataTask(Task):
 
         return df
 
-    def _transform(self, df: DataFrame) -> DataFrame:
+    @staticmethod
+    def _transform(df: DataFrame) -> DataFrame:
         return df
 
     def _output(self, df: DataFrame):
