@@ -1,20 +1,14 @@
 from moviesetl.executor import Executor
-from moviesetl.clients.slack_client import SlackClient
 from moviesetl.clients.spark_client import SparkClient
 from moviesetl.common.config import Config
 
 
 def main():
     Config.load_config()
-    try:
-        SparkClient.init_spark_session(Config.config)
-        Executor().run()
-        SparkClient.end_spark_session()
-    except Exception as e:
-        SlackClient(Config.config["slack"]["token"],
-                    Config.config["slack"]["channel"],
-                    Config.config["slack"]["username"])\
-            .report_to_slack(str(e))
+
+    SparkClient.init_spark_session(Config.config)
+    Executor().run()
+    SparkClient.end_spark_session()
 
 
 if __name__ == "__main__":
