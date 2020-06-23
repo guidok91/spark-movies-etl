@@ -1,5 +1,5 @@
-from programs.tasks.task import Task
-from programs.common.exceptions import NoSourceDataError
+from moviesetl.tasks.task import Task
+from moviesetl.common.exceptions import NoSourceDataError
 from pyspark.sql import DataFrame
 from pyspark.sql.types import StructType, StructField, ArrayType, StringType, LongType
 

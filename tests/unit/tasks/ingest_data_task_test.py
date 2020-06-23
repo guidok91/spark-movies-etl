@@ -1,5 +1,5 @@
 from sparktestingbase.sqltestcase import SQLTestCase
-from programs.tasks.ingest_data_task import IngestDataTask
+from moviesetl.tasks.ingest_data_task import IngestDataTask
 from os import path
 
 

@@ -7,5 +7,5 @@ services:
     build: .
     volumes:
     # volume to share local code folder with container, so we can make changes instantly while developing
-      - "./programs:/home/movies/programs"
+      - "./moviesetl:/home/movies/moviesetl"
       - "./tests:/home/movies/tests"

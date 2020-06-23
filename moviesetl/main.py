@@ -1,7 +1,7 @@
-from programs.executor import Executor
-from programs.clients.slack_client import SlackClient
-from programs.clients.spark_client import SparkClient
-from programs.common.config import Config
+from moviesetl.executor import Executor
+from moviesetl.clients.slack_client import SlackClient
+from moviesetl.clients.spark_client import SparkClient
+from moviesetl.common.config import Config
 
 
 def main():

@@ -1,5 +1,5 @@
 from sparktestingbase.sqltestcase import SQLTestCase
-from programs.tasks.transform_data_task import TransformDataTask
+from moviesetl.tasks.transform_data_task import TransformDataTask
 from tests.unit.tasks.fixtures.expected_output import TRANSFORMED_EXPECTED_OUTPUT, TRANSFORMED_EXPECTED_SCHEMA
 from os import path
 

@@ -20,12 +20,12 @@ spark:
   shuffle_partitions: 20
   log_level: ERROR
   python_packages:
-  - programs.zip
+  - moviesetl.zip
   - packages.zip
   jars:
 #  - com.amazonaws:aws-java-sdk:1.7.4
 #  - org.apache.hadoop:hadoop-aws:2.7.6
 
 task_argument_class_mapping:
-  ingest: programs.tasks.ingest_data_task.IngestDataTask
-  transform: programs.tasks.transform_data_task.TransformDataTask
+  ingest: moviesetl.tasks.ingest_data_task.IngestDataTask
+  transform: moviesetl.tasks.transform_data_task.TransformDataTask
