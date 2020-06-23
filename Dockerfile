@@ -15,7 +15,7 @@ WORKDIR $MOVIES_HOME
 
 COPY moviesetl ./moviesetl
 COPY ./tests ./tests
-COPY ./movies_data_repository ./movies_data_repository
+COPY data_lake ./data_lake
 COPY ["setup.py", "config.yaml", "entrypoint.sh", "makefile", "requirements.txt", "./"]
 
 RUN make init

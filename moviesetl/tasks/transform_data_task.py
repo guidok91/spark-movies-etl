@@ -5,7 +5,7 @@ from pyspark.sql.functions import current_date, size, explode
 
 class TransformDataTask(Task):
     def _input(self) -> DataFrame:
-        return self._spark_dataframe_repo.read_parquet(self._config["data_repository"]["directory_staging"])
+        return self._spark_dataframe_repo.read_parquet(self._config["data_lake"]["staging"])
 
     @staticmethod
     def _transform(df: DataFrame) -> DataFrame:
@@ -19,10 +19,10 @@ class TransformDataTask(Task):
                 "year"
             )
 
-    def _output(self, df: DataFrame):
+    def _output(self, df: DataFrame) -> None:
         self._spark_dataframe_repo.write_parquet(
             df=df,
-            path=self._config["data_repository"]["directory_final"],
+            path=self._config["data_lake"]["final"],
             mode="overwrite",
             partition_by=["execution_date", "year"]
         )

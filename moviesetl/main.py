@@ -4,10 +4,10 @@ from moviesetl.common.config import Config
 
 
 def main():
-    Config.load_config()
+    config = Config.load_config()
 
-    SparkClient.init_spark_session(Config.config)
-    Executor().run()
+    SparkClient.init_spark_session(config)
+    Executor(config).run()
     SparkClient.end_spark_session()
 
 

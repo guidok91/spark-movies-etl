@@ -1,22 +1,22 @@
 from datautils.logging import logger
-from moviesetl.common.config import Config
-from moviesetl.common.utils import get_class
+from moviesetl.common.utils import load_class
 from moviesetl.clients.spark_client import SparkClient
-from typing import List
 
 
 class Executor(object):
-    def __init__(self):
-        self.tasks = self._load_tasks()
-        logger.info(f"Loaded task classes:{str(self.tasks)}")
+    def __init__(self, config: dict):
+        self._config = config
 
     def run(self):
-        for task in self.tasks:
-            task(SparkClient.get_session(), Config.config).run()
+        task_class = self._load_task()
+        task_class(SparkClient.get_session(), self._config).run()
 
-    @staticmethod
-    def _load_tasks() -> List[callable]:
-        logger.info("Loading tasks from config...")
-        task_classes = list(Config.config["task_argument_class_mapping"].values()) if Config.task == "" \
-            else [Config.config["task_argument_class_mapping"][Config.task]]
-        return [get_class(task_class) for task_class in task_classes]
+    def _load_task(self) -> callable:
+        logger.info("Loading task from config...")
+
+        task_class_name = self._config["task_argument_class_mapping"][self._config["task"]]
+        task_class = load_class(task_class_name)
+
+        logger.info(f"Loaded task class:{str(task_class)}")
+
+        return task_class

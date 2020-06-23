@@ -10,10 +10,9 @@
 4. Run **vim config.yaml** to edit it as needed: specify the data repository (default is local filesystem). If it's S3, AWS credentials need to be provided in the environment. 
 5. Once there, the following make commands are available:
     1. **make test**: run the unit tests.
-    2. **make run**: run the application. Accepts optional **task** argument.
+    2. **make run**: run the application. Must specify **task** argument.
 
-**NOTE**: For the task argument, the values **ingest** and **transform** are accepted. If the argument is not specified, both tasks will be run.  
+**NOTE**: For the task argument, the values **ingest** and **transform** are accepted.
 
-Examples:  
-**make run task=ingest**: Run only the ingest task.  
-**make run**: Run the full pipeline.
+Example:  
+**make run task=ingest** 

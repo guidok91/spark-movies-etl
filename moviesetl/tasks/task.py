@@ -6,12 +6,12 @@ from datautils.spark.repos import SparkDataFrameRepo
 class Task(ABC):
     def __init__(self, spark_session: SparkSession, config: dict):
         self._spark_session: SparkSession = spark_session
-        self._config: dict = config
-        self._spark_dataframe_repo: SparkDataFrameRepo = SparkDataFrameRepo(
+        self._config = config
+        self._spark_dataframe_repo = SparkDataFrameRepo(
             self._spark_session
         )
 
-    def run(self):
+    def run(self) -> None:
         df = self._input()
         df_transformed = self._transform(df)
         self._output(df_transformed)
@@ -26,5 +26,5 @@ class Task(ABC):
         raise NotImplementedError
 
     @abstractmethod
-    def _output(self, df: DataFrame):
+    def _output(self, df: DataFrame) -> None:
         raise NotImplementedError

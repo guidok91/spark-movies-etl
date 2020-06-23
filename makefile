@@ -6,10 +6,10 @@ init:
 	. movies_venv/bin/activate && pip install --upgrade pip setuptools \
 	&& pip install -r requirements.txt \
 	&& pip install -e . \
-	make build_spark_dependencies
+	&& make build_spark_dependencies
 
 clean:
-	rm -r movies_venv
+	rm -rf movies_venv
 	find . -name '__pycache__' | xargs rm -rf
 	find . -name '*pytest_cache' | xargs rm -rf
 
