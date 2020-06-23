@@ -1,14 +1,12 @@
 from moviesetl.executor import Executor
-from moviesetl.clients.spark_client import SparkClient
+from moviesetl.clients.spark import SparkSessionWrapper
 from moviesetl.common.config import Config
 
 
 def main():
     config = Config.load_config()
-
-    SparkClient.init_spark_session(config)
-    Executor(config).run()
-    SparkClient.end_spark_session()
+    spark_session = SparkSessionWrapper.get_session(config["spark"])
+    Executor(config, spark_session).run()
 
 
 if __name__ == "__main__":
