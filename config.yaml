@@ -11,14 +11,8 @@ slack:
 
 spark:
   app_name: movies_etl
-  master: local[*]
-  executors:
-    instances: 2
-    cores: '2'
-    memory: 6g
-  default_parallelism: 20
-  shuffle_partitions: 20
   log_level: ERROR
+  partition_overwrite_mode: dynamic
   python_packages:
   - moviesetl.zip
   - packages.zip

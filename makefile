@@ -3,10 +3,13 @@ SHELL=/bin/bash
 init:
 	make clean
 	python3.7 -m venv movies_venv
-	. movies_venv/bin/activate && pip install --upgrade pip setuptools && pip install -e .
+	. movies_venv/bin/activate && pip install --upgrade pip setuptools \
+	&& pip install -r requirements.txt \
+	&& pip install -e . \
 	make build_spark_dependencies
 
 clean:
+	rm -r movies_venv
 	find . -name '__pycache__' | xargs rm -rf
 	find . -name '*pytest_cache' | xargs rm -rf
 
@@ -17,7 +20,15 @@ build_spark_dependencies:
 	mv packages.zip ../../../../packages.zip
 
 run:
-	. movies_venv/bin/activate && python -m moviesetl.main --task "${task}"
+	. movies_venv/bin/activate && \
+    PYSPARK_PYTHON=/home/movies/movies_venv/bin/python spark-submit \
+    --master local[*] \
+    --conf spark.sql.shuffle.partitions=10 \
+    --conf spark.executor.instances=3 \
+    --conf spark.executor.cores=1 \
+    --conf spark.executor.memory=1g \
+    moviesetl/main.py \
+    --task ${task}
 
 test:
 	. movies_venv/bin/activate && python -m pytest tests
