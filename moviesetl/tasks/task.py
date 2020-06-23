@@ -8,8 +8,7 @@ class Task(ABC):
         self._spark_session: SparkSession = spark_session
         self._config: dict = config
         self._spark_dataframe_repo: SparkDataFrameRepo = SparkDataFrameRepo(
-            self._spark_session,
-            self._config["data_repository"]["uri_prefix"]
+            self._spark_session
         )
 
     def run(self):

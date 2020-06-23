@@ -39,7 +39,7 @@ class SparkClient(object):
         )
         cls._spark_session.conf.set(
             "spark.sql.sources.partitionOverwriteMode",
-            cls._config["spark"]["dynamic"]
+            cls._config["spark"]["partition_overwrite_mode"]
         )
 
         for python_package in cls._config["spark"]["python_packages"]:
