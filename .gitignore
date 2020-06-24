@@ -5,8 +5,7 @@ __pycache__/
 *.pyc
 spark-warehouse/
 hive_metastore_movies/
-moviesetl.zip
-packages.zip
+movies_venv.zip
 derby.log
 metastore_db/
 moviesetl.egg-info/

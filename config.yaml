@@ -8,8 +8,7 @@ spark:
   log_level: ERROR
   partition_overwrite_mode: dynamic
   python_packages:
-  - moviesetl.zip
-  - packages.zip
+  - movies_venv.zip
   jars:
 #  - com.amazonaws:aws-java-sdk:1.7.4
 #  - org.apache.hadoop:hadoop-aws:2.7.6

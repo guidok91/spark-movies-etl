@@ -7,7 +7,7 @@ import os
 class Config:
 
     @classmethod
-    def load_config(cls, path: str = ".") -> dict:
+    def load_config(cls, path: str = "") -> dict:
         logger.info("Loading config...")
         with open(os.path.join(path, "config.yaml"), "r") as f:
             config = yaml.safe_load(f)
