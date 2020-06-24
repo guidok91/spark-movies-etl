@@ -34,3 +34,6 @@ test:
 
 lint:
 	. movies_venv/bin/activate && flake8 moviesetl/ tests/
+
+check_types:
+	. movies_venv/bin/activate && mypy --ignore-missing-imports moviesetl/ tests/
