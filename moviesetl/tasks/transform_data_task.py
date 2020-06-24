@@ -1,11 +1,27 @@
 from moviesetl.tasks.task import Task
 from pyspark.sql import DataFrame
+from pyspark.sql.types import StructType, StructField, ArrayType, StringType, LongType, DateType
 from pyspark.sql.functions import current_date, size, explode
 
 
 class TransformDataTask(Task):
+    SCHEMA_INPUT = StructType([
+        StructField("cast", ArrayType(StringType())),
+        StructField("genres", ArrayType(StringType())),
+        StructField("title", StringType()),
+        StructField("year", LongType())
+    ])
+    SCHEMA_OUTPUT = StructType([
+        StructField("title", StringType()),
+        StructField("genre", StringType()),
+        StructField("execution_date", DateType(), nullable=False),
+        StructField("year", LongType())
+    ])
+
     def _input(self) -> DataFrame:
-        return self._spark_dataframe_repo.read_parquet(self._config["data_lake"]["staging"])
+        return self._spark_dataframe_repo.read_parquet(
+            self._config["data_lake"]["staging"]
+        )
 
     @staticmethod
     def _transform(df: DataFrame) -> DataFrame:

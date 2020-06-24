@@ -1,3 +1,4 @@
 
-class NoSourceDataError(Exception):
+
+class SchemaValidationException(Exception):
     pass
