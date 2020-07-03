@@ -9,7 +9,7 @@ class Executor(object):
         self._config = config
         self._spark_session = spark_session
 
-    def run(self):
+    def run(self) -> None:
         task_class = self._load_task()
         task_class(self._spark_session, self._config).run()
 

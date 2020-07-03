@@ -4,11 +4,11 @@ from os import path
 
 
 class IngestDataTaskTest(SQLTestCase):
-    def setUp(self):
+    def setUp(self) -> None:
         SQLTestCase.setUp(self)
         self.transformation = IngestDataTask._transform
 
-    def test_transform(self):
+    def test_transform(self) -> None:
         df_input = self.sqlCtx.read.json(
             "file:///" + path.dirname(path.abspath(__file__)) + "/fixtures/sample_movies.json"
         )

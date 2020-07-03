@@ -30,10 +30,13 @@ run:
     --task ${task}
 
 test:
-	. movies_venv/bin/activate && python -m pytest tests
+	. movies_venv/bin/activate && python -m pytest -Wignore tests \
+	&& mypy \
+	--ignore-missing-imports \
+	--disallow-untyped-calls \
+	--disallow-untyped-defs \
+	--disallow-incomplete-defs \
+	--disallow-untyped-decorators \
+	moviesetl/ tests/ \
+	&& flake8 --max-line-length=120 moviesetl/ tests/
 
-lint:
-	. movies_venv/bin/activate && flake8 moviesetl/ tests/
-
-check_types:
-	. movies_venv/bin/activate && mypy --ignore-missing-imports moviesetl/ tests/
