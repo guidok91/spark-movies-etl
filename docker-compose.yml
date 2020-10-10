@@ -6,6 +6,5 @@ services:
     container_name: "movies_etl"
     build: .
     volumes:
-    # volume to share local code folder with container, so we can make changes instantly while developing
-      - "./moviesetl:/home/movies/moviesetl"
-      - "./tests:/home/movies/tests"
+    # volume to share local code folder with container, so we can make changes easily while developing
+      - ".:/home/movies"
