@@ -20,6 +20,10 @@ run:
 	. movies_venv/bin/activate && \
 	PYSPARK_PYTHON=/home/movies/movies_venv/bin/python spark-submit \
 	--master local[*] \
+	--py-files movies_venv.zip \
+	--conf spark.app.name=movies_etl \
+	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
+	--conf spark.jars.packages=com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.6 \
 	--conf spark.sql.shuffle.partitions=10 \
 	--conf spark.executor.instances=3 \
 	--conf spark.executor.cores=1 \
@@ -37,4 +41,3 @@ test:
 	--disallow-untyped-decorators \
 	moviesetl/ tests/ \
 	&& flake8 --max-line-length=120 moviesetl/ tests/
-

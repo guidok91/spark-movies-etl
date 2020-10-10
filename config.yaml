@@ -3,16 +3,6 @@ data_lake:
   staging: file:///home/movies/data_lake/staging
   final: file:///home/movies/data_lake/final
 
-spark:
-  app_name: movies_etl
-  log_level: ERROR
-  partition_overwrite_mode: dynamic
-  python_packages:
-  - movies_venv.zip
-  jars:
-#  - com.amazonaws:aws-java-sdk:1.7.4
-#  - org.apache.hadoop:hadoop-aws:2.7.6
-
 task_argument_class_mapping:
   ingest: moviesetl.tasks.ingest_data_task.IngestDataTask
   transform: moviesetl.tasks.transform_data_task.TransformDataTask

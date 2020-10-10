@@ -5,7 +5,7 @@ from moviesetl.common.config import Config
 
 def main() -> None:
     config = Config.load_config()
-    spark_session = SparkSessionWrapper.get_session(config["spark"])
+    spark_session = SparkSessionWrapper.get_session(app_name='movies_etl')
     Executor(config, spark_session).run()
 
 
