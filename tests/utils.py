@@ -1,5 +1,12 @@
 from pandas import testing
-from pyspark.sql import DataFrame
+from pyspark.sql import DataFrame, SparkSession
+
+
+def get_local_spark() -> SparkSession:
+    return SparkSession\
+        .builder\
+        .master('local[*]')\
+        .getOrCreate()
 
 
 def assert_data_frames_equal(left: DataFrame, right: DataFrame) -> None:
