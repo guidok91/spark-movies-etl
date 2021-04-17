@@ -133,4 +133,7 @@ dmypy.json
 .idea/
 
 data_lake/standardised/*
-!data_lake/standardised/.gitkeep
+!data_lake/standardised/movies/.gitkeep
+data_lake/curated/*
+!data_lake/curated/movies/.gitkeep
+
