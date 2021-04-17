@@ -1,7 +1,7 @@
 from movies_etl.config.config_manager import ConfigManager
 from movies_etl.tasks.task import Task
 from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql.types import StructType, StructField, ArrayType, StringType, LongType, IntegerType
+from pyspark.sql.types import StructType, StructField, ArrayType, StringType, IntegerType
 from pyspark.sql.functions import lit
 import datetime
 
@@ -11,13 +11,13 @@ class IngestDataTask(Task):
         StructField('cast', ArrayType(StringType())),
         StructField('genres', ArrayType(StringType())),
         StructField('title', StringType()),
-        StructField('year', LongType())
+        StructField('year', IntegerType())
     ])
     SCHEMA_OUTPUT = StructType([
         StructField('cast', ArrayType(StringType())),
         StructField('genres', ArrayType(StringType())),
         StructField('title', StringType()),
-        StructField('year', LongType()),
+        StructField('year', IntegerType()),
         StructField('fk_date_received', IntegerType())
     ])
 
