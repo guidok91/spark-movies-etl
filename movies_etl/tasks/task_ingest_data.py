@@ -28,7 +28,12 @@ class IngestDataTask(Task):
 
     @staticmethod
     def _transform(df: DataFrame) -> DataFrame:
-        return df
+        return df.select(
+            'cast',
+            'genres',
+            'title',
+            'year'
+        )
 
     def _output(self, df: DataFrame) -> None:
         df.write.parquet(
