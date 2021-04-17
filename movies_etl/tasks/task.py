@@ -7,8 +7,6 @@ from movies_etl.config.config_manager import ConfigManager
 class Task(ABC):
     SCHEMA_INPUT: StructType
     SCHEMA_OUTPUT: StructType
-    path_input: str
-    path_output: str
 
     def __init__(self, spark: SparkSession, config_manager: ConfigManager):
         self.spark: SparkSession = spark
@@ -16,9 +14,6 @@ class Task(ABC):
         self.logger = spark._jvm.org.apache.log4j.LogManager.getLogger(__name__)  # type: ignore
 
     def run(self) -> None:
-        self.logger.info(f'Input path: {self.path_input}')
-        self.logger.info(f'Output path: {self.path_output}')
-
         df = self._input()
         self._validate_input(df)
 
