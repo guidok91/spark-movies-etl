@@ -28,9 +28,9 @@ class Task(ABC):
 
     def _validate_input(self, df: DataFrame) -> None:
         if df.schema != self.SCHEMA_INPUT:
-            raise SchemaValidationException(f"Input schema not as expected.\n"
-                                            f"Expected: {self.SCHEMA_INPUT}.\n"
-                                            f"Actual: {df.schema}.")
+            raise SchemaValidationException(f'Input schema not as expected.\n'
+                                            f'Expected: {self.SCHEMA_INPUT}.\n'
+                                            f'Actual: {df.schema}.')
 
     @staticmethod
     @abstractmethod
@@ -43,9 +43,9 @@ class Task(ABC):
 
     def _validate_output(self, df: DataFrame) -> None:
         if df.schema != self.SCHEMA_OUTPUT:
-            raise SchemaValidationException(f"Output schema not as expected.\n"
-                                            f"Expected: {self.SCHEMA_OUTPUT}.\n"
-                                            f"Actual: {df.schema}.")
+            raise SchemaValidationException(f'Output schema not as expected.\n'
+                                            f'Expected: {self.SCHEMA_OUTPUT}.\n'
+                                            f'Actual: {df.schema}.')
 
 
 class SchemaValidationException(Exception):
