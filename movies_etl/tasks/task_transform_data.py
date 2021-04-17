@@ -5,6 +5,18 @@ from pyspark.sql.types import StructType, StructField, ArrayType, StringType, Lo
 from pyspark.sql.functions import size, explode
 
 
+class Transformation:
+    @staticmethod
+    def transform(df: DataFrame) -> DataFrame:
+        return df \
+            .where(size("genres") != 0) \
+            .select(
+                "title",
+                explode("genres").alias("genre"),
+                "year"
+            )
+
+
 class TransformDataTask(Task):
     SCHEMA_INPUT = StructType([
         StructField("cast", ArrayType(StringType())),
@@ -27,13 +39,7 @@ class TransformDataTask(Task):
 
     @staticmethod
     def _transform(df: DataFrame) -> DataFrame:
-        return df \
-            .where(size("genres") != 0) \
-            .select(
-                "title",
-                explode("genres").alias("genre"),
-                "year"
-            )
+        return Transformation.transform(df)
 
     def _output(self, df: DataFrame) -> None:
         df.write.parquet(
