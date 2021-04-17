@@ -1,29 +1,29 @@
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.types import StructType
 from abc import ABC, abstractmethod
-from datautils.spark.repos import SparkDataFrameRepo
-from movies_etl.common.exceptions import SchemaValidationException
 
 
 class Task(ABC):
-    SCHEMA_INPUT: StructType = None
-    SCHEMA_OUTPUT: StructType = None
+    SCHEMA_INPUT: StructType
+    SCHEMA_OUTPUT: StructType
+    PATH_INPUT: str
+    PATH_OUTPUT: str
 
-    def __init__(self, spark_session: SparkSession, config: dict):
-        self._spark_session: SparkSession = spark_session
-        self._config = config
-        self._spark_dataframe_repo = SparkDataFrameRepo(
-            self._spark_session
-        )
+    def __init__(self, spark: SparkSession):
+        self.spark: SparkSession = spark
+        self.logger = spark._jvm.org.apache.log4j.LogManager.getLogger(__name__)  # type: ignore
 
     def run(self) -> None:
+        self.logger.info(f'Input path: {self.PATH_INPUT}')
+        self.logger.info(f'Output path: {self.PATH_OUTPUT}')
+
         df = self._input()
         self._validate_input(df)
 
         df_transformed = self._transform(df)
 
-        self._output(df_transformed)
         self._validate_output(df_transformed)
+        self._output(df_transformed)
 
     @abstractmethod
     def _input(self) -> DataFrame:
@@ -49,3 +49,7 @@ class Task(ABC):
             raise SchemaValidationException(f"Output schema not as expected.\n"
                                             f"Expected: {self.SCHEMA_OUTPUT}.\n"
                                             f"Actual: {df.schema}.")
+
+
+class SchemaValidationException(Exception):
+    pass

@@ -3,12 +3,16 @@
   - The first task ingests the dataset from the `raw` bucket (json) into the `standardised` one (parquet).
   - A subsequent task consumes the dataset from `standardised`, performs transformations and business logic, and persists into `curated`.
 
-## Running instructions
-1. Clone the repository on a machine where Docker is available.
-2. Run `docker-compose up -d` to spin up the container.
-3. Run `docker exec -it movies_etl bash` to get into the container. 
-4. Run `vim config.yaml` to edit it as needed: specify the data repository (default is local filesystem). If it's S3, AWS credentials need to be provided in the environment. 
-5. Once there, the following make commands are available:
-    1. `make test`: run the unit tests.
-    2. `make run`: run the application. Must specify `task` argument, e.g. `make run task=ingest` or make `run task=transform`.  
-       Feel free to also edit the `spark-submit` arguments on the `makefile`.
+## Execution instructions
+The repo includes a `Makefile` with the following options:
+- `setup`: create local virtual env and install test requirements (prerequisite: `python3` executable).
+- `build`: build application wheel and zipped dependencies, to be distributed through spark-submit.
+- `clean`: clean build files.
+- `test-unit`: run unit tests (pytest).
+- `check-types`: check type hints (mypy).
+- `lint`: lint code (flake8).
+- `run-local`: run the application locally. Example usage:  
+    ```shell script
+    make run-local task=ingest
+    make run-local task=transform
+    ```

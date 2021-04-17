@@ -1,4 +1,0 @@
-
-
-class SchemaValidationException(Exception):
-    pass

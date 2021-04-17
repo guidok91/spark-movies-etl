@@ -1,7 +1,8 @@
+from movies_etl.config.config_manager import ConfigManager
 from movies_etl.tasks.task import Task
 from pyspark.sql import DataFrame
-from pyspark.sql.types import StructType, StructField, ArrayType, StringType, LongType, DateType
-from pyspark.sql.functions import current_date, size, explode
+from pyspark.sql.types import StructType, StructField, ArrayType, StringType, LongType
+from pyspark.sql.functions import size, explode
 
 
 class TransformDataTask(Task):
@@ -14,31 +15,28 @@ class TransformDataTask(Task):
     SCHEMA_OUTPUT = StructType([
         StructField("title", StringType()),
         StructField("genre", StringType()),
-        StructField("execution_date", DateType(), nullable=False),
         StructField("year", LongType())
     ])
+    PATH_INPUT = ConfigManager.get('data_lake')['standardised']
+    PATH_OUTPUT = ConfigManager.get('data_lake')['curated']
 
     def _input(self) -> DataFrame:
-        return self._spark_dataframe_repo.read_parquet(
-            self._config["data_lake"]["standardised"]
+        return self.spark.read.parquet(
+            self.PATH_INPUT
         )
 
     @staticmethod
     def _transform(df: DataFrame) -> DataFrame:
         return df \
             .where(size("genres") != 0) \
-            .withColumn("execution_date", current_date()) \
             .select(
                 "title",
                 explode("genres").alias("genre"),
-                "execution_date",
                 "year"
             )
 
     def _output(self, df: DataFrame) -> None:
-        self._spark_dataframe_repo.write_parquet(
-            df=df,
-            path=self._config["data_lake"]["curated"],
-            mode="overwrite",
-            partition_by=["execution_date", "year"]
+        df.write.parquet(
+            path=self.PATH_OUTPUT,
+            mode='overwrite'
         )

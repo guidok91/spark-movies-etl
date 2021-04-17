@@ -9,7 +9,11 @@ with open('requirements.txt') as f:
 setup(
     name=NAME,
     version=VERSION,
-    install_requies=REQUIREMENTS,
     description='Data pipeline that ingests and transforms a movies dataset',
-    author='Guido Kosloff Gancedo'
+    author='Guido Kosloff Gancedo',
+    install_requires=REQUIREMENTS,
+    python_requires='>=3.7',
+    package_data={
+        '': ['*.yaml'],
+    }
 )

@@ -1,7 +1,7 @@
 SHELL=/bin/bash
 
 setup:
-	python -m virtualenv venv && \
+	python3 -m virtualenv venv && \
 	source venv/bin/activate && \
 	pip install -e . && \
 	pip install -r requirements-test.txt
@@ -31,7 +31,7 @@ lint:
 	source venv/bin/activate && \
 	flake8 --max-line-length 120 movies_etl tests
 
-run:
+run-local:
 	source venv/bin/activate && \
 	spark-submit \
 	--master local[*] \
@@ -39,8 +39,5 @@ run:
 	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
 	--conf spark.jars.packages=com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.6 \
 	--conf spark.sql.shuffle.partitions=10 \
-	--conf spark.executor.instances=3 \
-	--conf spark.executor.cores=1 \
-	--conf spark.executor.memory=1g \
 	dist/main.py \
 	--task ${task}
