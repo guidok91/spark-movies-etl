@@ -1,16 +1,24 @@
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.types import StructType
 from abc import ABC, abstractmethod
+import datetime
 from movies_etl.config.config_manager import ConfigManager
 
 
 class Task(ABC):
     SCHEMA_INPUT: StructType
     SCHEMA_OUTPUT: StructType
+    OUTPUT_PARTITION_COLS = ['fk_date_received']
     OUTPUT_PARTITION_COUNT = 5
 
-    def __init__(self, spark: SparkSession, config_manager: ConfigManager):
+    def __init__(
+            self,
+            spark: SparkSession,
+            execution_date: datetime.date,
+            config_manager: ConfigManager
+    ):
         self.spark: SparkSession = spark
+        self.execution_date = execution_date
         self.config_manager = config_manager
         self.logger = spark._jvm.org.apache.log4j.LogManager.getLogger(__name__)  # type: ignore
 
@@ -33,9 +41,8 @@ class Task(ABC):
                                             f'Expected: {self.SCHEMA_INPUT}.\n'
                                             f'Actual: {df.schema}.')
 
-    @staticmethod
     @abstractmethod
-    def _transform(df: DataFrame) -> DataFrame:
+    def _transform(self, df: DataFrame) -> DataFrame:
         raise NotImplementedError
 
     @abstractmethod

@@ -41,4 +41,5 @@ run-local:
 	--conf spark.sql.shuffle.partitions=10 \
 	--conf spark.jars.packages=com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.6 \
 	dist/main.py \
-	--task ${task}
+	--task ${task} \
+	--execution-date $(execution-date)

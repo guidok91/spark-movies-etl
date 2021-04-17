@@ -1,20 +1,22 @@
 from pyspark.sql import SparkSession
+import datetime
 from importlib import import_module
 from typing import Callable
 from movies_etl.config.config_manager import ConfigManager
 
 
 class Executor:
-    def __init__(self, spark: SparkSession, task: str):
+    def __init__(self, spark: SparkSession, task: str, execution_date: datetime.date):
         self.spark = spark
         self.task = task
+        self.execution_date = execution_date
         self.config_manager = ConfigManager()
         self.logger = spark._jvm.org.apache.log4j.LogManager.getLogger(__name__)  # type: ignore
 
     def run(self) -> None:
         task_class = self._load_task()
         self.logger.info(f'Running task: {task_class}')
-        task_class(self.spark, self.config_manager).run()
+        task_class(self.spark, self.execution_date, self.config_manager).run()
 
     def _load_task(self) -> Callable:
         self.logger.info(f'Loading task "{self.task}"...')
