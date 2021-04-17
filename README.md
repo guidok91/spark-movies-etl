@@ -16,3 +16,6 @@ The repo includes a `Makefile` with the following options:
     make run-local task=ingest
     make run-local task=transform
     ```
+
+## CI
+A Github Actions workflow runs the unit tests (see [here](https://github.com/guidok91/spark-movies-etl/actions)). 
