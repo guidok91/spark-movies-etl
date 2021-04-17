@@ -6,7 +6,7 @@ def get_local_spark() -> SparkSession:
     return SparkSession\
         .builder\
         .master('local[*]')\
-        .config("spark.driver.bindAddress", "127.0.0.1")\
+        .config('spark.driver.bindAddress', '127.0.0.1')\
         .getOrCreate()
 
 
