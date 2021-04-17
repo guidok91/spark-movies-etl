@@ -1,20 +1,26 @@
-from pyspark.sql import SparkSession
-from tests.utils import assert_data_frames_equal
+from unittest import TestCase
+from tests.utils import get_local_spark, assert_data_frames_equal
 from movies_etl.tasks.task_transform_data import Transformation, TransformDataTask
 
 
-class TestTransformation:
+class TestTransformation(TestCase):
 
-    def test_transform(self, spark_session: SparkSession) -> None:
+    def setUp(self) -> None:
+        self.spark = get_local_spark()
+
+    def tearDown(self) -> None:
+        self.spark.stop()
+
+    def test_transform(self) -> None:
         # GIVEN
-        df_input = spark_session.createDataFrame(
+        df_input = self.spark.createDataFrame(
             [
                 [['Robert De Niro', 'Ricardo Darín'], ['Drama', 'Horror'], 'Cape Fear', 1999],
                 [[], ['Comedy'], 'Forgetting Sarah Marshall', 2005]
             ],
             schema=TransformDataTask.SCHEMA_INPUT
         )
-        df_expected = spark_session.createDataFrame(
+        df_expected = self.spark.createDataFrame(
             [
                 ['Cape Fear', 'Drama', 1999],
                 ['Cape Fear', 'Horror', 1999],
