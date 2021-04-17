@@ -50,7 +50,7 @@ class Transformation:
                 explode('genres').alias('genre'),
                 'year',
                 when(
-                    col('year') >= 1950,
+                    col('year') <= 1950,
                     'old school'
                 ).otherwise('new wave').alias('type')
             )

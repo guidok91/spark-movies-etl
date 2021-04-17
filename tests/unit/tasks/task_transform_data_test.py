@@ -15,16 +15,17 @@ class TestTransformation(TestCase):
         # GIVEN
         df_input = self.spark.createDataFrame(
             [
-                [['Robert De Niro', 'Ricardo Darín'], ['Drama', 'Horror'], 'Cape Fear', 1999],
-                [[], ['Comedy'], 'Forgetting Sarah Marshall', 2005]
+                [['Robert De Niro', 'Ricardo Darín'], ['Drama', 'Horror'], 'Cape Fear', 1939],
+                [[], ['Comedy'], 'Forgetting Sarah Marshall', 2005],
+                [['Carlos Calvo'], [], 'Esperando la Carroza', 1985]
             ],
             schema=TransformDataTask.SCHEMA_INPUT
         )
         df_expected = self.spark.createDataFrame(
             [
-                ['Cape Fear', 'Drama', 1999],
-                ['Cape Fear', 'Horror', 1999],
-                ['Forgetting Sarah Marshall', 'Comedy', 2005]
+                ['Cape Fear', 'Drama', 1939, 'old school'],
+                ['Cape Fear', 'Horror', 1939, 'old school'],
+                ['Forgetting Sarah Marshall', 'Comedy', 2005, 'new wave']
             ],
             schema=TransformDataTask.SCHEMA_OUTPUT
         )
