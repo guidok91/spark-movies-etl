@@ -1,20 +1,8 @@
 from movies_etl.config.config_manager import ConfigManager
 from movies_etl.tasks.task import Task
-from pyspark.sql import DataFrame
+from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.types import StructType, StructField, ArrayType, StringType, LongType
 from pyspark.sql.functions import size, explode
-
-
-class Transformation:
-    @staticmethod
-    def transform(df: DataFrame) -> DataFrame:
-        return df \
-            .where(size("genres") != 0) \
-            .select(
-                "title",
-                explode("genres").alias("genre"),
-                "year"
-            )
 
 
 class TransformDataTask(Task):
@@ -29,12 +17,15 @@ class TransformDataTask(Task):
         StructField("genre", StringType()),
         StructField("year", LongType())
     ])
-    PATH_INPUT = ConfigManager.get('data_lake')['standardised']
-    PATH_OUTPUT = ConfigManager.get('data_lake')['curated']
+
+    def __init__(self, spark: SparkSession, config_manager: ConfigManager):
+        super().__init__(spark, config_manager)
+        self.path_input = self.config_manager.get('data_lake.standardised')
+        self.path_output = self.config_manager.get('data_lake.curated')
 
     def _input(self) -> DataFrame:
         return self.spark.read.parquet(
-            self.PATH_INPUT
+            self.path_input
         )
 
     @staticmethod
@@ -43,6 +34,18 @@ class TransformDataTask(Task):
 
     def _output(self, df: DataFrame) -> None:
         df.write.parquet(
-            path=self.PATH_OUTPUT,
+            path=self.path_output,
             mode='overwrite'
         )
+
+
+class Transformation:
+    @staticmethod
+    def transform(df: DataFrame) -> DataFrame:
+        return df \
+            .where(size("genres") != 0) \
+            .select(
+                "title",
+                explode("genres").alias("genre"),
+                "year"
+            )

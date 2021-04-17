@@ -1,7 +1,6 @@
 import argparse
 from pyspark.sql import SparkSession
 from movies_etl.executor import Executor
-from movies_etl.config.config_manager import ConfigManager
 
 
 def _parse_args() -> argparse.Namespace:
@@ -16,8 +15,6 @@ def _parse_args() -> argparse.Namespace:
 
 
 def main() -> None:
-    ConfigManager.init()
-
     task = _parse_args().task
 
     spark = SparkSession\

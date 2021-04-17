@@ -5,21 +5,12 @@ from typing import Any
 
 class ConfigManager:
     LOCAL_CONFIG_FILE = f'{os.path.dirname(os.path.realpath(__file__))}/config.yaml'
-    SETTINGS: LazySettings = None
 
-    @classmethod
-    def init(cls, config_file: str = LOCAL_CONFIG_FILE) -> None:
-        cls.SETTINGS = LazySettings(
+    def __init__(self, config_file: str = LOCAL_CONFIG_FILE) -> None:
+        self.settings = LazySettings(
             environments=True,
             settings_file=config_file
         )
 
-    @classmethod
-    def get(cls, key: str) -> Any:
-        if not cls.SETTINGS:
-            raise ConfigException('Config not initialised (init method must be called first)')
-        return cls.SETTINGS[key]
-
-
-class ConfigException(Exception):
-    pass
+    def get(self, key: str) -> Any:
+        return self.settings[key]
