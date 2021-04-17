@@ -7,6 +7,7 @@ from movies_etl.config.config_manager import ConfigManager
 class Task(ABC):
     SCHEMA_INPUT: StructType
     SCHEMA_OUTPUT: StructType
+    OUTPUT_PARTITION_COUNT = 5
 
     def __init__(self, spark: SparkSession, config_manager: ConfigManager):
         self.spark: SparkSession = spark

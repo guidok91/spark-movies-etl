@@ -39,7 +39,10 @@ class IngestDataTask(Task):
         )
 
     def _output(self, df: DataFrame) -> None:
-        df.write.parquet(
-            path=self.path_output,
-            mode='overwrite'
-        )
+        df\
+            .coalesce(self.OUTPUT_PARTITION_COUNT)\
+            .write\
+            .parquet(
+                path=self.path_output,
+                mode='overwrite'
+            )

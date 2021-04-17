@@ -38,7 +38,7 @@ run-local:
 	--master local[*] \
 	--py-files dist/movies_etl.whl,dist/libs.zip \
 	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
-	--conf spark.jars.packages=com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.6 \
 	--conf spark.sql.shuffle.partitions=10 \
+	--conf spark.jars.packages=com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.6 \
 	dist/main.py \
 	--task ${task}
