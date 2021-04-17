@@ -20,7 +20,7 @@ class TransformDataTask(Task):
 
     def _input(self) -> DataFrame:
         return self._spark_dataframe_repo.read_parquet(
-            self._config["data_lake"]["staging"]
+            self._config["data_lake"]["standardised"]
         )
 
     @staticmethod
@@ -38,7 +38,7 @@ class TransformDataTask(Task):
     def _output(self, df: DataFrame) -> None:
         self._spark_dataframe_repo.write_parquet(
             df=df,
-            path=self._config["data_lake"]["final"],
+            path=self._config["data_lake"]["curated"],
             mode="overwrite",
             partition_by=["execution_date", "year"]
         )

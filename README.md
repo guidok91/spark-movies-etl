@@ -1,10 +1,10 @@
-## Description
-- The data pipeline ingests and transforms a movies data set in JSON format from an external repository (S3, HDFS, etc), persisting in Parquet on the same repository.
-- One version of the data set per execution date is preserved.
-- The staging area (where data is ingested directly from the repository) is transient (overwritten on every execution).
+# spark-movies-etl
+- The data pipeline ingests and transforms a movies dataset:
+  - The first task ingests the dataset from the `raw` bucket (json) into the `standardised` one (parquet).
+  - A subsequent task consumes the dataset from `standardised`, performs transformations and business logic, and persists into `curated`.
 
 ## Running instructions
-1. Checkout the repository on a machine where Docker is available.
+1. Clone the repository on a machine where Docker is available.
 2. Run `docker-compose up -d` to spin up the container.
 3. Run `docker exec -it movies_etl bash` to get into the container. 
 4. Run `vim config.yaml` to edit it as needed: specify the data repository (default is local filesystem). If it's S3, AWS credentials need to be provided in the environment. 

@@ -1,8 +1,0 @@
-flake8==3.7.8
-mypy==0.782
-pytest==5.0.1
-spark-testing-base==0.10.0
-pyspark==3.0.0
-pandas==0.25.0
-PyYAML==5.1.1
--e git://github.com/guidok91/data-utils.git@02dda72624b37b60ffbfa84a5ae3f96958946e7e#egg=datautils

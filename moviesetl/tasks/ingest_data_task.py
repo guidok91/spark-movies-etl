@@ -19,7 +19,7 @@ class IngestDataTask(Task):
 
     def _input(self) -> DataFrame:
         return self._spark_dataframe_repo.read_json(
-            path=self._config["data_lake"]["source"],
+            path=self._config["data_lake"]["raw"],
             schema=self.SCHEMA_INPUT
         )
 
@@ -30,6 +30,6 @@ class IngestDataTask(Task):
     def _output(self, df: DataFrame) -> None:
         self._spark_dataframe_repo.write_parquet(
             df=df,
-            path=self._config["data_lake"]["staging"],
+            path=self._config["data_lake"]["standardised"],
             mode="overwrite"
         )

@@ -10,6 +10,6 @@ setup(
     name=NAME,
     version=VERSION,
     install_requies=REQUIREMENTS,
-    description='Data pipelines that ingests and transforms a movies dataset',
+    description='Data pipeline that ingests and transforms a movies dataset',
     author='Guido Kosloff Gancedo'
 )

@@ -1,4 +1,4 @@
-FROM python:3.7
+FROM python:3
 
 RUN apt-get update -q -y && \
     apt-get install apt-transport-https ca-certificates wget dirmngr gnupg software-properties-common vim git make iputils-ping zip -q -y && \

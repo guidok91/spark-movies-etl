@@ -1,7 +1,7 @@
 data_lake:
-  source: file:///home/movies/data_lake/source
-  staging: file:///home/movies/data_lake/staging
-  final: file:///home/movies/data_lake/final
+  raw: file:///home/movies/data_lake/raw
+  standardised: file:///home/movies/data_lake/standardised
+  curated: file:///home/movies/data_lake/curated
 
 task_argument_class_mapping:
   ingest: moviesetl.tasks.ingest_data_task.IngestDataTask
