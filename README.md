@@ -1,7 +1,7 @@
 # spark-movies-etl
-- The data pipeline ingests and transforms a movies dataset:
-  - The first task ingests the dataset from the `raw` bucket (json) into the `standardised` one (parquet).
-  - A subsequent task consumes the dataset from `standardised`, performs transformations and business logic, and persists into `curated`.
+The data pipeline ingests and transforms a movies dataset:
+ - The first task ingests the dataset from the `raw` bucket (json) into the `standardised` one (parquet).
+ - A subsequent task consumes the dataset from `standardised`, performs transformations and business logic, and persists into `curated`.
 
 ## Execution instructions
 The repo includes a `Makefile` with the following options:
