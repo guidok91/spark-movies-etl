@@ -1,4 +1,4 @@
-from moviesetl.tasks.task import Task
+from movies_etl.tasks.task import Task
 from pyspark.sql import DataFrame
 from pyspark.sql.types import StructType, StructField, ArrayType, StringType, LongType, DateType
 from pyspark.sql.functions import current_date, size, explode

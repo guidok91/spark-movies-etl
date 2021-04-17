@@ -8,4 +8,4 @@ hive_metastore_movies/
 movies_venv.zip
 derby.log
 metastore_db/
-moviesetl.egg-info/
+movies_etl.egg-info/

@@ -2,7 +2,7 @@ from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.types import StructType
 from abc import ABC, abstractmethod
 from datautils.spark.repos import SparkDataFrameRepo
-from moviesetl.common.exceptions import SchemaValidationException
+from movies_etl.common.exceptions import SchemaValidationException
 
 
 class Task(ABC):

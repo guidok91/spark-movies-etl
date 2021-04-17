@@ -1,6 +1,6 @@
 from setuptools import setup
 
-NAME = 'moviesetl'
+NAME = 'movies_etl'
 VERSION = '0.1'
 
 with open('requirements.txt') as f:

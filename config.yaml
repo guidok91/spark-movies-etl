@@ -4,5 +4,5 @@ data_lake:
   curated: file:///home/movies/data_lake/curated
 
 task_argument_class_mapping:
-  ingest: moviesetl.tasks.ingest_data_task.IngestDataTask
-  transform: moviesetl.tasks.transform_data_task.TransformDataTask
+  ingest: movies_etl.tasks.ingest_data_task.IngestDataTask
+  transform: movies_etl.tasks.transform_data_task.TransformDataTask

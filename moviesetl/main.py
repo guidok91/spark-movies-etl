@@ -1,6 +1,6 @@
-from moviesetl.executor import Executor
-from moviesetl.clients.spark import SparkSessionWrapper
-from moviesetl.common.config import Config
+from movies_etl.executor import Executor
+from movies_etl.clients.spark import SparkSessionWrapper
+from movies_etl.common.config import Config
 
 
 def main() -> None:

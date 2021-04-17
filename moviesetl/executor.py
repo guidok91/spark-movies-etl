@@ -1,5 +1,5 @@
 from datautils.logging import logger
-from moviesetl.common.utils import load_class
+from movies_etl.common.utils import load_class
 from pyspark.sql import SparkSession
 from typing import Callable
 

@@ -13,11 +13,11 @@ RUN apt-get update -q -y && \
 ENV MOVIES_HOME=/home/movies
 WORKDIR $MOVIES_HOME
 
-COPY moviesetl ./moviesetl
-COPY ./tests ./tests
-COPY data_lake ./data_lake
-COPY ["setup.py", "config.yaml", "entrypoint.sh", "makefile", "requirements.txt", "./"]
+#COPY movies_etl ./movies_etl
+#COPY ./tests ./tests
+#COPY data_lake ./data_lake
+#COPY ["setup.py", "config.yaml", "entrypoint.sh", "makefile", "requirements.txt", "./"]
 
-RUN make init
+RUN make setup && make build
 
 CMD sh ./entrypoint.sh
