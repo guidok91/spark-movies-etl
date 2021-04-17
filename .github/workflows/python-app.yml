@@ -1,0 +1,31 @@
+name: Python application
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.9
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
+    - name: Install dependencies
+      run: |
+        make setup
+    - name: Lint
+      run: |
+        make lint
+    - name: Check static types
+      run: |
+        make check-types
+    - name: Run unit tests
+      run: |
+        make test-unit
