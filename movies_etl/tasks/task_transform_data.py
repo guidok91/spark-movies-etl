@@ -16,7 +16,7 @@ class TransformDataTask(Task):
         StructField('title', StringType()),
         StructField('genre', StringType()),
         StructField('year', LongType()),
-        StructField('type', StringType()),
+        StructField('type', StringType(), nullable=False),
     ])
 
     def __init__(self, spark: SparkSession, config_manager: ConfigManager):
