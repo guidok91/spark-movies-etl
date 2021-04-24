@@ -9,7 +9,7 @@ setup:
 	pip install -r requirements-test.txt
 
 clean:
-	rm -rf deps/ movies_etl.egg-info/ .pytest_cache .mypy_cache
+	rm -rf deps/ .pytest_cache .mypy_cache
 
 build:
 	source venv/bin/activate && \

@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 NAME = 'movies_etl'
 VERSION = '0.1'
@@ -13,6 +13,7 @@ setup(
     author='Guido Kosloff Gancedo',
     install_requires=REQUIREMENTS,
     python_requires='>=3.7',
+    packages=find_packages(),
     package_data={
         '': ['*.yaml'],
     }
