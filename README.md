@@ -21,5 +21,8 @@ The repo includes a `Makefile` with the following options:
     make run-local task=transform execution-date=2021-01-01
     ```
 
+## Configuration management
+Configuration is managed by the `ConfigManager` class, which is a wrapper around [Dynaconf](https://www.dynaconf.com/).
+
 ## CI
 A Github Actions workflow runs the unit tests (see [here](https://github.com/guidok91/spark-movies-etl/actions)). 
