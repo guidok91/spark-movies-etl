@@ -9,16 +9,13 @@ setup:
 	pip install -r requirements-test.txt
 
 clean:
-	rm -rf build/ dist/ libs/ movies_etl.egg-info/ .pytest_cache .mypy_cache
+	rm -rf deps/ movies_etl.egg-info/ .pytest_cache .mypy_cache
 
 build:
 	source venv/bin/activate && \
-	python setup.py bdist_wheel && \
-	mv dist/*.whl dist/movies_etl.whl && \
-	if [ ! -e movies_etl.egg-info/requires.txt ]; then touch movies_etl.egg-info/requires.txt; fi && \
-	pip install -r movies_etl.egg-info/requires.txt -t libs && \
-	python -m zipfile -c dist/libs.zip libs/* && \
-	cp movies_etl/main.py dist
+	pip install . -t deps && \
+	python -m zipfile -c deps/libs.zip deps/* && \
+	cp movies_etl/main.py deps
 
 test-unit:
 	source venv/bin/activate && \
@@ -37,10 +34,10 @@ run-local:
 	source venv/bin/activate && \
 	spark-submit \
 	--master local[*] \
-	--py-files dist/movies_etl.whl,dist/libs.zip \
+	--py-files deps/libs.zip \
 	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
 	--conf spark.sql.shuffle.partitions=10 \
 	--conf spark.jars.packages=com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.6 \
-	dist/main.py \
+	deps/main.py \
 	--task ${task} \
 	--execution-date $(execution-date)

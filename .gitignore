@@ -17,6 +17,7 @@ eggs/
 lib/
 libs/
 lib64/
+deps/
 parts/
 sdist/
 var/
@@ -136,4 +137,3 @@ data_lake/standardised/*
 !data_lake/standardised/.gitkeep
 data_lake/curated/*
 !data_lake/curated/.gitkeep
-
