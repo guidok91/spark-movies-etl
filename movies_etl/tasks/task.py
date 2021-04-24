@@ -6,6 +6,9 @@ from movies_etl.config.config_manager import ConfigManager
 
 
 class Task(ABC):
+    """
+    Base class to read a dataset, transform it, and save it on another location.
+    """
     SCHEMA_INPUT: StructType
     SCHEMA_OUTPUT: StructType
     OUTPUT_PARTITION_COLS = ['fk_date_received']

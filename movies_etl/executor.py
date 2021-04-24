@@ -6,6 +6,9 @@ from movies_etl.config.config_manager import ConfigManager
 
 
 class Executor:
+    """
+    Loads a Task class and calls its `run()` method.
+    """
     def __init__(self, spark: SparkSession, task: str, execution_date: datetime.date):
         self.spark = spark
         self.task = task
