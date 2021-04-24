@@ -21,5 +21,5 @@ The repo includes a `Makefile` with the following options:
     make run-local task=transform execution-date=2021-01-01
     ```
 
-## CI
+## CI 
 A Github Actions workflow runs the unit tests (see [here](https://github.com/guidok91/spark-movies-etl/actions)). 
