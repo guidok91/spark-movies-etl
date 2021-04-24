@@ -1,4 +1,4 @@
-# spark-movies-etl
+# Movies data ETL (Spark)
 ![workflow](https://github.com/guidok91/spark-movies-etl/actions/workflows/python-app.yml/badge.svg)
 
 The data pipeline ingests and transforms a movies dataset:
