@@ -25,7 +25,7 @@ class TestTransformation(TestCase):
             [
                 ['Cape Fear', 'Drama', 1939, 'old school', 20200101],
                 ['Cape Fear', 'Horror', 1939, 'old school', 20200101],
-                ['Forgetting Sasrah Marshall', 'Comedy', 2005, 'new wave', 20200101]
+                ['Forgetting Sarah Marshall', 'Comedy', 2005, 'new wave', 20200101]
             ],
             schema=TransformDataTask.SCHEMA_OUTPUT
         )
