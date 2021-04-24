@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
-NAME = 'movies_etl'
+NAME = 'movies-etl'
 VERSION = '0.1'
 
 with open('requirements.txt') as f:
