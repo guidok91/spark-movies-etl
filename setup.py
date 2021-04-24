@@ -13,7 +13,9 @@ setup(
     author='Guido Kosloff Gancedo',
     install_requires=REQUIREMENTS,
     python_requires='>=3.7',
-    packages=find_packages(),
+    packages=find_packages(
+        exclude=['tests', 'tests.*']
+    ),
     package_data={
         '': ['*.yaml'],
     }
