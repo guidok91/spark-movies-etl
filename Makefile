@@ -22,9 +22,10 @@ test-unit:
 	TZ=UTC pytest tests --disable-warnings
 
 check-types:
+	MYPY_OPTS="--ignore-missing-imports --disallow-untyped-calls --disallow-untyped-defs --disallow-incomplete-defs" && \
 	source venv/bin/activate && \
-	mypy --ignore-missing-imports --disallow-untyped-calls --disallow-untyped-defs --disallow-incomplete-defs movies_etl && \
-	mypy --ignore-missing-imports tests
+	mypy $$MYPY_OPTS movies_etl && \
+	mypy $$MYPY_OPTS tests
 
 lint:
 	source venv/bin/activate && \
@@ -36,8 +37,6 @@ run-local:
 	--master local[*] \
 	--py-files deps/libs.zip \
 	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
-	--conf spark.sql.shuffle.partitions=10 \
-	--conf spark.jars.packages=com.amazonaws:aws-java-sdk:1.7.4,org.apache.hadoop:hadoop-aws:2.7.6 \
 	deps/main.py \
 	--task ${task} \
 	--execution-date $(execution-date)

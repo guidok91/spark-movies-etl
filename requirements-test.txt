@@ -4,3 +4,5 @@ flake8==3.9.0
 mypy==0.812
 pytest==6.2.3
 pandas==1.2.3
+apache-airflow==2.0.2
+apache-airflow-providers-apache-livy==1.1.0
