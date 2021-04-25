@@ -1,13 +1,21 @@
 from typing import Optional, Dict, Any
-
+from datetime import timedelta
 from airflow import DAG
 from airflow.providers.apache.livy.operators.livy import LivyOperator
 from datetime import datetime
 
 
-CODE_LOCATION_S3 = 's3a://movies-binaries/movies-etl/latest/deps'
-PROXY_USER = 'datalake-srv-user'
+ETL_CODE_LOCATION_S3 = 's3a://movies-binaries/movies-etl/latest/deps'
+LIVY_PROXY_USER = 'datalake-srv-user'
 LIVY_CONN_ID = 'livy-emr-conn'
+DAG_DEFAULT_ARGS = {
+    'owner': 'Guido Kosloff Gancedo',
+    'depends_on_past': False,
+    'email_on_failure': False,
+    'email_on_retry': False,
+    'retries': 1,
+    'retry_delay': timedelta(minutes=5)
+}
 
 
 def _build_livy_operator(
@@ -20,20 +28,21 @@ def _build_livy_operator(
 
     return LivyOperator(
         task_id=task,
-        file=f'{CODE_LOCATION_S3}/main.py',
+        file=f'{ETL_CODE_LOCATION_S3}/main.py',
         args=[
             '--task', task,
             '--execution-date', '{{ ds }}'
         ],
-        py_files=[f'{CODE_LOCATION_S3}/libs.zip'],
+        py_files=[f'{ETL_CODE_LOCATION_S3}/libs.zip'],
         conf={**spark_conf_base, **spark_conf_extra},
-        proxy_user=PROXY_USER,
+        proxy_user=LIVY_PROXY_USER,
         livy_conn_id=LIVY_CONN_ID
     )
 
 
 with DAG(
-    'movies-etl',
+    dag_id='movies-etl',
+    default_args=DAG_DEFAULT_ARGS,
     start_date=datetime(2021, 1, 1, 0, 0),
     schedule_interval='0 0 * * *'
 ) as dag:
