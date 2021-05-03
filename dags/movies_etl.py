@@ -5,7 +5,7 @@ from airflow.providers.apache.livy.operators.livy import LivyOperator
 from datetime import datetime
 
 
-ETL_CODE_LOCATION_S3 = 's3a://movies-binaries/movies-etl/latest/deps'
+ETL_CODE_LOCATION = 's3a://movies-binaries/movies-etl/latest/deps'
 LIVY_PROXY_USER = 'datalake-srv-user'
 LIVY_CONN_ID = 'livy-emr-conn'
 DAG_DEFAULT_ARGS = {
@@ -28,12 +28,12 @@ def _build_livy_operator(
 
     return LivyOperator(
         task_id=task,
-        file=f'{ETL_CODE_LOCATION_S3}/main.py',
+        file=f'{ETL_CODE_LOCATION}/main.py',
         args=[
             '--task', task,
             '--execution-date', '{{ ds }}'
         ],
-        py_files=[f'{ETL_CODE_LOCATION_S3}/libs.zip'],
+        py_files=[f'{ETL_CODE_LOCATION}/libs.zip'],
         conf={**spark_conf_base, **spark_conf_extra},
         proxy_user=LIVY_PROXY_USER,
         livy_conn_id=LIVY_CONN_ID
