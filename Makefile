@@ -1,12 +1,12 @@
 SHELL=/bin/bash
 
 setup:
-	pip3 install virtualenv && \
-	python3 -m virtualenv venv && \
+	pip install virtualenv && \
+	python -m virtualenv venv && \
 	source venv/bin/activate && \
-	pip3 install --upgrade pip \
+	pip install --upgrade pip \
 	pip install -e . && \
-	pip install -r requirements-test.txt
+	pip install -r requirements-dev.txt
 
 clean:
 	rm -rf deps/ .pytest_cache .mypy_cache
