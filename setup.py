@@ -2,7 +2,7 @@ from setuptools import setup, find_packages
 
 NAME = "movies-etl"
 VERSION = "0.0.1"
-REQUIRES = ["dynaconf==3.1.4", "wheel==0.36.2"]
+REQUIRES = ["dynaconf==3.1.4"]
 
 setup(
     name=NAME,
