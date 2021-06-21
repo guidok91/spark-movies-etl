@@ -22,10 +22,8 @@ test-unit:
 	TZ=UTC pytest tests --disable-warnings
 
 check-types:
-	MYPY_OPTS="--ignore-missing-imports --disallow-untyped-calls --disallow-untyped-defs --disallow-incomplete-defs" && \
 	source venv/bin/activate && \
-	mypy $$MYPY_OPTS movies_etl && \
-	mypy $$MYPY_OPTS tests
+	mypy movies_etl tests
 
 lint:
 	source venv/bin/activate && \
