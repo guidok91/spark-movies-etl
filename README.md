@@ -8,17 +8,8 @@ Spark data pipeline that ingests and transforms a movies dataset:
 Datasets are partitioned by execution date.
 
 ## Execution instructions
-The repo includes a `Makefile` with the following options:
-- `setup`: create local virtual env and install test requirements (prerequisite: python3).
-- `build`: build application wheel and zipped dependencies, to be distributed through spark-submit.
-- `clean`: clean build files.
-- `test-unit`: run unit tests (pytest).
-- `pre-commit`: run checks like code formatter and linter.
-- `run-local`: run the application locally. Example usage:
-    ```shell script
-    make run-local task=ingest execution-date=2021-01-01
-    make run-local task=transform execution-date=2021-01-01
-    ```
+The repo includes a `Makefile`.  
+Please run `make help` to see usage.
 
 ## Configuration management
 Configuration is managed by the [ConfigManager](movies_etl/config/config_manager.py) class, which is a wrapper around [Dynaconf](https://www.dynaconf.com/).

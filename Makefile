@@ -1,5 +1,17 @@
 SHELL=/bin/bash
 
+help:
+	@echo  'Options:'
+	@echo  '  setup           - Create local virtual env and install test requirements (prerequisite: python3).'
+	@echo  '  build           - Build and package the application and its dependencies,'
+	@echo  '                    to be distributed through spark-submit.'
+	@echo  '  test-unit       - Run unit tests.'
+	@echo  '  pre-commit      - Run checks (code formatter, linter, type checker)'
+	@echo  '  run-local       - Run the application locally. Example usage:'
+	@echo  '                    make run-local task=ingest execution-date=2021-01-01'
+	@echo  '                    make run-local task=transform execution-date=2021-01-01'
+	@echo  '  clean           - Clean auxiliary files.'
+
 setup:
 	pip install virtualenv && \
 	python -m virtualenv venv && \
@@ -7,9 +19,6 @@ setup:
 	pip install --upgrade pip \
 	pip install -e . && \
 	pip install -r requirements-dev.txt
-
-clean:
-	rm -rf deps/ .pytest_cache .mypy_cache movies_etl.egg-info *.xml .coverage
 
 build:
 	source venv/bin/activate && \
@@ -34,3 +43,6 @@ run-local:
 	deps/main.py \
 	--task ${task} \
 	--execution-date $(execution-date)
+
+clean:
+	rm -rf deps/ .pytest_cache .mypy_cache movies_etl.egg-info *.xml .coverage
