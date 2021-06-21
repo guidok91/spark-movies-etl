@@ -16,3 +16,10 @@ exclude = '''
   )/
 )
 '''
+
+[tool.coverage.run]
+branch = true
+source = ["movies_etl"]
+
+[tool.coverage.report]
+show_missing = true
