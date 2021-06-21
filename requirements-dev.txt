@@ -1,4 +1,3 @@
-wheel==0.36.2
 pyspark==3.1.1
 flake8==3.9.0
 mypy==0.812

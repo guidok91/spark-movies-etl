@@ -2,7 +2,7 @@ SHELL=/bin/bash
 
 help:
 	@echo  'Options:'
-	@echo  '  setup           - Create local virtual env and install test requirements (prerequisite: python3).'
+	@echo  '  setup           - Create local virtual env and install requirements (prerequisite: python3).'
 	@echo  '  build           - Build and package the application and its dependencies,'
 	@echo  '                    to be distributed through spark-submit.'
 	@echo  '  test-unit       - Run unit tests.'
