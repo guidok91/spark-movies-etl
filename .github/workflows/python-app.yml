@@ -20,12 +20,9 @@ jobs:
     - name: Install dependencies
       run: |
         make setup
-    - name: Lint
-      run: |
-        make lint
-    - name: Check static types
-      run: |
-        make check-types
     - name: Run unit tests
       run: |
         make test-unit
+    - name: Run checks
+      run: |
+        make pre-commit

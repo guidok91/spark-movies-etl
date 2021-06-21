@@ -21,17 +21,9 @@ test-unit:
 	source venv/bin/activate && \
 	TZ=UTC pytest tests --disable-warnings
 
-check-types:
+pre-commit:
 	source venv/bin/activate && \
-	mypy movies_etl tests
-
-lint:
-	source venv/bin/activate && \
-	flake8 movies_etl tests
-
-format:
-	source venv/bin/activate && \
-	black movies_etl tests
+	pre-commit run --all-files
 
 run-local:
 	source venv/bin/activate && \

@@ -1,0 +1,25 @@
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.0.1
+    hooks:
+    -   id: check-yaml
+    -   id: end-of-file-fixer
+    -   id: trailing-whitespace
+-   repo: local
+    hooks:
+    -   id: black
+        name: black
+        entry: black movies_etl tests dags
+        language: system
+        types: [python]
+    -   id: flake8
+        name: flake8
+        entry: flake8 movies_etl tests dags
+        language: system
+        types: [python]
+    -   id: mypy
+        name: mypy
+        entry: mypy movies_etl tests dags
+        pass_filenames: false
+        language: system
+        types: [python]
