@@ -29,7 +29,7 @@ check-types:
 
 lint:
 	source venv/bin/activate && \
-	flake8 --max-line-length 120 movies_etl tests
+	flake8 movies_etl tests
 
 run-local:
 	source venv/bin/activate && \
