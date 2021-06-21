@@ -19,7 +19,7 @@ build:
 
 test-unit:
 	source venv/bin/activate && \
-	pytest -vvvv --showlocals tests --disable-warnings
+	pytest -o junit_family=xunit2 --junitxml=nosetests.xml -vvvv --showlocals --cov=./ --cov-report=xml tests --disable-warnings
 
 pre-commit:
 	source venv/bin/activate && \
