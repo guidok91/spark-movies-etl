@@ -19,7 +19,7 @@ build:
 
 test-unit:
 	source venv/bin/activate && \
-	TZ=UTC pytest tests --disable-warnings
+	pytest -vvvv --showlocals tests --disable-warnings
 
 pre-commit:
 	source venv/bin/activate && \
