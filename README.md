@@ -8,7 +8,7 @@ Spark data pipeline that ingests and transforms a movies dataset:
 Datasets are partitioned by execution date.
 
 ## Execution instructions
-The repo includes a `Makefile`.
+The repo includes a `Makefile`.  
 Please run `make help` to see usage.
 
 ## Configuration management
