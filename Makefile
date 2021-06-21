@@ -29,6 +29,10 @@ lint:
 	source venv/bin/activate && \
 	flake8 movies_etl tests
 
+format:
+	source venv/bin/activate && \
+	black movies_etl tests
+
 run-local:
 	source venv/bin/activate && \
 	spark-submit \

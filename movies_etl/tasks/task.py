@@ -9,17 +9,13 @@ class Task(ABC):
     """
     Base class to read a dataset, transform it, and save it on another location.
     """
+
     SCHEMA_INPUT: StructType
     SCHEMA_OUTPUT: StructType
-    OUTPUT_PARTITION_COLS = ['fk_date_received']
+    OUTPUT_PARTITION_COLS = ["fk_date_received"]
     OUTPUT_PARTITION_COUNT = 5
 
-    def __init__(
-            self,
-            spark: SparkSession,
-            execution_date: datetime.date,
-            config_manager: ConfigManager
-    ):
+    def __init__(self, spark: SparkSession, execution_date: datetime.date, config_manager: ConfigManager):
         self.spark: SparkSession = spark
         self.execution_date = execution_date
         self.config_manager = config_manager
@@ -40,9 +36,9 @@ class Task(ABC):
 
     def _validate_input(self, df: DataFrame) -> None:
         if df.schema != self.SCHEMA_INPUT:
-            raise SchemaValidationException(f'Input schema not as expected.\n'
-                                            f'Expected: {self.SCHEMA_INPUT}.\n'
-                                            f'Actual: {df.schema}.')
+            raise SchemaValidationException(
+                f"Input schema not as expected.\n" f"Expected: {self.SCHEMA_INPUT}.\n" f"Actual: {df.schema}."
+            )
 
     @abstractmethod
     def _transform(self, df: DataFrame) -> DataFrame:
@@ -54,9 +50,9 @@ class Task(ABC):
 
     def _validate_output(self, df: DataFrame) -> None:
         if df.schema != self.SCHEMA_OUTPUT:
-            raise SchemaValidationException(f'Output schema not as expected.\n'
-                                            f'Expected: {self.SCHEMA_OUTPUT}.\n'
-                                            f'Actual: {df.schema}.')
+            raise SchemaValidationException(
+                f"Output schema not as expected.\n" f"Expected: {self.SCHEMA_OUTPUT}.\n" f"Actual: {df.schema}."
+            )
 
 
 class SchemaValidationException(Exception):
