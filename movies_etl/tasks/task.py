@@ -23,10 +23,7 @@ class Task(ABC):
 
     def run(self) -> None:
         df = self._input()
-
         df_transformed = self._transform(df)
-
-        self._validate_output(df_transformed)
         self._output(df_transformed)
 
     @abstractmethod
@@ -40,13 +37,3 @@ class Task(ABC):
     @abstractmethod
     def _output(self, df: DataFrame) -> None:
         raise NotImplementedError
-
-    def _validate_output(self, df: DataFrame) -> None:
-        if df.schema != self.SCHEMA_OUTPUT:
-            raise SchemaValidationException(
-                f"Output schema not as expected.\n" f"Expected: {self.SCHEMA_OUTPUT}.\n" f"Actual: {df.schema}."
-            )
-
-
-class SchemaValidationException(Exception):
-    pass
