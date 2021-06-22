@@ -1,5 +1,6 @@
 # Movies data ETL (Spark)
 ![workflow](https://github.com/guidok91/spark-movies-etl/actions/workflows/python-app.yml/badge.svg)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Spark data pipeline that ingests and transforms a movies dataset:
  - The first task ingests the dataset from the `raw` bucket (json) into the `standardised` one (parquet).
