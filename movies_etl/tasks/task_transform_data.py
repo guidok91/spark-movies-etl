@@ -37,7 +37,7 @@ class TransformDataTask(Task):
         )
 
     def _transform(self, df: DataFrame) -> DataFrame:
-        return Transformation.transform(df)
+        return Transformation().transform(df)
 
     def _output(self, df: DataFrame) -> None:
         df.coalesce(self.OUTPUT_PARTITION_COUNT).write.parquet(
@@ -46,12 +46,33 @@ class TransformDataTask(Task):
 
 
 class Transformation:
-    @staticmethod
-    def transform(df: DataFrame) -> DataFrame:
-        return df.where(size("genres") != 0).select(
-            "title",
-            explode("genres").alias("genre"),
-            "year",
-            when(col("year") <= 1950, "old school").otherwise("new wave").alias("type"),
-            "fk_date_received",
-        )
+    REGIONS = ['FR', 'US', 'GB', 'RU', 'HU', 'DK', 'ES']
+    MAX_REISSUES = 5
+
+    @classmethod
+    def transform(cls, df: DataFrame) -> DataFrame:
+        df.cache()
+
+        df_agg = df\
+            .groupBy('titleId')\
+            .max('ordering')\
+            .withColumn('reissues', col('max(ordering)') - 1)
+
+        df = df\
+            .where(col('region').isNull() | col('region').isin(cls.REGIONS))\
+            .withColumn('isOriginalTitle', col("isOriginalTitle").cast('bool'))
+
+        return df\
+            .join(df_agg, on='titleId', how='inner')\
+            .where(col('reissues') <= cls.MAX_REISSUES) \
+            .select(
+                "titleId",
+                "title",
+                "types",
+                "region",
+                "ordering",
+                "language",
+                'isOriginalTitle',
+                "attributes",
+                "fk_date_received"
+            )
