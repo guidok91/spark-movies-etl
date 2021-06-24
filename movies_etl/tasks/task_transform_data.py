@@ -46,25 +46,22 @@ class TransformDataTask(Task):
 
 
 class Transformation:
-    REGIONS = ['FR', 'US', 'GB', 'RU', 'HU', 'DK', 'ES']
+    REGIONS = ["FR", "US", "GB", "RU", "HU", "DK", "ES"]
     MAX_REISSUES = 5
 
     @classmethod
     def transform(cls, df: DataFrame) -> DataFrame:
         df.cache()
 
-        df = df\
-            .where(col('region').isNull() | col('region').isin(cls.REGIONS))\
-            .withColumn('isOriginalTitle', col("isOriginalTitle").cast('bool'))
+        df = df.where(col("region").isNull() | col("region").isin(cls.REGIONS)).withColumn(
+            "isOriginalTitle", col("isOriginalTitle").cast("bool")
+        )
 
-        df_reissues = df\
-            .groupBy('titleId')\
-            .max('ordering')\
-            .withColumn('reissues', col('max(ordering)') - 1)
+        df_reissues = df.groupBy("titleId").max("ordering").withColumn("reissues", col("max(ordering)") - 1)
 
-        return df\
-            .join(df_reissues, on='titleId', how='inner')\
-            .where(col('reissues') <= cls.MAX_REISSUES) \
+        return (
+            df.join(df_reissues, on="titleId", how="inner")
+            .where(col("reissues") <= cls.MAX_REISSUES)
             .select(
                 "titleId",
                 "title",
@@ -72,7 +69,8 @@ class Transformation:
                 "region",
                 "ordering",
                 "language",
-                'isOriginalTitle',
+                "isOriginalTitle",
                 "attributes",
-                "fk_date_received"
+                "fk_date_received",
             )
+        )
