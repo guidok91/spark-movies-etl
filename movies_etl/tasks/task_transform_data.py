@@ -46,33 +46,40 @@ class Transformation:
     REGIONS = ["FR", "US", "GB", "RU", "HU", "DK", "ES"]
     MAX_REISSUES = 5
 
-    @classmethod
-    def transform(cls, df: DataFrame) -> DataFrame:
+    def transform(self, df: DataFrame) -> DataFrame:
         df.cache()
 
-        df_reissues = df.groupBy("titleId").max("ordering").withColumn("reissues", col("max(ordering)") - 1)
+        df = self._filter_max_reissues(df)
+        df = self._normalize_columns(df)
+        df = self._filter_regions(df)
 
-        df = (
-            df.where(col("region").isNull() | col("region").isin(cls.REGIONS))
-            .withColumn(
+        return df.select(
+            "titleId",
+            "title",
+            "types",
+            "region",
+            "ordering",
+            "language",
+            "isOriginalTitle",
+            "attributes",
+            "fk_date_received",
+        )
+
+    def _filter_max_reissues(self, df: DataFrame) -> DataFrame:
+        df_reissues = df.groupBy("titleId").max("ordering").withColumn("reissues", col("max(ordering)") - 1)
+        df = df.join(df_reissues, on="titleId", how="inner")
+        return df.where(col("reissues") <= self.MAX_REISSUES).drop("reissues")
+
+    @staticmethod
+    def _normalize_columns(df: DataFrame) -> DataFrame:
+        return (
+            df.withColumn(
                 "isOriginalTitle",
                 col("isOriginalTitle").cast("boolean"),
             )
             .withColumn("language", upper("language"))
+            .withColumn("region", upper("region"))
         )
 
-        return (
-            df.join(df_reissues, on="titleId", how="inner")
-            .where(col("reissues") <= cls.MAX_REISSUES)
-            .select(
-                "titleId",
-                "title",
-                "types",
-                "region",
-                "ordering",
-                "language",
-                "isOriginalTitle",
-                "attributes",
-                "fk_date_received",
-            )
-        )
+    def _filter_regions(self, df: DataFrame) -> DataFrame:
+        return df.where(col("region").isNull() | col("region").isin(self.REGIONS))
