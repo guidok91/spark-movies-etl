@@ -2,7 +2,7 @@ from movies_etl.config.config_manager import ConfigManager
 from movies_etl.tasks.task import Task
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
-from pyspark.sql.functions import col
+from pyspark.sql.functions import col, upper
 import datetime
 
 
@@ -52,8 +52,13 @@ class Transformation:
 
         df_reissues = df.groupBy("titleId").max("ordering").withColumn("reissues", col("max(ordering)") - 1)
 
-        df = df.where(col("region").isNull() | col("region").isin(cls.REGIONS)).withColumn(
-            "isOriginalTitle", col("isOriginalTitle").cast("boolean")
+        df = (
+            df.where(col("region").isNull() | col("region").isin(cls.REGIONS))
+            .withColumn(
+                "isOriginalTitle",
+                col("isOriginalTitle").cast("boolean"),
+            )
+            .withColumn("language", upper("language"))
         )
 
         return (

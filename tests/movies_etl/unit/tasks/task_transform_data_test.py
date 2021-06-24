@@ -57,7 +57,7 @@ class TestTransformation(TestCase):
         df_expected = self.spark.createDataFrame(
             [
                 ["tt0000429", "The hunt for the burglar", "original", None, 1, None, True, "original title", 20200101],
-                ["tt0000429", "La chasse au cambrioleur", "dubbed", "FR", 2, "fr", False, "informal title", 20200101],
+                ["tt0000429", "La chasse au cambrioleur", "dubbed", "FR", 2, "FR", False, "informal title", 20200101],
             ],  # type: ignore
             schema=self.schema_output,
         )
