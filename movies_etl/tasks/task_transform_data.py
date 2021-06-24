@@ -2,7 +2,7 @@ from movies_etl.config.config_manager import ConfigManager
 from movies_etl.tasks.task import Task
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.types import StructType, StructField, ArrayType, StringType, IntegerType
-from pyspark.sql.functions import col, size, explode, when
+from pyspark.sql.functions import col
 import datetime
 
 
@@ -53,17 +53,17 @@ class Transformation:
     def transform(cls, df: DataFrame) -> DataFrame:
         df.cache()
 
-        df_agg = df\
-            .groupBy('titleId')\
-            .max('ordering')\
-            .withColumn('reissues', col('max(ordering)') - 1)
-
         df = df\
             .where(col('region').isNull() | col('region').isin(cls.REGIONS))\
             .withColumn('isOriginalTitle', col("isOriginalTitle").cast('bool'))
 
+        df_reissues = df\
+            .groupBy('titleId')\
+            .max('ordering')\
+            .withColumn('reissues', col('max(ordering)') - 1)
+
         return df\
-            .join(df_agg, on='titleId', how='inner')\
+            .join(df_reissues, on='titleId', how='inner')\
             .where(col('reissues') <= cls.MAX_REISSUES) \
             .select(
                 "titleId",
