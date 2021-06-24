@@ -6,12 +6,14 @@ global:
   task_argument_class_mapping:
     ingest: movies_etl.tasks.task_ingest_data.IngestDataTask
     transform: movies_etl.tasks.task_transform_data.TransformDataTask
+  movies_regions: ["FR", "US", "GB", "RU", "HU", "DK", "ES"]
+  movies_max_reissues: 5
 
 development:
   data_lake:
-    raw: file:///Users/gk/Git/spark-movies-etl/data_lake/raw/movies
-    standardised: file:///Users/gk/Git/spark-movies-etl/data_lake/standardised/movies
-    curated: file:///Users/gk/Git/spark-movies-etl/data_lake/curated/movies
+    raw: file:///Users/guido.kosloffgancedo/Git/pp/spark-movies-etl/data_lake/raw/movies
+    standardised: file:///Users/guido.kosloffgancedo/Git/pp/spark-movies-etl/data_lake/standardised/movies
+    curated: file:///Users/guido.kosloffgancedo/Git/pp/spark-movies-etl/data_lake/curated/movies
 
 live:
   data_lake:

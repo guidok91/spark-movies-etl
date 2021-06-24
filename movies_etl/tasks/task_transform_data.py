@@ -4,6 +4,7 @@ from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 from pyspark.sql.functions import col, upper
 import datetime
+from typing import List
 
 
 class TransformDataTask(Task):
@@ -34,7 +35,10 @@ class TransformDataTask(Task):
         )
 
     def _transform(self, df: DataFrame) -> DataFrame:
-        return Transformation().transform(df)
+        return Transformation(
+            movies_regions=self.config_manager.get("movies_regions"),
+            movies_max_reissues=self.config_manager.get("movies_max_reissues"),
+        ).transform(df)
 
     def _output(self, df: DataFrame) -> None:
         df.coalesce(self.OUTPUT_PARTITION_COUNT).write.parquet(
@@ -43,8 +47,9 @@ class TransformDataTask(Task):
 
 
 class Transformation:
-    REGIONS = ["FR", "US", "GB", "RU", "HU", "DK", "ES"]
-    MAX_REISSUES = 5
+    def __init__(self, movies_regions: List[str], movies_max_reissues: int):
+        self.movies_regions = movies_regions
+        self.movies_max_reissues = movies_max_reissues
 
     def transform(self, df: DataFrame) -> DataFrame:
         df.cache()
@@ -68,7 +73,7 @@ class Transformation:
     def _filter_max_reissues(self, df: DataFrame) -> DataFrame:
         df_reissues = df.groupBy("titleId").max("ordering").withColumn("reissues", col("max(ordering)") - 1)
         df = df.join(df_reissues, on="titleId", how="inner")
-        return df.where(col("reissues") <= self.MAX_REISSUES).drop("reissues")
+        return df.where(col("reissues") <= self.movies_max_reissues).drop("reissues")
 
     @staticmethod
     def _normalize_columns(df: DataFrame) -> DataFrame:
@@ -82,4 +87,4 @@ class Transformation:
         )
 
     def _filter_regions(self, df: DataFrame) -> DataFrame:
-        return df.where(col("region").isNull() | col("region").isin(self.REGIONS))
+        return df.where(col("region").isNull() | col("region").isin(self.movies_regions))

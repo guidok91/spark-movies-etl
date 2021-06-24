@@ -65,7 +65,9 @@ class TestTransformation(TestCase):
         )
 
         # WHEN
-        df_transformed = Transformation().transform(df_input)
+        df_transformed = Transformation(
+            movies_regions=["FR", "US", "GB", "RU", "HU", "DK", "ES"], movies_max_reissues=5
+        ).transform(df_input)
 
         # THEN
         assert_data_frames_equal(df_transformed, df_expected)
