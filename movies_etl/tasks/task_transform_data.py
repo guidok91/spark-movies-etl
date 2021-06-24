@@ -54,7 +54,7 @@ class Transformation:
         df.cache()
 
         df = df.where(col("region").isNull() | col("region").isin(cls.REGIONS)).withColumn(
-            "isOriginalTitle", col("isOriginalTitle").cast("bool")
+            "isOriginalTitle", col("isOriginalTitle").cast("boolean")
         )
 
         df_reissues = df.groupBy("titleId").max("ordering").withColumn("reissues", col("max(ordering)") - 1)
