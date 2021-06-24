@@ -1,27 +1,22 @@
 from movies_etl.config.config_manager import ConfigManager
 from movies_etl.tasks.task import Task
 from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql.types import StructType, StructField, ArrayType, StringType, IntegerType
-from pyspark.sql.functions import col, size, explode, when
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType
+from pyspark.sql.functions import col, upper
 import datetime
 
 
 class TransformDataTask(Task):
     SCHEMA_INPUT = StructType(
         [
-            StructField("cast", ArrayType(StringType())),
-            StructField("genres", ArrayType(StringType())),
+            StructField("titleId", StringType()),
             StructField("title", StringType()),
-            StructField("year", IntegerType()),
-            StructField("fk_date_received", IntegerType()),
-        ]
-    )
-    SCHEMA_OUTPUT = StructType(
-        [
-            StructField("title", StringType()),
-            StructField("genre", StringType()),
-            StructField("year", IntegerType()),
-            StructField("type", StringType(), nullable=False),
+            StructField("types", StringType()),
+            StructField("region", StringType()),
+            StructField("ordering", IntegerType()),
+            StructField("language", StringType()),
+            StructField("isOriginalTitle", IntegerType()),
+            StructField("attributes", StringType()),
             StructField("fk_date_received", IntegerType()),
         ]
     )
@@ -32,12 +27,14 @@ class TransformDataTask(Task):
         self.path_output = self.config_manager.get("data_lake.curated")
 
     def _input(self) -> DataFrame:
-        return self.spark.read.parquet(self.path_input).where(
-            f"fk_date_received = {self.execution_date.strftime('%Y%m%d')}"
+        return (
+            self.spark.read.schema(self.SCHEMA_INPUT)
+            .parquet(self.path_input)
+            .where(f"fk_date_received = {self.execution_date.strftime('%Y%m%d')}")
         )
 
     def _transform(self, df: DataFrame) -> DataFrame:
-        return Transformation.transform(df)
+        return Transformation().transform(df)
 
     def _output(self, df: DataFrame) -> None:
         df.coalesce(self.OUTPUT_PARTITION_COUNT).write.parquet(
@@ -46,12 +43,36 @@ class TransformDataTask(Task):
 
 
 class Transformation:
-    @staticmethod
-    def transform(df: DataFrame) -> DataFrame:
-        return df.where(size("genres") != 0).select(
-            "title",
-            explode("genres").alias("genre"),
-            "year",
-            when(col("year") <= 1950, "old school").otherwise("new wave").alias("type"),
-            "fk_date_received",
+    REGIONS = ["FR", "US", "GB", "RU", "HU", "DK", "ES"]
+    MAX_REISSUES = 5
+
+    @classmethod
+    def transform(cls, df: DataFrame) -> DataFrame:
+        df.cache()
+
+        df_reissues = df.groupBy("titleId").max("ordering").withColumn("reissues", col("max(ordering)") - 1)
+
+        df = (
+            df.where(col("region").isNull() | col("region").isin(cls.REGIONS))
+            .withColumn(
+                "isOriginalTitle",
+                col("isOriginalTitle").cast("boolean"),
+            )
+            .withColumn("language", upper("language"))
+        )
+
+        return (
+            df.join(df_reissues, on="titleId", how="inner")
+            .where(col("reissues") <= cls.MAX_REISSUES)
+            .select(
+                "titleId",
+                "title",
+                "types",
+                "region",
+                "ordering",
+                "language",
+                "isOriginalTitle",
+                "attributes",
+                "fk_date_received",
+            )
         )

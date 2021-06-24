@@ -11,7 +11,6 @@ class Task(ABC):
     """
 
     SCHEMA_INPUT: StructType
-    SCHEMA_OUTPUT: StructType
     OUTPUT_PARTITION_COLS = ["fk_date_received"]
     OUTPUT_PARTITION_COUNT = 5
 
