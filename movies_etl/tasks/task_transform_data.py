@@ -50,11 +50,11 @@ class Transformation:
     def transform(cls, df: DataFrame) -> DataFrame:
         df.cache()
 
+        df_reissues = df.groupBy("titleId").max("ordering").withColumn("reissues", col("max(ordering)") - 1)
+
         df = df.where(col("region").isNull() | col("region").isin(cls.REGIONS)).withColumn(
             "isOriginalTitle", col("isOriginalTitle").cast("boolean")
         )
-
-        df_reissues = df.groupBy("titleId").max("ordering").withColumn("reissues", col("max(ordering)") - 1)
 
         return (
             df.join(df_reissues, on="titleId", how="inner")
