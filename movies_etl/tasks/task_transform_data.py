@@ -1,7 +1,7 @@
 from movies_etl.config.config_manager import ConfigManager
 from movies_etl.tasks.task import Task
 from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql.types import StructType, StructField, ArrayType, StringType, IntegerType
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType
 from pyspark.sql.functions import col
 import datetime
 
@@ -9,19 +9,14 @@ import datetime
 class TransformDataTask(Task):
     SCHEMA_INPUT = StructType(
         [
-            StructField("cast", ArrayType(StringType())),
-            StructField("genres", ArrayType(StringType())),
+            StructField("titleId", StringType()),
             StructField("title", StringType()),
-            StructField("year", IntegerType()),
-            StructField("fk_date_received", IntegerType()),
-        ]
-    )
-    SCHEMA_OUTPUT = StructType(
-        [
-            StructField("title", StringType()),
-            StructField("genre", StringType()),
-            StructField("year", IntegerType()),
-            StructField("type", StringType(), nullable=False),
+            StructField("types", StringType()),
+            StructField("region", StringType()),
+            StructField("ordering", IntegerType()),
+            StructField("language", StringType()),
+            StructField("isOriginalTitle", IntegerType()),
+            StructField("attributes", StringType()),
             StructField("fk_date_received", IntegerType()),
         ]
     )
@@ -32,8 +27,10 @@ class TransformDataTask(Task):
         self.path_output = self.config_manager.get("data_lake.curated")
 
     def _input(self) -> DataFrame:
-        return self.spark.read.parquet(self.path_input).where(
-            f"fk_date_received = {self.execution_date.strftime('%Y%m%d')}"
+        return (
+            self.spark.read.schema(self.SCHEMA_INPUT)
+            .parquet(self.path_input)
+            .where(f"fk_date_received = {self.execution_date.strftime('%Y%m%d')}")
         )
 
     def _transform(self, df: DataFrame) -> DataFrame:
