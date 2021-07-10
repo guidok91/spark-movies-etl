@@ -36,14 +36,11 @@ pre-commit:
 	pre-commit run --all-files
 
 run-local:
-	export PYSPARK_DRIVER_PYTHON=python && \
-	export PYSPARK_PYTHON=./env/bin/python && \
 	source venv_dev/bin/activate && \
 	spark-submit \
 	--master local[*] \
-	--archives deps/venv_build.tar.gz#env \
 	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
-	deps/main.py \
+	movies_etl/main.py \
 	--task ${task} \
 	--execution-date $(execution-date)
 
