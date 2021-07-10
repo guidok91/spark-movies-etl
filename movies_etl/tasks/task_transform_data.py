@@ -73,7 +73,7 @@ class Transformation:
     def _filter_max_reissues(self, df: DataFrame) -> DataFrame:
         df_reissues = df.groupBy("titleId").max("ordering").withColumn("reissues", col("max(ordering)") - 1)
         df = df.join(df_reissues, on="titleId", how="inner")
-        return df.where(col("reissues") <= self.movies_max_reissues).drop("reissues")
+        return df.where(col("reissues") <= self.movies_max_reissues)
 
     @staticmethod
     def _normalize_columns(df: DataFrame) -> DataFrame:
