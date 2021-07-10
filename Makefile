@@ -2,42 +2,57 @@ SHELL=/bin/bash
 
 help:
 	@echo  'Options:'
-	@echo  '  setup           - Create local virtual env and install requirements (prerequisite: python3).'
+	@echo  '  setup           - Set up local virtual env for development.'
 	@echo  '  build           - Build and package the application and its dependencies,'
 	@echo  '                    to be distributed through spark-submit.'
 	@echo  '  test-unit       - Run unit tests.'
 	@echo  '  pre-commit      - Run checks (code formatter, linter, type checker)'
-	@echo  '  run-local       - Run the application locally. Example usage:'
+	@echo  '  run-local       - Run a task locally. Example usage:'
 	@echo  '                    make run-local task=ingest execution-date=2021-01-01'
 	@echo  '                    make run-local task=transform execution-date=2021-01-01'
+	@echo  '  run-cluster     - Run a task on a cluster.'
 	@echo  '  clean           - Clean auxiliary files.'
 
 setup:
-	python -m venv venv && \
-	source venv/bin/activate && \
-	pip install --upgrade pip \
+	python -m venv venv_dev && \
+	source venv_dev/bin/activate && \
 	pip install -e . && \
 	pip install -r requirements-dev.txt
 
 build:
-	source venv/bin/activate && \
-	pip install . -t deps && \
-	python -m zipfile -c deps/libs.zip deps/* && \
+	python -m venv venv_build && \
+	source venv_build/bin/activate && \
+	pip install venv-pack==0.2.0 . && \
+	mkdir deps && \
+	venv-pack -o deps/venv_build.tar.gz && \
 	cp movies_etl/main.py deps
 
 test-unit:
-	source venv/bin/activate && \
+	source venv_dev/bin/activate && \
 	pytest -vvvv --showlocals tests --disable-warnings
 
 pre-commit:
-	source venv/bin/activate && \
+	source venv_dev/bin/activate && \
 	pre-commit run --all-files
 
 run-local:
-	source venv/bin/activate && \
+	export PYSPARK_DRIVER_PYTHON=python && \
+	export PYSPARK_PYTHON=./env/bin/python && \
+	source venv_dev/bin/activate && \
 	spark-submit \
 	--master local[*] \
-	--py-files deps/libs.zip \
+	--archives deps/venv_build.tar.gz#env \
+	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
+	deps/main.py \
+	--task ${task} \
+	--execution-date $(execution-date)
+
+run-cluster:
+	spark-submit \
+	--master yarn \
+	--deploy-mode cluster \
+	--archives deps/venv_build.tar.gz#env \
+	--conf spark.yarn.appMasterEnv.PYSPARK_PYTHON=./env/bin/python \
 	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
 	deps/main.py \
 	--task ${task} \
