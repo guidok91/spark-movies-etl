@@ -13,8 +13,7 @@ help:
 	@echo  '  clean           - Clean auxiliary files.'
 
 setup:
-	pip install virtualenv && \
-	python -m virtualenv venv && \
+	python -m venv venv && \
 	source venv/bin/activate && \
 	pip install --upgrade pip \
 	pip install -e . && \
