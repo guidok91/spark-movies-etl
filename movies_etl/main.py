@@ -3,6 +3,7 @@ import datetime
 
 from pyspark.sql import SparkSession
 from movies_etl.executor import Executor
+from movies_etl.config.config_manager import ConfigManager
 
 
 def _parse_args() -> argparse.Namespace:
@@ -17,8 +18,9 @@ def main() -> None:
     args = _parse_args()
 
     spark = SparkSession.builder.getOrCreate()
+    config_manager = ConfigManager()
 
-    Executor(spark, args.task, args.execution_date).run()
+    Executor(spark, config_manager, args.task, args.execution_date).run()
 
 
 if __name__ == "__main__":
