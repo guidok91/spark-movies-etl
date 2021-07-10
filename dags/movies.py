@@ -20,14 +20,17 @@ DAG_DEFAULT_ARGS = {
 
 def _build_livy_operator(task: str, spark_conf_extra: Optional[Dict[Any, Any]] = None) -> LivyOperator:
 
-    spark_conf_base = {"spark.sql.sources.partitionOverwriteMode": "dynamic"}
+    spark_conf_base = {
+        "spark.sql.sources.partitionOverwriteMode": "dynamic",
+        "spark.yarn.appMasterEnv.PYSPARK_PYTHON": "./env/bin/python",
+    }
     spark_conf_extra = spark_conf_extra or {}
 
     return LivyOperator(
         task_id=task,
         file=f"{ETL_CODE_LOCATION}/main.py",
         args=["--task", task, "--execution-date", "{{ ds }}"],
-        archives=[f"{ETL_CODE_LOCATION}/venv_build.tar.gz"],
+        archives=[f"{ETL_CODE_LOCATION}/venv_build.tar.gz#env"],
         conf={**spark_conf_base, **spark_conf_extra},
         proxy_user=LIVY_PROXY_USER,
         livy_conn_id=LIVY_CONN_ID,
