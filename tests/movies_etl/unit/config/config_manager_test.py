@@ -4,7 +4,6 @@ from movies_etl.config.config_manager import ConfigManager, ConfigException
 
 
 class TestConfigManager(TestCase):
-
     def test_read_existent_value(self):
         # GIVEN
         config_manager = ConfigManager(
@@ -34,6 +33,4 @@ class TestConfigManager(TestCase):
 
         # THEN
         with self.assertRaises(FileNotFoundError):
-            ConfigManager(
-                config_file=inexistent_config_file
-            )
+            ConfigManager(config_file=inexistent_config_file)
