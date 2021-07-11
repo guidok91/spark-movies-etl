@@ -2,7 +2,7 @@ import os
 import datetime
 from unittest import TestCase
 from tests.utils import get_local_spark, assert_data_frames_equal
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType, BooleanType
+from movies_etl.schema import Schema
 from movies_etl.executor import Executor
 from movies_etl.config.config_manager import ConfigManager
 
@@ -14,32 +14,6 @@ class TestExecutor(TestCase):
             config_file=f"{os.path.dirname(os.path.realpath(__file__))}/config_test.yaml"
         )
         self.execution_date = datetime.date(2021, 6, 3)
-        self.schema_standardised = StructType(
-            [
-                StructField("titleId", StringType()),
-                StructField("title", StringType()),
-                StructField("types", StringType()),
-                StructField("region", StringType()),
-                StructField("ordering", IntegerType()),
-                StructField("language", StringType()),
-                StructField("isOriginalTitle", IntegerType()),
-                StructField("attributes", StringType()),
-                StructField("fk_date_received", IntegerType()),
-            ]
-        )
-        self.schema_curated = StructType(
-            [
-                StructField("titleId", StringType()),
-                StructField("title", StringType()),
-                StructField("types", StringType()),
-                StructField("region", StringType()),
-                StructField("ordering", IntegerType()),
-                StructField("language", StringType()),
-                StructField("isOriginalTitle", BooleanType()),
-                StructField("attributes", StringType()),
-                StructField("fk_date_received", IntegerType()),
-            ]
-        )
 
     def tearDown(self) -> None:
         self.spark.stop()
@@ -58,7 +32,7 @@ class TestExecutor(TestCase):
                 ["tt0000239", "Danse serpentine par Mme. Bob Walter", None, "CN", 2, None, 0, None, 20210603],
                 ["tt0000417", "En Tur til Maanen", "imdbDisplay", "AR", 13, None, 0, None, 20210603],
             ],  # type: ignore
-            schema=self.schema_standardised,
+            schema=Schema.STANDARDISED,
         )
 
         # WHEN
@@ -80,7 +54,7 @@ class TestExecutor(TestCase):
             [
                 ["tt0000487", "The Great Train Robbery", "original", None, 3, None, True, None, 20210603]
             ],  # type: ignore
-            schema=self.schema_curated,
+            schema=Schema.CURATED,
         )
 
         # WHEN
