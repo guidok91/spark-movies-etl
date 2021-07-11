@@ -11,9 +11,9 @@ global:
 
 development:
   data_lake:
-    raw: file:///Users/gk/Git/spark-movies-etl/data_lake/raw/movies
-    standardised: file:///Users/gk/Git/spark-movies-etl/data_lake/standardised/movies
-    curated: file:///Users/gk/Git/spark-movies-etl/data_lake/curated/movies
+    raw: data_lake/raw/movies
+    standardised: data_lake/standardised/movies
+    curated: data_lake/curated/movies
 
 live:
   data_lake:
