@@ -139,3 +139,7 @@ data_lake/standardised/*
 !data_lake/standardised/.gitkeep
 data_lake/curated/*
 !data_lake/curated/.gitkeep
+tests/movies_etl/integration/fixtures/data_lake/standardised/*
+!tests/movies_etl/integration/fixtures/data_lake/standardised/.gitkeep
+tests/movies_etl/integration/fixtures/data_lake/curated/*
+!tests/movies_etl/integration/fixtures/data_lake/curated/.gitkeep
