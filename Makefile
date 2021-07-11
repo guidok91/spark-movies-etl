@@ -29,7 +29,7 @@ build:
 
 test:
 	source venv_dev/bin/activate && \
-	pytest -vvvv --showlocals tests --disable-warnings
+	pytest --cov -vvvv --showlocals tests --disable-warnings
 
 pre-commit:
 	source venv_dev/bin/activate && \
