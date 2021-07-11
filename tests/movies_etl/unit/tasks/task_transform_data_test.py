@@ -13,6 +13,9 @@ class TestTransformation(TestCase):
 
     def test_transform(self) -> None:
         # GIVEN
+        transformation = Transformation(
+            movies_regions=["FR", "US", "GB", "RU", "HU", "DK", "ES"], movies_max_reissues=5
+        )
         df_input = self.spark.createDataFrame(
             [
                 ["tt0000429", "The hunt for the burglar", "original", None, 1, None, 1, "original title", 20200101],
@@ -39,9 +42,7 @@ class TestTransformation(TestCase):
         )
 
         # WHEN
-        df_transformed = Transformation(
-            movies_regions=["FR", "US", "GB", "RU", "HU", "DK", "ES"], movies_max_reissues=5
-        ).transform(df_input)
+        df_transformed = transformation.transform(df_input)
 
         # THEN
         assert_data_frames_equal(df_transformed, df_expected)
