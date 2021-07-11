@@ -11,7 +11,7 @@ class TestExecutor(TestCase):
     def setUp(self) -> None:
         self.spark = get_local_spark()
         self.config_manager = ConfigManager(
-            config_file=f"{os.path.dirname(os.path.realpath(__file__))}/config_test.yaml"
+            config_file=f"{os.path.dirname(os.path.realpath(__file__))}/fixtures/config_test.yaml"
         )
         self.execution_date = datetime.date(2021, 6, 3)
 
