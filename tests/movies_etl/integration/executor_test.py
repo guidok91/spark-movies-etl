@@ -89,3 +89,16 @@ class TestExecutor(TestCase):
         # THEN
         df_output = self.spark.read.parquet(self.config_manager.get("data_lake.curated"))
         assert_data_frames_equal(df_output, df_expected)
+
+    def test_executor_run_inexistent_task(self) -> None:
+        # GIVEN
+        executor = Executor(
+            spark=self.spark,
+            config_manager=self.config_manager,
+            task="inexistent_task",
+            execution_date=self.execution_date
+        )
+
+        # THEN
+        with self.assertRaises(KeyError):
+            executor.run()
