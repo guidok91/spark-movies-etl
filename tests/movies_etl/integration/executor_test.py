@@ -18,11 +18,11 @@ class TestExecutor(TestCase):
     def tearDown(self) -> None:
         self.spark.stop()
 
-    def test_run_end_to_end(self):
+    def test_run_end_to_end(self) -> None:
         self._test_run_ingest()
         self._test_run_transform()
 
-    def test_executor_run_inexistent_task(self) -> None:
+    def test_run_inexistent_task(self) -> None:
         # GIVEN
         executor = Executor(
             spark=self.spark,
