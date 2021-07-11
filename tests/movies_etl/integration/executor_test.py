@@ -4,7 +4,7 @@ from unittest import TestCase
 from tests.utils import get_local_spark, assert_data_frames_equal
 from movies_etl.schema import Schema
 from movies_etl.executor import Executor
-from movies_etl.config.config_manager import ConfigManager
+from movies_etl.config.config_manager import ConfigManager, ConfigException
 
 
 class TestExecutor(TestCase):
@@ -66,5 +66,5 @@ class TestExecutor(TestCase):
         )
 
         # THEN
-        with self.assertRaises(KeyError):
+        with self.assertRaises(ConfigException):
             executor.run()

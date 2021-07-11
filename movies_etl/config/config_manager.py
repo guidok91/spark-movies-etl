@@ -10,4 +10,11 @@ class ConfigManager:
         self.settings = LazySettings(environments=True, settings_file=config_file)
 
     def get(self, key: str) -> Any:
-        return self.settings[key]
+        try:
+            return self.settings[key]
+        except KeyError:
+            raise ConfigException(f"Key '{key}' not found in config file")
+
+
+class ConfigException(Exception):
+    pass
