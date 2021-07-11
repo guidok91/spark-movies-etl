@@ -56,4 +56,4 @@ run-cluster:
 	--execution-date $(execution-date)
 
 clean:
-	rm -rf deps/ .pytest_cache .mypy_cache movies_etl.egg-info *.xml .coverage
+	rm -rf deps/ venv_build/ .pytest_cache .mypy_cache movies_etl.egg-info *.xml .coverage
