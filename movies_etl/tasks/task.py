@@ -1,5 +1,4 @@
 from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql.types import StructType
 from abc import ABC, abstractmethod
 import datetime
 from movies_etl.config.config_manager import ConfigManager
@@ -10,7 +9,6 @@ class Task(ABC):
     Base class to read a dataset, transform it, and save it on another location.
     """
 
-    SCHEMA_INPUT: StructType
     OUTPUT_PARTITION_COLS = ["fk_date_received"]
     OUTPUT_PARTITION_COUNT = 5
 

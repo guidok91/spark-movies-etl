@@ -5,7 +5,7 @@ help:
 	@echo  '  setup           - Set up local virtual env for development.'
 	@echo  '  build           - Build and package the application and its dependencies,'
 	@echo  '                    to be distributed through spark-submit.'
-	@echo  '  test-unit       - Run unit tests.'
+	@echo  '  test            - Run unit and integration tests.'
 	@echo  '  pre-commit      - Run checks (code formatter, linter, type checker)'
 	@echo  '  run-local       - Run a task locally. Example usage:'
 	@echo  '                    make run-local task=ingest execution-date=2021-01-01'
@@ -27,7 +27,7 @@ build:
 	venv-pack -o deps/venv_build.tar.gz && \
 	cp movies_etl/main.py deps
 
-test-unit:
+test:
 	source venv_dev/bin/activate && \
 	pytest -vvvv --showlocals tests --disable-warnings
 
@@ -56,4 +56,4 @@ run-cluster:
 	--execution-date $(execution-date)
 
 clean:
-	rm -rf deps/ .pytest_cache .mypy_cache movies_etl.egg-info *.xml .coverage
+	rm -rf deps/ venv_build/ .pytest_cache .mypy_cache movies_etl.egg-info *.xml .coverage

@@ -1,38 +1,12 @@
 from unittest import TestCase
 from tests.utils import get_local_spark, assert_data_frames_equal
 from movies_etl.tasks.task_transform_data import Transformation
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType, BooleanType
+from movies_etl.schema import Schema
 
 
 class TestTransformation(TestCase):
     def setUp(self) -> None:
         self.spark = get_local_spark()
-        self.schema_input = StructType(
-            [
-                StructField("titleId", StringType()),
-                StructField("title", StringType()),
-                StructField("types", StringType()),
-                StructField("region", StringType()),
-                StructField("ordering", IntegerType()),
-                StructField("language", StringType()),
-                StructField("isOriginalTitle", IntegerType()),
-                StructField("attributes", StringType()),
-                StructField("fk_date_received", IntegerType()),
-            ]
-        )
-        self.schema_output = StructType(
-            [
-                StructField("titleId", StringType()),
-                StructField("title", StringType()),
-                StructField("types", StringType()),
-                StructField("region", StringType()),
-                StructField("ordering", IntegerType()),
-                StructField("language", StringType()),
-                StructField("isOriginalTitle", BooleanType()),
-                StructField("attributes", StringType()),
-                StructField("fk_date_received", IntegerType()),
-            ]
-        )
 
     def tearDown(self) -> None:
         self.spark.stop()
@@ -53,7 +27,7 @@ class TestTransformation(TestCase):
                 ["tt0000211", "Sueños de un astrónomo (gr)", "dubbed", "gr", 6, "gr", 0, "informal title", 20200101],
                 ["tt0000211", "Sueños de un astrónomo (ch)", "dubbed", "ch", 7, "ch", 0, "informal title", 20200101],
             ],  # type: ignore
-            schema=self.schema_input,
+            schema=Schema.STANDARDISED,
         )
         df_expected = self.spark.createDataFrame(
             [
@@ -61,7 +35,7 @@ class TestTransformation(TestCase):
                 ["tt0000429", "La chasse au cambrioleur", "dubbed", "FR", 2, "FR", False, "informal title", 20200101],
                 ["tt0000429", "Охота на взломщика", "dubbed", "RU", 4, "RU", False, "informal title", 20200101],
             ],  # type: ignore
-            schema=self.schema_output,
+            schema=Schema.CURATED,
         )
 
         # WHEN
