@@ -21,10 +21,7 @@ class TestExecutor(TestCase):
     def test_executor_run_ingest(self) -> None:
         # GIVEN
         executor = Executor(
-            spark=self.spark,
-            config_manager=self.config_manager,
-            task="ingest",
-            execution_date=self.execution_date
+            spark=self.spark, config_manager=self.config_manager, task="ingest", execution_date=self.execution_date
         )
         df_expected = self.spark.createDataFrame(
             [
@@ -45,15 +42,10 @@ class TestExecutor(TestCase):
     def test_executor_run_transform(self) -> None:
         # GIVEN
         executor = Executor(
-            spark=self.spark,
-            config_manager=self.config_manager,
-            task="transform",
-            execution_date=self.execution_date
+            spark=self.spark, config_manager=self.config_manager, task="transform", execution_date=self.execution_date
         )
         df_expected = self.spark.createDataFrame(
-            [
-                ["tt0000487", "The Great Train Robbery", "original", None, 3, None, True, None, 20210603]
-            ],  # type: ignore
+            [["tt0000487", "The Great Train Robbery", "original", None, 3, None, True, None, 20210603]],  # type: ignore
             schema=Schema.CURATED,
         )
 
@@ -70,7 +62,7 @@ class TestExecutor(TestCase):
             spark=self.spark,
             config_manager=self.config_manager,
             task="inexistent_task",
-            execution_date=self.execution_date
+            execution_date=self.execution_date,
         )
 
         # THEN

@@ -8,7 +8,6 @@ from typing import List
 
 
 class TransformDataTask(Task):
-
     def __init__(self, spark: SparkSession, execution_date: datetime.date, config_manager: ConfigManager):
         super().__init__(spark, execution_date, config_manager)
         self.path_input = self.config_manager.get("data_lake.standardised")
