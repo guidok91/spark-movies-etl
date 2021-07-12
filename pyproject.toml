@@ -23,3 +23,9 @@ source = ["movies_etl"]
 
 [tool.coverage.report]
 show_missing = true
+
+[tool.mypy]
+ignore_missing_imports = true
+disallow_untyped_calls = true
+disallow_untyped_defs = true
+disallow_incomplete_defs = true
