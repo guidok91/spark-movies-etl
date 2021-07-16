@@ -45,11 +45,11 @@ run-local:
 	--execution-date $(execution-date)
 
 run-cluster:
+	export PYSPARK_PYTHON=./env/bin/python && \
 	spark-submit \
 	--master yarn \
 	--deploy-mode cluster \
 	--archives s3a://movies-binaries/movies-etl/latest/deps/venv_build.tar.gz#env \
-	--conf spark.yarn.appMasterEnv.PYSPARK_PYTHON=./env/bin/python \
 	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
 	s3a://movies-binaries/movies-etl/latest/deps/main.py \
 	--task ${task} \
