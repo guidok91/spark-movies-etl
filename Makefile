@@ -48,10 +48,10 @@ run-cluster:
 	spark-submit \
 	--master yarn \
 	--deploy-mode cluster \
-	--archives deps/venv_build.tar.gz#env \
+	--archives s3a://movies-binaries/movies-etl/latest/deps/venv_build.tar.gz#env \
 	--conf spark.yarn.appMasterEnv.PYSPARK_PYTHON=./env/bin/python \
 	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
-	deps/main.py \
+	s3a://movies-binaries/movies-etl/latest/deps/main.py \
 	--task ${task} \
 	--execution-date $(execution-date)
 
