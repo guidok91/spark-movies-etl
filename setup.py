@@ -10,7 +10,7 @@ setup(
     description="Data pipeline that ingests and transforms a movies dataset",
     author="Guido Kosloff Gancedo",
     install_requires=REQUIRES,
-    python_requires=">=3.7",
+    python_requires=">=3.9",
     packages=find_packages(exclude=["tests", "tests.*"]),
     package_data={
         "": ["*.yaml"],
