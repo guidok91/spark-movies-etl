@@ -11,12 +11,12 @@ global:
 
 development:
   data_lake:
-    raw: data_lake/raw/movies
-    standardised: data_lake/standardised/movies
-    curated: data_lake/curated/movies
+    raw: data_lake/bronze/movies
+    standardised: data_lake/silver/movies
+    curated: data_lake/gold/movies
 
 live:
   data_lake:
-    raw: s3a://datalake-raw/movies
-    standardised: s3a://datalake-standardised/movies
-    curated: s3a://datalake-curated/movies
+    raw: s3a://datalake-bronze/movies
+    standardised: s3a://datalake-silver/movies
+    curated: s3a://datalake-gold/movies

@@ -9,6 +9,6 @@ global:
   movies_regions: ["ES"]
   movies_max_reissues: 5
   data_lake:
-    raw: tests/movies_etl/integration/fixtures/data_lake/raw/movies
-    standardised: tests/movies_etl/integration/fixtures/data_lake/standardised/movies
-    curated: tests/movies_etl/integration/fixtures/data_lake/curated/movies
+    raw: tests/movies_etl/integration/fixtures/data_lake/bronze/movies
+    standardised: tests/movies_etl/integration/fixtures/data_lake/silver/movies
+    curated: tests/movies_etl/integration/fixtures/data_lake/gold/movies
