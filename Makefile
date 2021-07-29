@@ -39,6 +39,7 @@ run-local:
 	source venv_dev/bin/activate && \
 	spark-submit \
 	--master local[*] \
+	--packages org.apache.spark:spark-avro_2.12:3.1.2 \
 	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
 	movies_etl/main.py \
 	--task ${task} \
@@ -49,6 +50,7 @@ run-cluster:
 	spark-submit \
 	--master yarn \
 	--deploy-mode cluster \
+	--packages org.apache.spark:spark-avro_2.12:3.1.2 \
 	--archives s3a://movies-binaries/movies-etl/latest/deps/venv_build.tar.gz#env \
 	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
 	s3a://movies-binaries/movies-etl/latest/deps/main.py \
