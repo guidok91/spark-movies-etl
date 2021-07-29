@@ -14,7 +14,7 @@ class IngestDataTask(Task):
         self.path_output = self.config_manager.get("data_lake.silver")
 
     def _input(self) -> DataFrame:
-        return self.spark.read.json(path=self._build_input_path(), schema=Schema.BRONZE)
+        return self.spark.read.format("avro").load(path=self._build_input_path(), schema=Schema.BRONZE)
 
     def _build_input_path(self) -> str:
         execution_date_str = self.execution_date.strftime("%Y/%m/%d")

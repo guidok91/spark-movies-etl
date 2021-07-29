@@ -3,7 +3,11 @@ from pyspark.sql import DataFrame, SparkSession
 
 
 def get_local_spark() -> SparkSession:
-    return SparkSession.builder.master("local[*]").config("spark.driver.bindAddress", "127.0.0.1").getOrCreate()
+    return (
+        SparkSession.builder.master("local[*]")
+        .config("spark.jars.packages", "org.apache.spark:spark-avro_2.12:3.1.2")
+        .getOrCreate()
+    )
 
 
 def assert_data_frames_equal(left: DataFrame, right: DataFrame) -> None:

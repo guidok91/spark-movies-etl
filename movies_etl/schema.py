@@ -4,41 +4,41 @@ from pyspark.sql.types import StructType, StructField, StringType, IntegerType, 
 class Schema:
     BRONZE = StructType(
         [
-            StructField("titleId", StringType()),
-            StructField("title", StringType()),
+            StructField("titleId", StringType(), nullable=False),
+            StructField("title", StringType(), nullable=False),
             StructField("types", StringType()),
             StructField("region", StringType()),
-            StructField("ordering", IntegerType()),
+            StructField("ordering", IntegerType(), nullable=False),
             StructField("language", StringType()),
-            StructField("isOriginalTitle", IntegerType()),
+            StructField("isOriginalTitle", IntegerType(), nullable=False),
             StructField("attributes", StringType()),
         ]
     )
 
     SILVER = StructType(
         [
-            StructField("titleId", StringType()),
-            StructField("title", StringType()),
+            StructField("titleId", StringType(), nullable=False),
+            StructField("title", StringType(), nullable=False),
             StructField("types", StringType()),
             StructField("region", StringType()),
-            StructField("ordering", IntegerType()),
+            StructField("ordering", IntegerType(), nullable=False),
             StructField("language", StringType()),
-            StructField("isOriginalTitle", IntegerType()),
+            StructField("isOriginalTitle", IntegerType(), nullable=False),
             StructField("attributes", StringType()),
-            StructField("fk_date_received", IntegerType()),
+            StructField("fk_date_received", IntegerType(), nullable=False),
         ]
     )
 
     GOLD = StructType(
         [
-            StructField("titleId", StringType()),
-            StructField("title", StringType()),
+            StructField("titleId", StringType(), nullable=False),
+            StructField("title", StringType(), nullable=False),
             StructField("types", StringType()),
             StructField("region", StringType()),
-            StructField("ordering", IntegerType()),
+            StructField("ordering", IntegerType(), nullable=False),
             StructField("language", StringType()),
-            StructField("isOriginalTitle", BooleanType()),
+            StructField("isOriginalTitle", BooleanType(), nullable=False),
             StructField("attributes", StringType()),
-            StructField("fk_date_received", IntegerType()),
+            StructField("fk_date_received", IntegerType(), nullable=False),
         ]
     )
