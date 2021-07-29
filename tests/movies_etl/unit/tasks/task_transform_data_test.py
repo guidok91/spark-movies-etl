@@ -30,7 +30,7 @@ class TestTransformation(TestCase):
                 ["tt0000211", "Sueños de un astrónomo (gr)", "dubbed", "gr", 6, "gr", 0, "informal title", 20200101],
                 ["tt0000211", "Sueños de un astrónomo (ch)", "dubbed", "ch", 7, "ch", 0, "informal title", 20200101],
             ],  # type: ignore
-            schema=Schema.STANDARDISED,
+            schema=Schema.SILVER,
         )
         df_expected = self.spark.createDataFrame(
             [
@@ -38,7 +38,7 @@ class TestTransformation(TestCase):
                 ["tt0000429", "La chasse au cambrioleur", "dubbed", "FR", 2, "FR", False, "informal title", 20200101],
                 ["tt0000429", "Охота на взломщика", "dubbed", "RU", 4, "RU", False, "informal title", 20200101],
             ],  # type: ignore
-            schema=Schema.CURATED,
+            schema=Schema.GOLD,
         )
 
         # WHEN

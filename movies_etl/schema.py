@@ -2,7 +2,7 @@ from pyspark.sql.types import StructType, StructField, StringType, IntegerType, 
 
 
 class Schema:
-    RAW = StructType(
+    BRONZE = StructType(
         [
             StructField("titleId", StringType()),
             StructField("title", StringType()),
@@ -15,7 +15,7 @@ class Schema:
         ]
     )
 
-    STANDARDISED = StructType(
+    SILVER = StructType(
         [
             StructField("titleId", StringType()),
             StructField("title", StringType()),
@@ -29,7 +29,7 @@ class Schema:
         ]
     )
 
-    CURATED = StructType(
+    GOLD = StructType(
         [
             StructField("titleId", StringType()),
             StructField("title", StringType()),

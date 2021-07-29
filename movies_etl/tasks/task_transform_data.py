@@ -10,12 +10,12 @@ from typing import List
 class TransformDataTask(Task):
     def __init__(self, spark: SparkSession, execution_date: datetime.date, config_manager: ConfigManager):
         super().__init__(spark, execution_date, config_manager)
-        self.path_input = self.config_manager.get("data_lake.standardised")
-        self.path_output = self.config_manager.get("data_lake.curated")
+        self.path_input = self.config_manager.get("data_lake.silver")
+        self.path_output = self.config_manager.get("data_lake.gold")
 
     def _input(self) -> DataFrame:
         return (
-            self.spark.read.schema(Schema.STANDARDISED)
+            self.spark.read.schema(Schema.SILVER)
             .parquet(self.path_input)
             .where(f"fk_date_received = {self.execution_date.strftime('%Y%m%d')}")
         )

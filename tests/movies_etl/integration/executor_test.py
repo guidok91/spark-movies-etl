@@ -46,14 +46,14 @@ class TestExecutor(TestCase):
                 ["tt0000239", "Danse serpentine par Mme. Bob Walter", None, "CN", 2, None, 0, None, 20210603],
                 ["tt0000417", "En Tur til Maanen", "imdbDisplay", "AR", 13, None, 0, None, 20210603],
             ],  # type: ignore
-            schema=Schema.STANDARDISED,
+            schema=Schema.SILVER,
         )
 
         # WHEN
         executor.run()
 
         # THEN
-        df_output = self.spark.read.parquet(self.config_manager.get("data_lake.standardised"))
+        df_output = self.spark.read.parquet(self.config_manager.get("data_lake.silver"))
         assert_data_frames_equal(df_output, df_expected)
 
     def _test_run_transform(self) -> None:
@@ -63,12 +63,12 @@ class TestExecutor(TestCase):
         )
         df_expected = self.spark.createDataFrame(
             [["tt0000487", "The Great Train Robbery", "original", None, 3, None, True, None, 20210603]],  # type: ignore
-            schema=Schema.CURATED,
+            schema=Schema.GOLD,
         )
 
         # WHEN
         executor.run()
 
         # THEN
-        df_output = self.spark.read.parquet(self.config_manager.get("data_lake.curated"))
+        df_output = self.spark.read.parquet(self.config_manager.get("data_lake.gold"))
         assert_data_frames_equal(df_output, df_expected)
