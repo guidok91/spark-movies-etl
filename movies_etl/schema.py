@@ -31,7 +31,7 @@ class Schema:
 
     GOLD = StructType(
         [
-            StructField("titleId", StringType(), nullable=False),
+            StructField("title_id", StringType(), nullable=False),
             StructField("title", StringType(), nullable=False),
             StructField("types", StringType()),
             StructField("region", StringType()),
