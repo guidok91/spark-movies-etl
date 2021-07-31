@@ -39,7 +39,7 @@ class Schema:
             StructField("language", StringType()),
             StructField("is_original_title", BooleanType(), nullable=False),
             StructField("attributes", StringType()),
-            StructField("title_class", StringType()),
+            StructField("title_class", StringType(), nullable=False),
             StructField("fk_date_received", IntegerType(), nullable=False),
         ]
     )
