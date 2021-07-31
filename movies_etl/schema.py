@@ -37,7 +37,7 @@ class Schema:
             StructField("region", StringType()),
             StructField("ordering", IntegerType(), nullable=False),
             StructField("language", StringType()),
-            StructField("isOriginalTitle", BooleanType(), nullable=False),
+            StructField("is_original_title", BooleanType(), nullable=False),
             StructField("attributes", StringType()),
             StructField("fk_date_received", IntegerType(), nullable=False),
         ]

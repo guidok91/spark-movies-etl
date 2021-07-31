@@ -51,7 +51,7 @@ class Transformation:
             "region",
             "ordering",
             "language",
-            "isOriginalTitle",
+            "is_original_title",
             "attributes",
             "fk_date_received",
         )
@@ -65,7 +65,7 @@ class Transformation:
     def _normalize_columns(df: DataFrame) -> DataFrame:
         return (
             df.withColumn(
-                "isOriginalTitle",
+                "is_original_title",
                 col("isOriginalTitle").cast("boolean"),
             )
             .withColumn("language", upper("language"))
