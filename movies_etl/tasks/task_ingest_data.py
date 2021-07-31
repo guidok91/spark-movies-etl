@@ -30,6 +30,7 @@ class IngestDataTask(Task):
             "language",
             "isOriginalTitle",
             "attributes",
+            "eventTimestamp",
             lit(self.execution_date.strftime("%Y%m%d")).cast(IntegerType()).alias("fk_date_received"),
         )
 
