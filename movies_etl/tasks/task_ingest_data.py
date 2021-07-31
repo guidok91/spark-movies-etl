@@ -34,6 +34,6 @@ class IngestDataTask(Task):
         )
 
     def _output(self, df: DataFrame) -> None:
-        df.coalesce(self.OUTPUT_PARTITION_COUNT).write.parquet(
+        df.coalesce(self.OUTPUT_PARTITION_COUNT).write.format("delta").save(
             path=self.path_output, mode="overwrite", partitionBy=self.OUTPUT_PARTITION_COLS
         )

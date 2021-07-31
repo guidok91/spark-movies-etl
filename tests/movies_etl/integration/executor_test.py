@@ -53,7 +53,7 @@ class TestExecutor(TestCase):
         executor.run()
 
         # THEN
-        df_output = self.spark.read.parquet(self.config_manager.get("data_lake.silver"))
+        df_output = self.spark.read.format("delta").load(self.config_manager.get("data_lake.silver"))
         assert_data_frames_equal(df_output, df_expected)
 
     def _test_run_transform(self) -> None:
@@ -72,5 +72,5 @@ class TestExecutor(TestCase):
         executor.run()
 
         # THEN
-        df_output = self.spark.read.parquet(self.config_manager.get("data_lake.gold"))
+        df_output = self.spark.read.format("delta").load(self.config_manager.get("data_lake.gold"))
         assert_data_frames_equal(df_output, df_expected)
