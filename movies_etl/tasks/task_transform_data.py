@@ -58,6 +58,7 @@ class Transformation:
             "is_original_title",
             "attributes",
             "title_class",
+            "event_timestamp",
             "fk_date_received",
         )
 
@@ -73,6 +74,7 @@ class Transformation:
             .withColumn("is_original_title", col("isOriginalTitle").cast("boolean"))
             .withColumn("language", upper("language"))
             .withColumn("region", upper("region"))
+            .withColumn("event_timestamp", col("eventTimestamp"))
         )
 
     def _filter_regions(self, df: DataFrame) -> DataFrame:
