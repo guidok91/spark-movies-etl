@@ -44,13 +44,13 @@ class Transformation:
     def transform(self, df: DataFrame) -> DataFrame:
         df.cache()
 
-        df = self._filter_max_reissues(df)
         df = self._normalize_columns(df)
+        df = self._filter_max_reissues(df)
         df = self._filter_regions(df)
         df = self._derive_title_class(df)
 
         return df.select(
-            "titleId",
+            "title_id",
             "title",
             "types",
             "region",
@@ -70,10 +70,8 @@ class Transformation:
     @staticmethod
     def _normalize_columns(df: DataFrame) -> DataFrame:
         return (
-            df.withColumn(
-                "is_original_title",
-                col("isOriginalTitle").cast("boolean"),
-            )
+            df.withColumn("title_id", col("titleId"))
+            .withColumn("is_original_title", col("isOriginalTitle").cast("boolean"))
             .withColumn("language", upper("language"))
             .withColumn("region", upper("region"))
         )
