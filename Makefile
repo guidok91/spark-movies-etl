@@ -40,8 +40,8 @@ run-local:
 	spark-submit \
 	--master local[*] \
 	--packages org.apache.spark:spark-avro_2.12:3.1.2,io.delta:delta-core_2.12:1.0.0 \
-	--conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" \
-	--conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" \
+	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
+	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
 	movies_etl/main.py \
 	--task ${task} \
@@ -54,8 +54,8 @@ run-cluster:
 	--deploy-mode cluster \
 	--archives s3a://movies-binaries/movies-etl/latest/deps/venv_build.tar.gz#env \
 	--packages org.apache.spark:spark-avro_2.12:3.1.2,io.delta:delta-core_2.12:1.0.0 \
-	--conf "spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension" \
-	--conf "spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog" \
+	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
+	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
 	s3a://movies-binaries/movies-etl/latest/deps/main.py \
 	--task ${task} \
