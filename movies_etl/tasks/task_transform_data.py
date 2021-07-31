@@ -14,8 +14,7 @@ class TransformDataTask(Task):
 
     def _input(self) -> DataFrame:
         return (
-            self.spark.read
-            .format("delta")
+            self.spark.read.format("delta")
             .load(self.path_input)
             .where(f"fk_date_received = {self.execution_date.strftime('%Y%m%d')}")
         )
