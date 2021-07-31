@@ -2,6 +2,7 @@ import os
 import datetime
 from unittest import TestCase
 from tests.utils import get_local_spark, assert_data_frames_equal
+from tests.movies_etl.integration.fixtures.data import TEST_INGEST_OUTPUT_EXPECTED, TEST_TRANSFORM_OUTPUT_EXPECTED
 from movies_etl.schema import Schema
 from movies_etl.executor import Executor
 from movies_etl.config.config_manager import ConfigManager, ConfigException
@@ -41,22 +42,7 @@ class TestExecutor(TestCase):
             spark=self.spark, config_manager=self.config_manager, task="ingest", execution_date=self.execution_date
         )
         df_expected = self.spark.createDataFrame(
-            [
-                ["tt0000487", "The Great Train Robbery", "original", None, 3, None, 1, None, 1621806662, 20210603],
-                [
-                    "tt0000239",
-                    "Danse serpentine par Mme. Bob Walter",
-                    None,
-                    "CN",
-                    2,
-                    None,
-                    0,
-                    None,
-                    1621806634,
-                    20210603,
-                ],
-                ["tt0000417", "En Tur til Maanen", "imdbDisplay", "AR", 13, None, 0, None, 1621806635, 20210603],
-            ],  # type: ignore
+            TEST_INGEST_OUTPUT_EXPECTED,  # type: ignore
             schema=Schema.SILVER,
         )
 
@@ -73,21 +59,7 @@ class TestExecutor(TestCase):
             spark=self.spark, config_manager=self.config_manager, task="transform", execution_date=self.execution_date
         )
         df_expected = self.spark.createDataFrame(
-            [
-                [
-                    "tt0000487",
-                    "The Great Train Robbery",
-                    "original",
-                    None,
-                    3,
-                    None,
-                    True,
-                    None,
-                    "long",
-                    1621806662,
-                    20210603,
-                ]
-            ],  # type: ignore
+            TEST_TRANSFORM_OUTPUT_EXPECTED,  # type: ignore
             schema=Schema.GOLD,
         )
 
