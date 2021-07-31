@@ -62,7 +62,9 @@ class TestExecutor(TestCase):
             spark=self.spark, config_manager=self.config_manager, task="transform", execution_date=self.execution_date
         )
         df_expected = self.spark.createDataFrame(
-            [["tt0000487", "The Great Train Robbery", "original", None, 3, None, True, None, 20210603]],  # type: ignore
+            [
+                ["tt0000487", "The Great Train Robbery", "original", None, 3, None, True, None, "long", 20210603]
+            ],  # type: ignore
             schema=Schema.GOLD,
         )
 

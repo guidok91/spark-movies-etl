@@ -2,7 +2,7 @@ from movies_etl.config.config_manager import ConfigManager
 from movies_etl.tasks.task import Task
 from movies_etl.schema import Schema
 from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql.functions import col, upper
+from pyspark.sql.functions import col, upper, when, length
 import datetime
 from typing import List
 
@@ -33,6 +33,10 @@ class TransformDataTask(Task):
 
 
 class Transformation:
+    TITLE_CLASS_SHORT = "short"
+    TITLE_CLASS_MEDIUM = "medium"
+    TITLE_CLASS_LONG = "long"
+
     def __init__(self, movies_regions: List[str], movies_max_reissues: int):
         self.movies_regions = movies_regions
         self.movies_max_reissues = movies_max_reissues
@@ -43,6 +47,7 @@ class Transformation:
         df = self._filter_max_reissues(df)
         df = self._normalize_columns(df)
         df = self._filter_regions(df)
+        df = self._derive_title_class(df)
 
         return df.select(
             "titleId",
@@ -51,8 +56,9 @@ class Transformation:
             "region",
             "ordering",
             "language",
-            "isOriginalTitle",
+            "is_original_title",
             "attributes",
+            "title_class",
             "fk_date_received",
         )
 
@@ -65,7 +71,7 @@ class Transformation:
     def _normalize_columns(df: DataFrame) -> DataFrame:
         return (
             df.withColumn(
-                "isOriginalTitle",
+                "is_original_title",
                 col("isOriginalTitle").cast("boolean"),
             )
             .withColumn("language", upper("language"))
@@ -74,3 +80,13 @@ class Transformation:
 
     def _filter_regions(self, df: DataFrame) -> DataFrame:
         return df.where(col("region").isNull() | col("region").isin(self.movies_regions))
+
+    def _derive_title_class(self, df: DataFrame) -> DataFrame:
+        return df.withColumn(
+            "title_class",
+            when(length("title") < 5, self.TITLE_CLASS_SHORT).otherwise(
+                when((length("title") >= 5) & (length("title") < 20), self.TITLE_CLASS_MEDIUM).otherwise(
+                    self.TITLE_CLASS_LONG
+                )
+            ),
+        )
