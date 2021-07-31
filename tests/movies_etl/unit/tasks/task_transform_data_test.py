@@ -18,10 +18,20 @@ class TestTransformation(TestCase):
         )
         df_input = self.spark.createDataFrame(
             [
-                ["tt0000429", "The hunt for the burglar", "original", None, 1, None, 1, "original title", 20200101],
-                ["tt0000429", "La chasse au cambrioleur", "dubbed", "FR", 2, "fr", 0, "informal title", 20200101],
+                ["tt0000429", "Hunt", "original", None, 1, None, 1, "original title", 20200101],
+                ["tt0000429", "La chasse", "dubbed", "FR", 2, "fr", 0, "informal title", 20200101],
                 ["tt0000429", "Die Einbrecherjagd", "dubbed", "AT", 3, "de", 0, "informal title", 20200101],
-                ["tt0000429", "Охота на взломщика", "dubbed", "ru", 4, "ru", 0, "informal title", 20200101],
+                [
+                    "tt0000429",
+                    "Охота на грабителей посреди ночи",
+                    "dubbed",
+                    "ru",
+                    4,
+                    "ru",
+                    0,
+                    "informal title",
+                    20200101,
+                ],
                 ["tt0000211", "Sueños de un astrónomo", "original", None, 1, None, 1, "original title", 20200101],
                 ["tt0000211", "Sueños de un astrónomo (en)", "original", "en", 2, "en", 0, "informal title", 20200101],
                 ["tt0000211", "Sueños de un astrónomo (jp)", "dubbed", "jp", 3, "jp", 0, "informal title", 20200101],
@@ -34,9 +44,20 @@ class TestTransformation(TestCase):
         )
         df_expected = self.spark.createDataFrame(
             [
-                ["tt0000429", "The hunt for the burglar", "original", None, 1, None, True, "original title", 20200101],
-                ["tt0000429", "La chasse au cambrioleur", "dubbed", "FR", 2, "FR", False, "informal title", 20200101],
-                ["tt0000429", "Охота на взломщика", "dubbed", "RU", 4, "RU", False, "informal title", 20200101],
+                ["tt0000429", "Hunt", "original", None, 1, None, True, "original title", "short", 20200101],
+                ["tt0000429", "La chasse", "dubbed", "FR", 2, "FR", False, "informal title", "medium", 20200101],
+                [
+                    "tt0000429",
+                    "Охота на грабителей посреди ночи",
+                    "dubbed",
+                    "RU",
+                    4,
+                    "RU",
+                    False,
+                    "informal title",
+                    "long",
+                    20200101,
+                ],
             ],  # type: ignore
             schema=Schema.GOLD,
         )
