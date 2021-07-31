@@ -1,4 +1,4 @@
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType, BooleanType
+from pyspark.sql.types import StructType, StructField, StringType, IntegerType, BooleanType, LongType
 
 
 class Schema:
@@ -12,6 +12,7 @@ class Schema:
             StructField("language", StringType()),
             StructField("isOriginalTitle", IntegerType(), nullable=False),
             StructField("attributes", StringType()),
+            StructField("eventTimestamp", LongType(), nullable=False),
         ]
     )
 
@@ -25,6 +26,7 @@ class Schema:
             StructField("language", StringType()),
             StructField("isOriginalTitle", IntegerType(), nullable=False),
             StructField("attributes", StringType()),
+            StructField("eventTimestamp", LongType(), nullable=False),
             StructField("fk_date_received", IntegerType(), nullable=False),
         ]
     )
@@ -40,6 +42,7 @@ class Schema:
             StructField("is_original_title", BooleanType(), nullable=False),
             StructField("attributes", StringType()),
             StructField("title_class", StringType(), nullable=False),
+            StructField("event_timestamp", LongType(), nullable=False),
             StructField("fk_date_received", IntegerType(), nullable=False),
         ]
     )
