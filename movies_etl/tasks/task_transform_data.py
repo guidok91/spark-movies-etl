@@ -7,6 +7,8 @@ from typing import List
 
 
 class TransformDataTask(Task):
+    OUTPUT_PARTITION_COLS = ["event_date_received"]
+
     def __init__(self, spark: SparkSession, execution_date: datetime.date, config_manager: ConfigManager):
         super().__init__(spark, execution_date, config_manager)
         self.path_input = self.config_manager.get("data_lake.silver")
@@ -15,8 +17,8 @@ class TransformDataTask(Task):
     def _input(self) -> DataFrame:
         return (
             self.spark.read.format("delta")
-            .load(self.path_input)
-            .where(f"fk_date_received = {self.execution_date.strftime('%Y%m%d')}")
+                .load(self.path_input)
+                .where(f"eventDateReceived = {self.execution_date.strftime('%Y%m%d')}")
         )
 
     def _transform(self, df: DataFrame) -> DataFrame:
@@ -59,7 +61,7 @@ class Transformation:
             "attributes",
             "title_class",
             "event_timestamp",
-            "fk_date_received",
+            "event_date_received",
         )
 
     def _filter_max_reissues(self, df: DataFrame) -> DataFrame:
@@ -75,6 +77,7 @@ class Transformation:
             .withColumn("language", upper("language"))
             .withColumn("region", upper("region"))
             .withColumn("event_timestamp", col("eventTimestamp"))
+            .withColumn("event_date_received", col("eventDateReceived"))
         )
 
     def _filter_regions(self, df: DataFrame) -> DataFrame:
