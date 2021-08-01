@@ -16,7 +16,7 @@ class Task(ABC):
     def __init__(
         self, spark: SparkSession, logger: Logger, execution_date: datetime.date, config_manager: ConfigManager
     ):
-        self.spark: SparkSession = spark
+        self.spark = spark
         self.execution_date = execution_date
         self.config_manager = config_manager
         self.logger = logger
