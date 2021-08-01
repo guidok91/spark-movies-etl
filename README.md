@@ -3,8 +3,10 @@
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 Spark data pipeline that ingests and transforms a movies dataset:
- - The first task ingests the dataset from the `bronze` (raw) layer into the `silver` one.
+ - A first task ingests the dataset from the `bronze` (raw) layer into the `silver` one.
  - A subsequent task consumes the dataset from `silver`, performs transformations and business logic, and persists into `gold`.
+
+[Avro](https://avro.apache.org/) format is used for raw data and [Delta](https://delta.io/) (parquet) for curated datasets.
 
 Datasets are partitioned by execution date.
 

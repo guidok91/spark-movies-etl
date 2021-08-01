@@ -39,8 +39,9 @@ run-local:
 	source venv_dev/bin/activate && \
 	spark-submit \
 	--master local[*] \
-	--packages org.apache.spark:spark-avro_2.12:3.1.2 \
-	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
+	--packages org.apache.spark:spark-avro_2.12:3.1.2,io.delta:delta-core_2.12:1.0.0 \
+	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
+	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	movies_etl/main.py \
 	--task ${task} \
 	--execution-date $(execution-date)
@@ -50,9 +51,10 @@ run-cluster:
 	spark-submit \
 	--master yarn \
 	--deploy-mode cluster \
-	--packages org.apache.spark:spark-avro_2.12:3.1.2 \
 	--archives s3a://movies-binaries/movies-etl/latest/deps/venv_build.tar.gz#env \
-	--conf spark.sql.sources.partitionOverwriteMode=dynamic \
+	--packages org.apache.spark:spark-avro_2.12:3.1.2,io.delta:delta-core_2.12:1.0.0 \
+	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
+	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	s3a://movies-binaries/movies-etl/latest/deps/main.py \
 	--task ${task} \
 	--execution-date $(execution-date)

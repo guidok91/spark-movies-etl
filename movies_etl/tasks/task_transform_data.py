@@ -1,6 +1,5 @@
 from movies_etl.config.config_manager import ConfigManager
 from movies_etl.tasks.task import Task
-from movies_etl.schema import Schema
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col, upper, when, length
 import datetime
@@ -17,8 +16,8 @@ class TransformDataTask(Task):
 
     def _input(self) -> DataFrame:
         return (
-            self.spark.read.schema(Schema.SILVER)
-            .parquet(self.path_input)
+            self.spark.read.format("delta")
+            .load(self.path_input)
             .where(f"eventDateReceived = {self.execution_date.strftime('%Y%m%d')}")
         )
 
@@ -29,9 +28,9 @@ class TransformDataTask(Task):
         ).transform(df)
 
     def _output(self, df: DataFrame) -> None:
-        df.coalesce(self.OUTPUT_PARTITION_COUNT).write.parquet(
-            path=self.path_output, mode="overwrite", partitionBy=self.OUTPUT_PARTITION_COLS
-        )
+        df.coalesce(self.OUTPUT_PARTITION_COUNT).write.mode("overwrite").partitionBy(self.OUTPUT_PARTITION_COLS).option(
+            "replaceWhere", f"event_date_received = {self.execution_date.strftime('%Y%m%d')}"
+        ).format("delta").save(self.path_output)
 
 
 class Transformation:
