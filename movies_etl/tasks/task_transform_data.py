@@ -4,33 +4,29 @@ from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col, upper, when, length
 import datetime
 from typing import List
+from logging import Logger
 
 
 class TransformDataTask(Task):
-    OUTPUT_PARTITION_COLS = ["event_date_received"]
+    OUTPUT_PARTITION_COLUMN = "event_date_received"
 
-    def __init__(self, spark: SparkSession, execution_date: datetime.date, config_manager: ConfigManager):
-        super().__init__(spark, execution_date, config_manager)
+    def __init__(
+        self, spark: SparkSession, logger: Logger, execution_date: datetime.date, config_manager: ConfigManager
+    ):
+        super().__init__(spark, logger, execution_date, config_manager)
         self.path_input = self.config_manager.get("data_lake.silver")
         self.path_output = self.config_manager.get("data_lake.gold")
 
     def _input(self) -> DataFrame:
-        return (
-            self.spark.read.format("delta")
-            .load(self.path_input)
-            .where(f"eventDateReceived = {self.execution_date.strftime('%Y%m%d')}")
-        )
+        partition = f"eventDateReceived = {self.execution_date.strftime('%Y%m%d')}"
+        self.logger.info(f"Reading from delta table on {self.path_input}. Partition '{partition}'")
+        return self.spark.read.format("delta").load(self.path_input).where(partition)
 
     def _transform(self, df: DataFrame) -> DataFrame:
         return Transformation(
             movies_regions=self.config_manager.get("movies_regions"),
             movies_max_reissues=self.config_manager.get("movies_max_reissues"),
         ).transform(df)
-
-    def _output(self, df: DataFrame) -> None:
-        df.coalesce(self.OUTPUT_PARTITION_COUNT).write.mode("overwrite").partitionBy(self.OUTPUT_PARTITION_COLS).option(
-            "replaceWhere", f"event_date_received = {self.execution_date.strftime('%Y%m%d')}"
-        ).format("delta").save(self.path_output)
 
 
 class Transformation:
