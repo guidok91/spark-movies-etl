@@ -27,7 +27,7 @@ class Schema:
             StructField("isOriginalTitle", IntegerType(), nullable=False),
             StructField("attributes", StringType()),
             StructField("eventTimestamp", LongType(), nullable=False),
-            StructField("fk_date_received", IntegerType(), nullable=False),
+            StructField("eventDateReceived", IntegerType(), nullable=False),
         ]
     )
 
@@ -43,6 +43,6 @@ class Schema:
             StructField("attributes", StringType()),
             StructField("title_class", StringType(), nullable=False),
             StructField("event_timestamp", LongType(), nullable=False),
-            StructField("fk_date_received", IntegerType(), nullable=False),
+            StructField("event_date_received", IntegerType(), nullable=False),
         ]
     )

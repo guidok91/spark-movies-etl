@@ -8,6 +8,8 @@ import datetime
 
 
 class IngestDataTask(Task):
+    OUTPUT_PARTITION_COLS = ["eventDateReceived"]
+
     def __init__(self, spark: SparkSession, execution_date: datetime.date, config_manager: ConfigManager):
         super().__init__(spark, execution_date, config_manager)
         self.path_input = self.config_manager.get("data_lake.bronze")
@@ -31,7 +33,7 @@ class IngestDataTask(Task):
             "isOriginalTitle",
             "attributes",
             "eventTimestamp",
-            lit(self.execution_date.strftime("%Y%m%d")).cast(IntegerType()).alias("fk_date_received"),
+            lit(self.execution_date.strftime("%Y%m%d")).cast(IntegerType()).alias("eventDateReceived"),
         )
 
     def _output(self, df: DataFrame) -> None:

@@ -1,6 +1,7 @@
 from pyspark.sql import DataFrame, SparkSession
 from abc import ABC, abstractmethod
 import datetime
+from typing import List, Optional
 from movies_etl.config.config_manager import ConfigManager
 
 
@@ -9,8 +10,8 @@ class Task(ABC):
     Base class to read a dataset, transform it, and save it on another location.
     """
 
-    OUTPUT_PARTITION_COLS = ["fk_date_received"]
-    OUTPUT_PARTITION_COUNT = 5
+    OUTPUT_PARTITION_COLS: Optional[List[str]] = None
+    OUTPUT_PARTITION_COUNT: int = 5
 
     def __init__(self, spark: SparkSession, execution_date: datetime.date, config_manager: ConfigManager):
         self.spark: SparkSession = spark
