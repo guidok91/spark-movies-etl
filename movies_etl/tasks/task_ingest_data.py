@@ -19,7 +19,9 @@ class IngestDataTask(Task):
         self.path_output = self.config_manager.get("data_lake.silver")
 
     def _input(self) -> DataFrame:
-        return self.spark.read.format("avro").load(path=self._build_input_path(), schema=Schema.BRONZE)
+        path_input_full = self._build_input_path()
+        self.logger.info(f"Reading raw avro event data from {path_input_full}")
+        return self.spark.read.format("avro").load(path=path_input_full, schema=Schema.BRONZE)
 
     def _build_input_path(self) -> str:
         execution_date_str = self.execution_date.strftime("%Y/%m/%d")
@@ -40,11 +42,13 @@ class IngestDataTask(Task):
         )
 
     def _output(self, df: DataFrame) -> None:
+        partition = f"eventDateReceived = {self.execution_date.strftime('%Y%m%d')}"
+        self.logger.info(f"Saving to delta table on {self.path_output}. Partition: '{partition}'")
         (
             df.coalesce(self.OUTPUT_PARTITION_COUNT)
             .write.mode("overwrite")
             .partitionBy(self.OUTPUT_PARTITION_COLS)
-            .option("replaceWhere", f"eventDateReceived = {self.execution_date.strftime('%Y%m%d')}")
+            .option("replaceWhere", partition)
             .format("delta")
             .save(self.path_output)
         )

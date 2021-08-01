@@ -18,11 +18,9 @@ class TransformDataTask(Task):
         self.path_output = self.config_manager.get("data_lake.gold")
 
     def _input(self) -> DataFrame:
-        return (
-            self.spark.read.format("delta")
-            .load(self.path_input)
-            .where(f"eventDateReceived = {self.execution_date.strftime('%Y%m%d')}")
-        )
+        partition = f"eventDateReceived = {self.execution_date.strftime('%Y%m%d')}"
+        self.logger.info(f"Reading from delta table on {self.path_input}. Partition '{partition}'")
+        return self.spark.read.format("delta").load(self.path_input).where(partition)
 
     def _transform(self, df: DataFrame) -> DataFrame:
         return Transformation(
@@ -31,11 +29,13 @@ class TransformDataTask(Task):
         ).transform(df)
 
     def _output(self, df: DataFrame) -> None:
+        partition = f"event_date_received = {self.execution_date.strftime('%Y%m%d')}"
+        self.logger.info(f"Saving to delta table on {self.path_output}. Partition: '{partition}'")
         (
             df.coalesce(self.OUTPUT_PARTITION_COUNT)
             .write.mode("overwrite")
             .partitionBy(self.OUTPUT_PARTITION_COLS)
-            .option("replaceWhere", f"event_date_received = {self.execution_date.strftime('%Y%m%d')}")
+            .option("replaceWhere", partition)
             .format("delta")
             .save(self.path_output)
         )
