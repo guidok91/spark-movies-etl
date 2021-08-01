@@ -37,6 +37,6 @@ class IngestDataTask(Task):
         )
 
     def _output(self, df: DataFrame) -> None:
-        df.coalesce(self.OUTPUT_PARTITION_COUNT).write.format("delta").save(
-            path=self.path_output, mode="overwrite", partitionBy=self.OUTPUT_PARTITION_COLS
-        )
+        df.coalesce(self.OUTPUT_PARTITION_COUNT).write.mode("overwrite").partitionBy(self.OUTPUT_PARTITION_COLS).option(
+            "replaceWhere", f"eventDateReceived = {self.execution_date.strftime('%Y%m%d')}"
+        ).format("delta").save(self.path_output)
