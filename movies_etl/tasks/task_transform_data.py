@@ -8,7 +8,7 @@ from logging import Logger
 
 
 class TransformDataTask(Task):
-    OUTPUT_PARTITION_COLS = ["event_date_received"]
+    OUTPUT_PARTITION_COLUMN = "event_date_received"
 
     def __init__(
         self, spark: SparkSession, logger: Logger, execution_date: datetime.date, config_manager: ConfigManager
@@ -27,18 +27,6 @@ class TransformDataTask(Task):
             movies_regions=self.config_manager.get("movies_regions"),
             movies_max_reissues=self.config_manager.get("movies_max_reissues"),
         ).transform(df)
-
-    def _output(self, df: DataFrame) -> None:
-        partition = f"event_date_received = {self.execution_date.strftime('%Y%m%d')}"
-        self.logger.info(f"Saving to delta table on {self.path_output}. Partition: '{partition}'")
-        (
-            df.coalesce(self.OUTPUT_PARTITION_COUNT)
-            .write.mode("overwrite")
-            .partitionBy(self.OUTPUT_PARTITION_COLS)
-            .option("replaceWhere", partition)
-            .format("delta")
-            .save(self.path_output)
-        )
 
 
 class Transformation:

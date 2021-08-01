@@ -9,7 +9,7 @@ from logging import Logger
 
 
 class IngestDataTask(Task):
-    OUTPUT_PARTITION_COLS = ["eventDateReceived"]
+    OUTPUT_PARTITION_COLUMN = "eventDateReceived"
 
     def __init__(
         self, spark: SparkSession, logger: Logger, execution_date: datetime.date, config_manager: ConfigManager
@@ -39,16 +39,4 @@ class IngestDataTask(Task):
             "attributes",
             "eventTimestamp",
             lit(self.execution_date.strftime("%Y%m%d")).cast(IntegerType()).alias("eventDateReceived"),
-        )
-
-    def _output(self, df: DataFrame) -> None:
-        partition = f"eventDateReceived = {self.execution_date.strftime('%Y%m%d')}"
-        self.logger.info(f"Saving to delta table on {self.path_output}. Partition: '{partition}'")
-        (
-            df.coalesce(self.OUTPUT_PARTITION_COUNT)
-            .write.mode("overwrite")
-            .partitionBy(self.OUTPUT_PARTITION_COLS)
-            .option("replaceWhere", partition)
-            .format("delta")
-            .save(self.path_output)
         )
