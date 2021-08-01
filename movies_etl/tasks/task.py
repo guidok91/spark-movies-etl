@@ -2,6 +2,7 @@ from pyspark.sql import DataFrame, SparkSession
 from abc import ABC, abstractmethod
 import datetime
 from typing import List, Optional
+from logging import Logger
 from movies_etl.config.config_manager import ConfigManager
 
 
@@ -13,11 +14,13 @@ class Task(ABC):
     OUTPUT_PARTITION_COLS: Optional[List[str]] = None
     OUTPUT_PARTITION_COUNT: int = 5
 
-    def __init__(self, spark: SparkSession, execution_date: datetime.date, config_manager: ConfigManager):
+    def __init__(
+        self, spark: SparkSession, logger: Logger, execution_date: datetime.date, config_manager: ConfigManager
+    ):
         self.spark: SparkSession = spark
         self.execution_date = execution_date
         self.config_manager = config_manager
-        self.logger = spark._jvm.org.apache.log4j.LogManager.getLogger(__name__)  # type: ignore
+        self.logger = logger
 
     def run(self) -> None:
         df = self._input()

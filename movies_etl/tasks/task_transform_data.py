@@ -4,13 +4,16 @@ from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col, upper, when, length
 import datetime
 from typing import List
+from logging import Logger
 
 
 class TransformDataTask(Task):
     OUTPUT_PARTITION_COLS = ["event_date_received"]
 
-    def __init__(self, spark: SparkSession, execution_date: datetime.date, config_manager: ConfigManager):
-        super().__init__(spark, execution_date, config_manager)
+    def __init__(
+        self, spark: SparkSession, logger: Logger, execution_date: datetime.date, config_manager: ConfigManager
+    ):
+        super().__init__(spark, logger, execution_date, config_manager)
         self.path_input = self.config_manager.get("data_lake.silver")
         self.path_output = self.config_manager.get("data_lake.gold")
 
