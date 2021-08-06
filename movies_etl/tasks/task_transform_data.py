@@ -47,7 +47,7 @@ class Transformation:
             self._filter_max_reissues,
             self._filter_regions,
             self._derive_title_class,
-            self._final_select,
+            self._select_final_columns,
         )
 
         return reduce(DataFrame.transform, transformations, df)  # type: ignore
@@ -82,7 +82,7 @@ class Transformation:
         )
 
     @staticmethod
-    def _final_select(df: DataFrame) -> DataFrame:
+    def _select_final_columns(df: DataFrame) -> DataFrame:
         return df.select(
             "title_id",
             "title",
