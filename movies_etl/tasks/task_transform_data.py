@@ -3,6 +3,7 @@ from movies_etl.tasks.task import Task
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col, upper, when, length
 import datetime
+from functools import reduce
 from typing import List
 from logging import Logger
 
@@ -41,29 +42,15 @@ class Transformation:
     def transform(self, df: DataFrame) -> DataFrame:
         df.cache()
 
-        df = self._normalize_columns(df)
-        df = self._filter_max_reissues(df)
-        df = self._filter_regions(df)
-        df = self._derive_title_class(df)
-
-        return df.select(
-            "title_id",
-            "title",
-            "types",
-            "region",
-            "ordering",
-            "language",
-            "is_original_title",
-            "attributes",
-            "title_class",
-            "event_timestamp",
-            "event_date_received",
+        transformations = (
+            self._normalize_columns,
+            self._filter_max_reissues,
+            self._filter_regions,
+            self._derive_title_class,
+            self._final_select,
         )
 
-    def _filter_max_reissues(self, df: DataFrame) -> DataFrame:
-        df_reissues = df.groupBy("titleId").max("ordering").withColumn("reissues", col("max(ordering)") - 1)
-        df = df.join(df_reissues, on="titleId", how="inner")
-        return df.where(col("reissues") <= self.movies_max_reissues)
+        return reduce(DataFrame.transform, transformations, df)  # type: ignore
 
     @staticmethod
     def _normalize_columns(df: DataFrame) -> DataFrame:
@@ -76,6 +63,11 @@ class Transformation:
             .withColumn("event_date_received", col("eventDateReceived"))
         )
 
+    def _filter_max_reissues(self, df: DataFrame) -> DataFrame:
+        df_reissues = df.groupBy("titleId").max("ordering").withColumn("reissues", col("max(ordering)") - 1)
+        df = df.join(df_reissues, on="titleId", how="inner")
+        return df.where(col("reissues") <= self.movies_max_reissues)
+
     def _filter_regions(self, df: DataFrame) -> DataFrame:
         return df.where(col("region").isNull() | col("region").isin(self.movies_regions))
 
@@ -87,4 +79,20 @@ class Transformation:
                     self.TITLE_CLASS_LONG
                 )
             ),
+        )
+
+    @staticmethod
+    def _final_select(df: DataFrame) -> DataFrame:
+        return df.select(
+            "title_id",
+            "title",
+            "types",
+            "region",
+            "ordering",
+            "language",
+            "is_original_title",
+            "attributes",
+            "title_class",
+            "event_timestamp",
+            "event_date_received",
         )
