@@ -1,4 +1,5 @@
 SHELL=/bin/bash
+SPARK_VERSION=3.0.3
 
 help:
 	@echo  'Options:'
