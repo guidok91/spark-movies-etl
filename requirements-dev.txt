@@ -1,5 +1,5 @@
 pyspark==3.0.3
-delta-spark==0.8.0
+delta-spark==1.0.0
 flake8==3.9.2
 mypy==0.910
 pytest==6.2.4
