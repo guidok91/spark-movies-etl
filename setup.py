@@ -2,7 +2,10 @@ from setuptools import setup, find_packages
 
 NAME = "movies-etl"
 VERSION = "0.0.1"
-REQUIRES = ["dynaconf==3.1.4"]
+REQUIRES = [
+    "dynaconf==3.1.4",
+    "pydeequ==1.0.1"
+]
 
 setup(
     name=NAME,

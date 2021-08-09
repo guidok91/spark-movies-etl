@@ -39,7 +39,8 @@ run-local:
 	source venv_dev/bin/activate && \
 	spark-submit \
 	--master local[*] \
-	--packages org.apache.spark:spark-avro_2.12:3.1.2,io.delta:delta-core_2.12:1.0.0 \
+	--packages org.apache.spark:spark-avro_2.12:3.0.3,io.delta:delta-core_2.12:1.0.0,com.amazon.deequ:deequ:1.2.2-spark-3.0 \
+	--exclude-packages net.sourceforge.f2j:arpack_combined_all \
 	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	movies_etl/main.py \
@@ -52,7 +53,7 @@ run-cluster:
 	--master yarn \
 	--deploy-mode cluster \
 	--archives s3a://movies-binaries/movies-etl/latest/deps/venv_build.tar.gz#env \
-	--packages org.apache.spark:spark-avro_2.12:3.1.2,io.delta:delta-core_2.12:1.0.0 \
+	--packages org.apache.spark:spark-avro_2.12:3.0.3,io.delta:delta-core_2.12:1.0.0 \
 	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	s3a://movies-binaries/movies-etl/latest/deps/main.py \
