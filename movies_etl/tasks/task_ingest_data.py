@@ -1,5 +1,5 @@
 from movies_etl.config.config_manager import ConfigManager
-from movies_etl.tasks.task import Task
+from movies_etl.tasks.task_abstract import AbstractTask
 from movies_etl.schema import Schema
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.types import IntegerType
@@ -8,7 +8,7 @@ import datetime
 from logging import Logger
 
 
-class IngestDataTask(Task):
+class IngestDataTask(AbstractTask):
     OUTPUT_PARTITION_COLUMN = "eventDateReceived"
 
     def __init__(

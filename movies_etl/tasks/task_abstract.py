@@ -5,7 +5,7 @@ from logging import Logger
 from movies_etl.config.config_manager import ConfigManager
 
 
-class Task(ABC):
+class AbstractTask(ABC):
     """
     Base class to read a dataset, transform it, and save it to a Delta table.
     """
