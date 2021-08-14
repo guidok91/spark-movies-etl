@@ -14,10 +14,13 @@ def _parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def _init_spark(task: str) -> SparkSession:
+    return SparkSession.builder.appName(f"Movies task: {task}").getOrCreate()
+
+
 def main() -> None:
     args = _parse_args()
-
-    spark = SparkSession.builder.getOrCreate()
+    spark = _init_spark(args.task)
     config_manager = ConfigManager()
 
     Executor(spark, config_manager, args.task, args.execution_date).run()
