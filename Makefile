@@ -19,8 +19,15 @@ setup:
 	poetry install
 
 build:
-	poetry build && \
-	cp spark_movies_etl/main.py dist
+	# Can't use `poetry build`: we need to package the whole venv with all dependencies.
+	rm -rf deps && \
+	mkdir deps && \
+	python -m venv .venv_build && \
+	source .venv_build/bin/activate && \
+	pip install venv-pack==0.2.0 . && \
+	venv-pack -o deps/venv_build.tar.gz && \
+	cp spark_movies_etl/main.py deps && \
+	rm -r .venv_build
 
 test:
 	poetry run pytest --cov -vvvv --showlocals tests --disable-warnings
@@ -52,4 +59,4 @@ run-cluster:
 	--execution-date $(execution-date)
 
 clean:
-	rm -rf dist/ .pytest_cache .mypy_cache spark_movies_etl.egg-info *.xml .coverage
+	rm -rf deps/ .pytest_cache .mypy_cache spark_movies_etl.egg-info *.xml .coverage
