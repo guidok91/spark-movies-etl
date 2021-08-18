@@ -2,7 +2,7 @@ from pyspark.sql import DataFrame, SparkSession
 from abc import ABC, abstractmethod
 import datetime
 from logging import Logger
-from movies_etl.config.config_manager import ConfigManager
+from spark_movies_etl.config.config_manager import ConfigManager
 
 
 class AbstractTask(ABC):

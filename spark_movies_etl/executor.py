@@ -2,7 +2,7 @@ from pyspark.sql import SparkSession
 import datetime
 from importlib import import_module
 from typing import Callable
-from movies_etl.config.config_manager import ConfigManager
+from spark_movies_etl.config.config_manager import ConfigManager
 
 
 class Executor:

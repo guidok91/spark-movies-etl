@@ -4,8 +4,8 @@ dynaconf_merge:
 
 global:
   task_argument_class_mapping:
-    ingest: movies_etl.tasks.task_ingest_data.IngestDataTask
-    transform: movies_etl.tasks.task_transform_data.TransformDataTask
+    ingest: spark_movies_etl.tasks.task_ingest_data.IngestDataTask
+    transform: spark_movies_etl.tasks.task_transform_data.TransformDataTask
   movies_regions: ["FR", "US", "GB", "RU", "HU", "DK", "ES"]
   movies_max_reissues: 5
 
