@@ -143,3 +143,5 @@ tests/spark_movies_etl/integration/fixtures/data_lake/silver/*
 !tests/spark_movies_etl/integration/fixtures/data_lake/silver/.gitkeep
 tests/spark_movies_etl/integration/fixtures/data_lake/gold/*
 !tests/spark_movies_etl/integration/fixtures/data_lake/gold/.gitkeep
+
+poetry.toml
