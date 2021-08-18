@@ -29,8 +29,7 @@ pre-commit:
 	poetry run pre-commit run --all-files
 
 run-local:
-	source venv_dev/bin/activate && \
-	spark-submit \
+	poetry run spark-submit \
 	--master local[*] \
 	--packages org.apache.spark:spark-avro_2.12:3.1.2,io.delta:delta-core_2.12:1.0.0 \
 	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
