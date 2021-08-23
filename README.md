@@ -2,13 +2,20 @@
 ![workflow](https://github.com/guidok91/spark-movies-etl/actions/workflows/python-app.yml/badge.svg)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Spark data pipeline that ingests and transforms a movies dataset:
- - A first task ingests the dataset from the `bronze` (raw) layer into the `silver` one.
- - A subsequent task consumes the dataset from `silver`, performs transformations and business logic, and persists into `gold`.
+Spark data pipeline that ingests and transforms a movies dataset.
 
-[Avro](https://avro.apache.org/) format is used for raw data and [Delta](https://delta.io/) (parquet) for curated datasets.
+The Data Lake layers are defined as follows:
+- `Bronze`: Contains raw data files directly dumped from an event stream, e.g. a Kafka connector.
+- `Silver`: Contains standardised data based on the raw files but without any transformations applied.
+- `Gold`: Contains transformed data according to business and data quality rules.
 
-Datasets are partitioned by execution date.
+[Avro](https://avro.apache.org/) format is used on `Bronze` and [Delta](https://delta.io/) (parquet) on `Silver` and `Gold`.
+
+The data pipeline consists on the following jobs:
+ - Ingestion task: ingests the dataset from `Bronze` into `Silver`.
+ - Transformation task: consumes the dataset from `Silver`, performs transformations and business logic, and persists into `Gold`.
+
+The datasets are partitioned by execution date.
 
 ## Execution instructions
 The repo includes a `Makefile`. Please run `make help` to see usage.
