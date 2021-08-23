@@ -23,6 +23,9 @@ The repo includes a `Makefile`. Please run `make help` to see usage.
 ## Configuration management
 Configuration is managed by the [ConfigManager](spark_movies_etl/config/config_manager.py) class, which is a wrapper around [Dynaconf](https://www.dynaconf.com/).
 
+## Packaging and dependency management
+[Poetry](https://python-poetry.org/) is used for Python packaging and dependency management.
+
 ## CI
 A Github Actions workflow runs the unit tests and checks (see [here](https://github.com/guidok91/spark-movies-etl/actions)).
 
