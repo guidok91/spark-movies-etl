@@ -5,7 +5,7 @@ from airflow.providers.apache.livy.operators.livy import LivyOperator
 from datetime import datetime
 
 
-ETL_CODE_LOCATION = "s3a://movies-binaries/movies-etl/latest/deps"
+ETL_CODE_LOCATION = "s3a://movies-binaries/spark-movies-etl/latest"
 LIVY_PROXY_USER = "datalake-srv-user"
 LIVY_CONN_ID = "livy-emr-conn"
 DAG_DEFAULT_ARGS = {
@@ -21,7 +21,9 @@ DAG_DEFAULT_ARGS = {
 def _build_livy_operator(task: str, spark_conf_extra: Optional[Dict[Any, Any]] = None) -> LivyOperator:
 
     spark_conf_base = {
-        "spark.sql.sources.partitionOverwriteMode": "dynamic",
+        "spark.jars.packages": "org.apache.spark:spark-avro_2.12:3.1.2,io.delta:delta-core_2.12:1.0.0",
+        "spark.sql.extensions": "io.delta.sql.DeltaSparkSessionExtension",
+        "spark.sql.catalog.spark_catalog": "org.apache.spark.sql.delta.catalog.DeltaCatalog",
         "spark.yarn.appMasterEnv.PYSPARK_PYTHON": "./env/bin/python",
     }
     spark_conf_extra = spark_conf_extra or {}

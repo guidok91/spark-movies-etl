@@ -46,15 +46,15 @@ run-local:
 	--execution-date $(execution-date)
 
 run-cluster:
-	export PYSPARK_PYTHON=./env/bin/python && \
 	spark-submit \
 	--master yarn \
 	--deploy-mode cluster \
-	--archives s3a://movies-binaries/movies-etl/latest/deps/venv_build.tar.gz#env \
+	--archives s3a://movies-binaries/spark-movies-etl/latest/venv_build.tar.gz#env \
 	--packages org.apache.spark:spark-avro_2.12:3.1.2,io.delta:delta-core_2.12:1.0.0 \
 	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
-	s3a://movies-binaries/movies-etl/latest/deps/main.py \
+	--conf spark.yarn.appMasterEnv.PYSPARK_PYTHON=./env/bin/python \
+	s3a://movies-binaries/spark-movies-etl/latest/main.py \
 	--task ${task} \
 	--execution-date $(execution-date)
 
