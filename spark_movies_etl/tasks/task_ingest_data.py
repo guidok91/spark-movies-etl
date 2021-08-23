@@ -1,6 +1,6 @@
-from movies_etl.config.config_manager import ConfigManager
-from movies_etl.tasks.task_abstract import AbstractTask
-from movies_etl.schema import Schema
+from spark_movies_etl.config.config_manager import ConfigManager
+from spark_movies_etl.tasks.task_abstract import AbstractTask
+from spark_movies_etl.schema import Schema
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.types import IntegerType
 from pyspark.sql.functions import lit

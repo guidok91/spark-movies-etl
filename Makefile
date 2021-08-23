@@ -14,35 +14,34 @@ help:
 	@echo  '  clean           - Clean auxiliary files.'
 
 setup:
-	python -m venv venv_dev && \
-	source venv_dev/bin/activate && \
-	pip install -e . && \
-	pip install -r requirements-dev.txt
+	pip install poetry
+	poetry config virtualenvs.in-project true --local
+	poetry install
 
 build:
-	python -m venv venv_build && \
-	source venv_build/bin/activate && \
-	pip install venv-pack==0.2.0 . && \
+	# Can't use `poetry build`: we need to package the whole venv with all dependencies.
+	rm -rf deps && \
 	mkdir deps && \
+	python -m venv .venv_build && \
+	source .venv_build/bin/activate && \
+	pip install venv-pack==0.2.0 . && \
 	venv-pack -o deps/venv_build.tar.gz && \
-	cp movies_etl/main.py deps
+	cp spark_movies_etl/main.py deps && \
+	rm -r .venv_build
 
 test:
-	source venv_dev/bin/activate && \
-	pytest --cov -vvvv --showlocals tests --disable-warnings
+	poetry run pytest --cov -vvvv --showlocals tests --disable-warnings
 
 pre-commit:
-	source venv_dev/bin/activate && \
-	pre-commit run --all-files
+	poetry run pre-commit run --all-files
 
 run-local:
-	source venv_dev/bin/activate && \
-	spark-submit \
+	poetry run spark-submit \
 	--master local[*] \
 	--packages org.apache.spark:spark-avro_2.12:3.1.2,io.delta:delta-core_2.12:1.0.0 \
 	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
-	movies_etl/main.py \
+	spark_movies_etl/main.py \
 	--task ${task} \
 	--execution-date $(execution-date)
 
@@ -60,4 +59,4 @@ run-cluster:
 	--execution-date $(execution-date)
 
 clean:
-	rm -rf deps/ venv_build/ .pytest_cache .mypy_cache movies_etl.egg-info *.xml .coverage
+	rm -rf deps/ .pytest_cache .mypy_cache spark_movies_etl.egg-info *.xml .coverage

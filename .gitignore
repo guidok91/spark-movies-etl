@@ -106,10 +106,8 @@ celerybeat.pid
 # Environments
 .env
 .venv
+.venv_build
 env/
-venv/
-venv_dev/
-venv_build/
 ENV/
 env.bak/
 venv.bak/
@@ -139,7 +137,9 @@ data_lake/silver/*
 !data_lake/silver/.gitkeep
 data_lake/gold/*
 !data_lake/gold/.gitkeep
-tests/movies_etl/integration/fixtures/data_lake/silver/*
-!tests/movies_etl/integration/fixtures/data_lake/silver/.gitkeep
-tests/movies_etl/integration/fixtures/data_lake/gold/*
-!tests/movies_etl/integration/fixtures/data_lake/gold/.gitkeep
+tests/spark_movies_etl/integration/fixtures/data_lake/silver/*
+!tests/spark_movies_etl/integration/fixtures/data_lake/silver/.gitkeep
+tests/spark_movies_etl/integration/fixtures/data_lake/gold/*
+!tests/spark_movies_etl/integration/fixtures/data_lake/gold/.gitkeep
+
+poetry.toml

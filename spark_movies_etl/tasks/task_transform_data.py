@@ -1,5 +1,5 @@
-from movies_etl.config.config_manager import ConfigManager
-from movies_etl.tasks.task_abstract import AbstractTask
+from spark_movies_etl.config.config_manager import ConfigManager
+from spark_movies_etl.tasks.task_abstract import AbstractTask
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col, upper, when, length
 import datetime
