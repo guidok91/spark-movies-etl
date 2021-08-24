@@ -4,7 +4,7 @@
 
 Spark data pipeline that ingests and transforms a movies dataset.
 
-The Data Lake layers are defined as follows:
+We define a Data Lake with the following layers:
 - `Bronze`: Contains raw data files directly dumped from an event stream, e.g. a Kafka connector.
 - `Silver`: Contains standardised data based on the raw files but without any transformations applied.
 - `Gold`: Contains transformed data according to business and data quality rules.
