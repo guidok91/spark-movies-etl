@@ -17,6 +17,6 @@ development:
 
 live:
   data_lake:
-    bronze: s3a://datalake-bronze/movies
-    silver: s3a://datalake-silver/movies
-    gold: s3a://datalake-gold/movies
+    bronze: s3://datalake-bronze/movies
+    silver: s3://datalake-silver/movies
+    gold: s3://datalake-gold/movies

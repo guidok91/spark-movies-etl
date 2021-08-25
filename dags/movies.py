@@ -5,7 +5,7 @@ from airflow.providers.apache.livy.operators.livy import LivyOperator
 from datetime import datetime
 
 
-ETL_CODE_LOCATION = "s3a://movies-binaries/spark-movies-etl/latest"
+ETL_CODE_LOCATION = "s3://movies-binaries/spark-movies-etl/latest"
 LIVY_PROXY_USER = "datalake-srv-user"
 LIVY_CONN_ID = "livy-emr-conn"
 DAG_DEFAULT_ARGS = {
