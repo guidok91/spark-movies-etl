@@ -43,7 +43,7 @@ run-local:
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	spark_movies_etl/main.py \
 	--task ${task} \
-	--execution-date $(execution-date)
+	--execution-date ${execution-date}
 
 run-cluster:
 	spark-submit \
@@ -56,7 +56,7 @@ run-cluster:
 	--conf spark.yarn.appMasterEnv.PYSPARK_PYTHON=./env/bin/python \
 	s3://movies-binaries/spark-movies-etl/latest/main.py \
 	--task ${task} \
-	--execution-date $(execution-date)
+	--execution-date ${execution-date}
 
 clean:
 	rm -rf deps/ .pytest_cache .mypy_cache spark_movies_etl.egg-info *.xml .coverage
