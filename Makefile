@@ -30,7 +30,7 @@ build:
 	rm -r .venv_build
 
 test:
-	poetry run pytest --cov -vvvv --showlocals tests --disable-warnings
+	poetry run pytest --cov -vvvv --showlocals --disable-warnings tests
 
 pre-commit:
 	poetry run pre-commit run --all-files
