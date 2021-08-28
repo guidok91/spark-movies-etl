@@ -25,7 +25,7 @@ build:
 	python -m venv .venv_build && \
 	source .venv_build/bin/activate && \
 	pip install venv-pack==0.2.0 . && \
-	venv-pack -o deps/venv_build.tar.gz && \
+	venv-pack -o deps/environment.tar.gz && \
 	cp spark_movies_etl/main.py deps && \
 	rm -r .venv_build
 
@@ -46,14 +46,14 @@ run-local:
 	--execution-date ${execution-date}
 
 run-cluster:
+	export PYSPARK_PYTHON=./environment/bin/python
 	spark-submit \
 	--master yarn \
 	--deploy-mode cluster \
-	--archives s3://movies-binaries/spark-movies-etl/latest/venv_build.tar.gz#env \
+	--archives s3://movies-binaries/spark-movies-etl/latest/environment.tar.gz#environment \
 	--packages org.apache.spark:spark-avro_2.12:3.1.2,io.delta:delta-core_2.12:1.0.0 \
 	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
-	--conf spark.yarn.appMasterEnv.PYSPARK_PYTHON=./env/bin/python \
 	s3://movies-binaries/spark-movies-etl/latest/main.py \
 	--task ${task} \
 	--execution-date ${execution-date}
