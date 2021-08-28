@@ -46,8 +46,7 @@ run-local:
 	--execution-date ${execution-date}
 
 run-cluster:
-	export PYSPARK_PYTHON=./environment/bin/python
-	spark-submit \
+	PYSPARK_PYTHON=./environment/bin/python spark-submit \
 	--master yarn \
 	--deploy-mode cluster \
 	--archives s3://movies-binaries/spark-movies-etl/latest/environment.tar.gz#environment \
