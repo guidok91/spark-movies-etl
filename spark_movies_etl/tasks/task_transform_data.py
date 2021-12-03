@@ -1,11 +1,13 @@
-from spark_movies_etl.config.config_manager import ConfigManager
-from spark_movies_etl.tasks.task_abstract import AbstractTask
-from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql.functions import col, upper, when, length
 import datetime
 from functools import reduce
-from typing import List
 from logging import Logger
+from typing import List
+
+from pyspark.sql import DataFrame, SparkSession
+from pyspark.sql.functions import col, length, upper, when
+
+from spark_movies_etl.config.config_manager import ConfigManager
+from spark_movies_etl.tasks.task_abstract import AbstractTask
 
 
 class TransformDataTask(AbstractTask):

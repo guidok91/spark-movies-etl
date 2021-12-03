@@ -1,4 +1,11 @@
-from pyspark.sql.types import StructType, StructField, StringType, IntegerType, BooleanType, LongType
+from pyspark.sql.types import (
+    BooleanType,
+    IntegerType,
+    LongType,
+    StringType,
+    StructField,
+    StructType,
+)
 
 
 class Schema:

@@ -1,6 +1,7 @@
 import os
-from dynaconf import LazySettings
 from typing import Any
+
+from dynaconf import LazySettings
 
 
 class ConfigManager:

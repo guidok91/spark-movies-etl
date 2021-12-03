@@ -1,6 +1,7 @@
 import os
 from unittest import TestCase
-from spark_movies_etl.config.config_manager import ConfigManager, ConfigException
+
+from spark_movies_etl.config.config_manager import ConfigException, ConfigManager
 
 
 class TestConfigManager(TestCase):

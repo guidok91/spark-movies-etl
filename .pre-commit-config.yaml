@@ -12,6 +12,11 @@ repos:
         entry: black spark_movies_etl tests dags
         language: system
         types: [python]
+    -   id: isort
+        name: isort
+        entry: isort spark_movies_etl tests dags
+        language: system
+        types: [python]
     -   id: flake8
         name: flake8
         entry: flake8 spark_movies_etl tests dags
