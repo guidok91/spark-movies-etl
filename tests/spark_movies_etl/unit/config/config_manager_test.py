@@ -1,4 +1,5 @@
 import os
+
 import pytest
 
 from spark_movies_etl.config.config_manager import ConfigException, ConfigManager
