@@ -13,6 +13,7 @@ pyspark = "^3.1.2"
 delta-spark = "^1.0.0"
 flake8 = "^3.9.2"
 mypy = "^0.910"
+isort = "^5.10.1"
 pytest = "^6.2.4"
 pytest-cov = "^2.12.1"
 black = "^21.7b0"
@@ -43,6 +44,9 @@ exclude = '''
   )/
 )
 '''
+
+[tool.isort]
+profile = "black"
 
 [tool.coverage.run]
 branch = true

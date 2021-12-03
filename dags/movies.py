@@ -1,9 +1,8 @@
-from typing import Optional, Dict, Any
-from datetime import timedelta
+from datetime import datetime, timedelta
+from typing import Any, Dict, Optional
+
 from airflow import DAG
 from airflow.providers.apache.livy.operators.livy import LivyOperator
-from datetime import datetime
-
 
 ETL_CODE_LOCATION = "s3://movies-binaries/spark-movies-etl/latest"
 LIVY_PROXY_USER = "datalake-srv-user"

@@ -1,8 +1,12 @@
 from unittest import TestCase
-from tests.utils import get_local_spark, assert_data_frames_equal
-from tests.spark_movies_etl.unit.fixtures.data import TEST_TRANSFORMATION_INPUT, TEST_TRANSFORMATION_OUTPUT_EXPECTED
-from spark_movies_etl.tasks.task_transform_data import Transformation
+
 from spark_movies_etl.schema import Schema
+from spark_movies_etl.tasks.task_transform_data import Transformation
+from tests.spark_movies_etl.unit.fixtures.data import (
+    TEST_TRANSFORMATION_INPUT,
+    TEST_TRANSFORMATION_OUTPUT_EXPECTED,
+)
+from tests.utils import assert_data_frames_equal, get_local_spark
 
 
 class TestTransformation(TestCase):

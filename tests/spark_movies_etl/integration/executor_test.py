@@ -1,11 +1,15 @@
-import os
 import datetime
+import os
 from unittest import TestCase
-from tests.utils import get_local_spark, assert_data_frames_equal
-from tests.spark_movies_etl.integration.fixtures.data import TEST_INGEST_OUTPUT_EXPECTED, TEST_TRANSFORM_OUTPUT_EXPECTED
-from spark_movies_etl.schema import Schema
+
+from spark_movies_etl.config.config_manager import ConfigException, ConfigManager
 from spark_movies_etl.executor import Executor
-from spark_movies_etl.config.config_manager import ConfigManager, ConfigException
+from spark_movies_etl.schema import Schema
+from tests.spark_movies_etl.integration.fixtures.data import (
+    TEST_INGEST_OUTPUT_EXPECTED,
+    TEST_TRANSFORM_OUTPUT_EXPECTED,
+)
+from tests.utils import assert_data_frames_equal, get_local_spark
 
 
 class TestExecutor(TestCase):
