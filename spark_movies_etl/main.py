@@ -8,10 +8,11 @@ from spark_movies_etl.executor import Executor
 
 
 def _parse_args() -> argparse.Namespace:
-    task_choices = ["ingest", "transform"]
     parser = argparse.ArgumentParser(allow_abbrev=False)
-    parser.add_argument("--task", required=True, choices=task_choices)
+
+    parser.add_argument("--task", required=True, choices=["ingest", "transform"])
     parser.add_argument("--execution-date", type=datetime.date.fromisoformat, required=True)
+
     return parser.parse_args()
 
 
