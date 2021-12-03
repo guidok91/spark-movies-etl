@@ -1,8 +1,10 @@
+import pytest as pytest
 from pandas import testing
 from pyspark.sql import DataFrame, SparkSession
 
 
-def get_local_spark() -> SparkSession:
+@pytest.fixture(scope="session")
+def spark() -> SparkSession:
     return (
         SparkSession.builder.master("local[*]")
         .config("spark.jars.packages", "org.apache.spark:spark-avro_2.12:3.1.2,io.delta:delta-core_2.12:1.0.0")
