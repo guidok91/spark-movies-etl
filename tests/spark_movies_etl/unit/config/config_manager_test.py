@@ -8,7 +8,7 @@ from spark_movies_etl.config.config_manager import ConfigException, ConfigManage
 def test_read_existent_key() -> None:
     # GIVEN
     config_manager = ConfigManager(
-        config_file=f"{os.path.dirname(os.path.realpath(__file__))}/fixtures/config_test.yaml"
+        config_file=f"{os.path.dirname(os.path.realpath(__file__))}/fixtures/test_config.yaml"
     )
     value_expected = "v1"
 
@@ -22,7 +22,7 @@ def test_read_existent_key() -> None:
 def test_read_inexistent_key() -> None:
     # GIVEN
     config_manager = ConfigManager(
-        config_file=f"{os.path.dirname(os.path.realpath(__file__))}/fixtures/config_test.yaml"
+        config_file=f"{os.path.dirname(os.path.realpath(__file__))}/fixtures/test_config.yaml"
     )
 
     # THEN
