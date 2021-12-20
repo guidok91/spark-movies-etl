@@ -33,7 +33,7 @@ staging:
 live:
   data_lake:
     bronze:
-      base_path: s3://data-lake-bronze-staging
+      base_path: s3://data-lake-bronze-live
       dataset: movies
     silver:
       table: silver_live.movies
