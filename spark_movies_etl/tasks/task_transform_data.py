@@ -11,19 +11,19 @@ from spark_movies_etl.tasks.task_abstract import AbstractTask
 
 
 class TransformDataTask(AbstractTask):
-    OUTPUT_PARTITION_COLUMN = "event_date_received"
+    OUTPUT_PARTITION_COLUMNS = ["event_date_received"]
 
     def __init__(
         self, spark: SparkSession, logger: Logger, execution_date: datetime.date, config_manager: ConfigManager
     ):
         super().__init__(spark, logger, execution_date, config_manager)
-        self.path_input = self.config_manager.get("data_lake.silver")
-        self.path_output = self.config_manager.get("data_lake.gold")
+        self.input_table = self.config_manager.get("data_lake.silver.table")
+        self.output_table = self.config_manager.get("data_lake.gold.table")
 
     def _input(self) -> DataFrame:
         partition = f"eventDateReceived = {self.execution_date.strftime('%Y%m%d')}"
-        self.logger.info(f"Reading from delta table on {self.path_input}. Partition '{partition}'")
-        return self.spark.read.format("delta").load(self.path_input).where(partition)
+        self.logger.info(f"Reading from table {self.input_table}. Partition '{partition}'")
+        return self.spark.read.table(self.input_table).where(partition)
 
     def _transform(self, df: DataFrame) -> DataFrame:
         return Transformation(

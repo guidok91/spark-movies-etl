@@ -11,23 +11,26 @@ from spark_movies_etl.tasks.task_abstract import AbstractTask
 
 
 class IngestDataTask(AbstractTask):
-    OUTPUT_PARTITION_COLUMN = "eventDateReceived"
+    OUTPUT_PARTITION_COLUMNS = ["eventDateReceived"]
 
     def __init__(
         self, spark: SparkSession, logger: Logger, execution_date: datetime.date, config_manager: ConfigManager
     ):
         super().__init__(spark, logger, execution_date, config_manager)
-        self.path_input = self.config_manager.get("data_lake.bronze")
-        self.path_output = self.config_manager.get("data_lake.silver")
+        self.input_path = self._build_input_path()
+        self.output_table = self.config_manager.get("data_lake.silver.table")
 
     def _input(self) -> DataFrame:
-        path_input_full = self._build_input_path()
-        self.logger.info(f"Reading raw avro event data from {path_input_full}")
-        return self.spark.read.format("avro").load(path=path_input_full, schema=Schema.BRONZE)
+        self.logger.info(f"Reading raw data from {self.input_path}")
+        return self.spark.read.format("avro").load(path=self.input_path, schema=Schema.BRONZE)
 
     def _build_input_path(self) -> str:
+        base_input_path = (
+            f"{self.config_manager.get('data_lake.bronze.base_path')}"
+            f"/{self.config_manager.get('data_lake.bronze.dataset')}"
+        )
         execution_date_str = self.execution_date.strftime("%Y/%m/%d")
-        return f"{self.path_input}/{execution_date_str}"
+        return f"{base_input_path}/{execution_date_str}"
 
     def _transform(self, df: DataFrame) -> DataFrame:
         return df.select(

@@ -44,7 +44,7 @@ def _test_run_ingest(spark: SparkSession, config_manager: ConfigManager, executi
     executor.run()
 
     # THEN
-    df_output = spark.read.format("delta").load(config_manager.get("data_lake.silver"))
+    df_output = spark.read.table(config_manager.get("data_lake.silver.table"))
     assert_data_frames_equal(df_output, df_expected)
 
 
@@ -60,5 +60,5 @@ def _test_run_transform(spark: SparkSession, config_manager: ConfigManager, exec
     executor.run()
 
     # THEN
-    df_output = spark.read.format("delta").load(config_manager.get("data_lake.gold"))
+    df_output = spark.read.table(config_manager.get("data_lake.gold.table"))
     assert_data_frames_equal(df_output, df_expected)

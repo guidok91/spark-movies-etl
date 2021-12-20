@@ -17,7 +17,12 @@ def _parse_args() -> argparse.Namespace:
 
 
 def _init_spark(task: str) -> SparkSession:
-    return SparkSession.builder.appName(f"Movies task: {task}").getOrCreate()
+    return (
+        SparkSession.builder.appName(f"Movies task: {task}")
+        .enableHiveSupport()
+        .config("spark.sql.sources.partitionOverwriteMode", "dynamic")
+        .getOrCreate()
+    )
 
 
 def main() -> None:
