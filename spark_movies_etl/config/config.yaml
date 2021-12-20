@@ -12,19 +12,30 @@ global:
 development:
   data_lake:
     bronze:
-      base_path: data-lake-bronze
+      base_path: data-lake-bronze-dev
       dataset: movies
     silver:
       table: default.movies_silver
     gold:
       table: default.movies_gold
 
+staging:
+  data_lake:
+    bronze:
+      base_path: s3://data-lake-bronze-staging
+      dataset: movies
+    silver:
+      table: silver_staging.movies
+    gold:
+      table: gold_staging.movies
+
+
 live:
   data_lake:
     bronze:
-      base_path: s3://data-lake-bronze
+      base_path: s3://data-lake-bronze-staging
       dataset: movies
     silver:
-      table: silver.movies
+      table: silver_live.movies
     gold:
-      table: gold.movies
+      table: gold_live.movies
