@@ -1,24 +1,24 @@
-import datetime
 from functools import reduce
-from logging import Logger
 from typing import List
 
-from pyspark.sql import DataFrame, SparkSession
+from pyspark.sql import DataFrame
 from pyspark.sql.functions import col, length, upper, when
 
-from spark_movies_etl.config.config_manager import ConfigManager
 from spark_movies_etl.tasks.task_abstract import AbstractTask
 
 
 class TransformDataTask(AbstractTask):
-    OUTPUT_PARTITION_COLUMNS = ["event_date_received"]
+    @property
+    def input_table(self) -> str:
+        return self.config_manager.get("data_lake.standardized.table")
 
-    def __init__(
-        self, spark: SparkSession, logger: Logger, execution_date: datetime.date, config_manager: ConfigManager
-    ):
-        super().__init__(spark, logger, execution_date, config_manager)
-        self.input_table = self.config_manager.get("data_lake.standardized.table")
-        self.output_table = self.config_manager.get("data_lake.curated.table")
+    @property
+    def output_table(self) -> str:
+        return self.config_manager.get("data_lake.curated.table")
+
+    @property
+    def output_partition_columns(self) -> List[str]:
+        return ["event_date_received"]
 
     def _input(self) -> DataFrame:
         partition = f"eventDateReceived = {self.execution_date.strftime('%Y%m%d')}"

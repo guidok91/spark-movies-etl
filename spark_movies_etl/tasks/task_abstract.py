@@ -10,11 +10,8 @@ from spark_movies_etl.config.config_manager import ConfigManager
 
 class AbstractTask(ABC):
     """
-    Base class to read a dataset, transform it, and save it to a Delta table.
+    Base class to read a dataset, transform it, and save it to a table.
     """
-
-    OUTPUT_PARTITION_COLUMNS: List[str]
-    OUTPUT_PARTITION_COALESCE: int = 25
 
     def __init__(
         self, spark: SparkSession, logger: Logger, execution_date: datetime.date, config_manager: ConfigManager
@@ -23,12 +20,25 @@ class AbstractTask(ABC):
         self.execution_date = execution_date
         self.config_manager = config_manager
         self.logger = logger
-        self.output_table: str
 
     def run(self) -> None:
         df = self._input()
         df_transformed = self._transform(df)
         self._output(df_transformed)
+
+    @property
+    @abstractmethod
+    def output_table(self) -> str:
+        raise NotImplementedError
+
+    @property
+    @abstractmethod
+    def output_partition_columns(self) -> List[str]:
+        raise NotImplementedError
+
+    @property
+    def output_partition_coalesce(self) -> int:
+        return 25
 
     @abstractmethod
     def _input(self) -> DataFrame:
@@ -39,16 +49,16 @@ class AbstractTask(ABC):
         raise NotImplementedError
 
     def _output(self, df: DataFrame) -> None:
-        self.logger.info(f"Saving to table {self.output_table}. Partition columns: {self.OUTPUT_PARTITION_COLUMNS}")
+        self.logger.info(f"Saving to table {self.output_table}. Partition columns: {self.output_partition_columns}")
 
-        df_writer = df.coalesce(self.OUTPUT_PARTITION_COALESCE).write.mode("overwrite").format("parquet")
+        df_writer = df.coalesce(self.output_partition_coalesce).write.mode("overwrite").format("parquet")
 
         if self._table_exists(self.output_table):
             self.logger.info("Table exists, inserting...")
             df_writer.insertInto(self.output_table)
         else:
             self.logger.info("Table does not exist, creating and saving...")
-            df_writer.partitionBy(self.OUTPUT_PARTITION_COLUMNS).saveAsTable(self.output_table)
+            df_writer.partitionBy(self.output_partition_columns).saveAsTable(self.output_table)
 
     def _table_exists(self, table: str) -> bool:
         db, table_name = table.split(".", maxsplit=1)
