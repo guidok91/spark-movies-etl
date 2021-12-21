@@ -54,4 +54,4 @@ run-cluster:
 	--execution-date ${execution-date}
 
 clean:
-	rm -rf deps/ .pytest_cache .mypy_cache spark_movies_etl.egg-info *.xml .coverage
+	rm -rf deps/ .pytest_cache .mypy_cache spark_movies_etl.egg-info *.xml .coverage* derby.log metastore_db spark-warehouse
