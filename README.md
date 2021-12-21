@@ -12,8 +12,8 @@ We define a Data Lake with the following layers:
 [Avro](https://avro.apache.org/) format is used on `Raw` and [Parquet](https://parquet.apache.org/) on `Standardized` and `Curated`.
 
 The data pipeline consists on the following jobs:
- - Ingestion task: ingests the dataset from `Raw` into `Standardized`.
- - Transformation task: consumes the dataset from `Standardized`, performs transformations and business logic, and persists into `Curated`.
+ - Standardize task: ingests the dataset from `Raw` into `Standardized`.
+ - Curate task: consumes the dataset from `Standardized`, performs transformations and business logic, and persists into `Curated`.
 
 The datasets are partitioned by execution date.
 

@@ -6,7 +6,7 @@ from spark_movies_etl.schema import Schema
 from spark_movies_etl.tasks.task_abstract import AbstractTask
 
 
-class IngestDataTask(AbstractTask):
+class StandardizeDataTask(AbstractTask):
     @property
     def input_path(self) -> str:
         base_input_path = (

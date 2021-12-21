@@ -7,7 +7,7 @@ from pyspark.sql.functions import col, size, upper, when
 from spark_movies_etl.tasks.task_abstract import AbstractTask
 
 
-class TransformDataTask(AbstractTask):
+class CurateDataTask(AbstractTask):
     @property
     def input_table(self) -> str:
         return self.config_manager.get("data_lake.standardized.table")
