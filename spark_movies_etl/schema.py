@@ -1,5 +1,7 @@
 from pyspark.sql.types import (
+    ArrayType,
     BooleanType,
+    FloatType,
     IntegerType,
     LongType,
     StringType,
@@ -11,45 +13,79 @@ from pyspark.sql.types import (
 class Schema:
     RAW = StructType(
         [
-            StructField("titleId", StringType(), nullable=False),
-            StructField("title", StringType(), nullable=False),
-            StructField("types", StringType()),
-            StructField("region", StringType()),
-            StructField("ordering", IntegerType(), nullable=False),
-            StructField("language", StringType()),
-            StructField("isOriginalTitle", IntegerType(), nullable=False),
-            StructField("attributes", StringType()),
-            StructField("eventTimestamp", LongType(), nullable=False),
+            StructField("movie_id", LongType(), nullable=False),
+            StructField("user_id", LongType(), nullable=False),
+            StructField("rating", FloatType(), nullable=False),
+            StructField("timestamp", LongType(), nullable=False),
+            StructField("original_title", StringType(), nullable=False),
+            StructField("original_language", StringType(), nullable=False),
+            StructField("budget", LongType(), nullable=False),
+            StructField("adult", BooleanType(), nullable=False),
+            StructField(
+                "genres",
+                ArrayType(
+                    StructType(
+                        [
+                            StructField("id", LongType(), nullable=False),
+                            StructField("name", StringType(), nullable=False),
+                        ]
+                    )
+                ),
+                nullable=False,
+            ),
         ]
     )
 
     STANDARDIZED = StructType(
         [
-            StructField("titleId", StringType(), nullable=False),
-            StructField("title", StringType(), nullable=False),
-            StructField("types", StringType()),
-            StructField("region", StringType()),
-            StructField("ordering", IntegerType(), nullable=False),
-            StructField("language", StringType()),
-            StructField("isOriginalTitle", IntegerType(), nullable=False),
-            StructField("attributes", StringType()),
-            StructField("eventTimestamp", LongType(), nullable=False),
-            StructField("eventDateReceived", IntegerType(), nullable=False),
+            StructField("movie_id", LongType(), nullable=False),
+            StructField("user_id", LongType(), nullable=False),
+            StructField("rating", FloatType(), nullable=False),
+            StructField("timestamp", LongType(), nullable=False),
+            StructField("original_title", StringType(), nullable=False),
+            StructField("original_language", StringType(), nullable=False),
+            StructField("budget", LongType(), nullable=False),
+            StructField("adult", BooleanType(), nullable=False),
+            StructField(
+                "genres",
+                ArrayType(
+                    StructType(
+                        [
+                            StructField("id", LongType(), nullable=False),
+                            StructField("name", StringType(), nullable=False),
+                        ]
+                    )
+                ),
+                nullable=False,
+            ),
+            StructField("event_date_received", IntegerType(), nullable=False),
         ]
     )
 
     CURATED = StructType(
         [
-            StructField("title_id", StringType(), nullable=False),
-            StructField("title", StringType(), nullable=False),
-            StructField("types", StringType()),
-            StructField("region", StringType()),
-            StructField("ordering", IntegerType(), nullable=False),
-            StructField("language", StringType()),
-            StructField("is_original_title", BooleanType(), nullable=False),
-            StructField("attributes", StringType()),
-            StructField("title_class", StringType(), nullable=False),
-            StructField("event_timestamp", LongType(), nullable=False),
+            StructField("movie_id", LongType(), nullable=False),
+            StructField("user_id", LongType(), nullable=False),
+            StructField("rating", FloatType(), nullable=False),
+            StructField("rating_class", StringType(), nullable=False),
+            StructField("timestamp", LongType(), nullable=False),
+            StructField("original_title", StringType(), nullable=False),
+            StructField("original_language", StringType(), nullable=False),
+            StructField("budget", LongType(), nullable=False),
+            StructField("is_adult", BooleanType(), nullable=False),
+            StructField("is_multigenre", BooleanType(), nullable=False),
+            StructField(
+                "genres",
+                ArrayType(
+                    StructType(
+                        [
+                            StructField("id", LongType(), nullable=False),
+                            StructField("name", StringType(), nullable=False),
+                        ]
+                    )
+                ),
+                nullable=False,
+            ),
             StructField("event_date_received", IntegerType(), nullable=False),
         ]
     )

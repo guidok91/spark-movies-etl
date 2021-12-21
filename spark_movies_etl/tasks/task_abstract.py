@@ -1,7 +1,6 @@
 import datetime
 from abc import ABC, abstractmethod
 from logging import Logger
-from typing import List
 
 from pyspark.sql import DataFrame, SparkSession
 
@@ -32,9 +31,8 @@ class AbstractTask(ABC):
         raise NotImplementedError
 
     @property
-    @abstractmethod
-    def output_partition_columns(self) -> List[str]:
-        raise NotImplementedError
+    def output_partition_date_column(self) -> str:
+        return "event_date_received"
 
     @property
     def output_partition_coalesce(self) -> int:
@@ -49,16 +47,16 @@ class AbstractTask(ABC):
         raise NotImplementedError
 
     def _output(self, df: DataFrame) -> None:
-        self.logger.info(f"Saving to table {self.output_table}. Partition columns: {self.output_partition_columns}")
+        self.logger.info(f"Saving to table {self.output_table}.")
 
         df_writer = df.coalesce(self.output_partition_coalesce).write.mode("overwrite").format("parquet")
 
         if self._table_exists(self.output_table):
-            self.logger.info("Table exists, inserting...")
+            self.logger.info("Table exists, inserting.")
             df_writer.insertInto(self.output_table)
         else:
-            self.logger.info("Table does not exist, creating and saving...")
-            df_writer.partitionBy(self.output_partition_columns).saveAsTable(self.output_table)
+            self.logger.info("Table does not exist, creating and saving.")
+            df_writer.partitionBy([self.output_partition_date_column]).saveAsTable(self.output_table)
 
     def _table_exists(self, table: str) -> bool:
         db, table_name = table.split(".", maxsplit=1)

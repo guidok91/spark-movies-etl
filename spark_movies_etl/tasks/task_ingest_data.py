@@ -1,5 +1,3 @@
-from typing import List
-
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import lit
 from pyspark.sql.types import IntegerType
@@ -22,24 +20,20 @@ class IngestDataTask(AbstractTask):
     def output_table(self) -> str:
         return self.config_manager.get("data_lake.standardized.table")
 
-    @property
-    def output_partition_columns(self) -> List[str]:
-        return ["eventDateReceived"]
-
     def _input(self) -> DataFrame:
-        self.logger.info(f"Reading raw data from {self.input_path}")
+        self.logger.info(f"Reading raw data from {self.input_path}.")
         return self.spark.read.format("avro").load(path=self.input_path, schema=Schema.RAW)
 
     def _transform(self, df: DataFrame) -> DataFrame:
         return df.select(
-            "titleId",
-            "title",
-            "types",
-            "region",
-            "ordering",
-            "language",
-            "isOriginalTitle",
-            "attributes",
-            "eventTimestamp",
-            lit(self.execution_date.strftime("%Y%m%d")).cast(IntegerType()).alias("eventDateReceived"),
+            "movie_id",
+            "user_id",
+            "rating",
+            "timestamp",
+            "original_title",
+            "original_language",
+            "budget",
+            "adult",
+            "genres",
+            lit(self.execution_date.strftime("%Y%m%d")).cast(IntegerType()).alias("event_date_received"),
         )

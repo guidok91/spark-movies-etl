@@ -11,7 +11,7 @@ from tests.spark_movies_etl.unit.tasks.fixtures.data import (
 
 def test_transform(spark: SparkSession) -> None:
     # GIVEN
-    transformation = Transformation(movies_regions=["FR", "US", "GB", "RU", "HU", "DK", "ES"], movies_max_reissues=5)
+    transformation = Transformation(movie_languages=["EN", "ES", "DE", "FR"])
     df_input = spark.createDataFrame(
         TEST_TRANSFORMATION_INPUT,  # type: ignore
         schema=Schema.STANDARDIZED,

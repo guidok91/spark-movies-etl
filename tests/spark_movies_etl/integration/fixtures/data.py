@@ -1,32 +1,21 @@
 TEST_INGEST_OUTPUT_EXPECTED = [
-    ["tt0000487", "The Great Train Robbery", "original", None, 3, None, 1, None, 1621806662, 20210603],
-    [
-        "tt0000239",
-        "Danse serpentine par Mme. Bob Walter",
-        None,
-        "CN",
-        2,
-        None,
-        0,
-        None,
-        1621806634,
-        20210603,
-    ],
-    ["tt0000417", "En Tur til Maanen", "imdbDisplay", "AR", 13, None, 0, None, 1621806635, 20210603],
+    [1371, 311, 3.0, 898008328, "Rocky III", "en", 17000000, False, [{"id": 18, "name": "Drama"}], 20210603],
+    [2302, 452, 4.0, 976425924, "Avalon", "nk", 0, False, [{"id": 18, "name": "Drama"}], 20210603],
 ]
 
 TEST_TRANSFORM_OUTPUT_EXPECTED = [
     [
-        "tt0000487",
-        "The Great Train Robbery",
-        "original",
-        None,
-        3,
-        None,
-        True,
-        None,
-        "long",
-        1621806662,
+        1371,
+        311,
+        3.0,
+        "avg",
+        898008328,
+        "Rocky III",
+        "EN",
+        17000000,
+        False,
+        False,
+        [{"id": 18, "name": "Drama"}],
         20210603,
-    ]
+    ],
 ]

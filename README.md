@@ -2,7 +2,7 @@
 ![workflow](https://github.com/guidok91/spark-movies-etl/actions/workflows/python-app.yml/badge.svg)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Spark data pipeline that ingests and transforms a movies dataset.
+Spark data pipeline that ingests and transforms movie ratings data.
 
 We define a Data Lake with the following layers:
 - `Raw`: Contains raw data files directly ingested from an event stream, e.g. a Kafka connector. Data is not catalogued and should generally not be accessible (can contain PII).
