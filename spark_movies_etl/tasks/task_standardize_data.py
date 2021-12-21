@@ -35,5 +35,5 @@ class StandardizeDataTask(AbstractTask):
             "budget",
             "adult",
             "genres",
-            lit(self.execution_date.strftime("%Y%m%d")).cast(IntegerType()).alias("event_date_received"),
+            lit(self.execution_date.strftime("%Y%m%d")).cast(IntegerType()).alias("run_date"),
         )

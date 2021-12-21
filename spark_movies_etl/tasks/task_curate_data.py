@@ -82,5 +82,5 @@ class Transformation:
             "is_adult",
             "is_multigenre",
             "genres",
-            "event_date_received",
+            "run_date",
         )

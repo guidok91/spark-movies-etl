@@ -58,7 +58,7 @@ class Schema:
                 ),
                 nullable=False,
             ),
-            StructField("event_date_received", IntegerType(), nullable=False),
+            StructField("run_date", IntegerType(), nullable=False),
         ]
     )
 
@@ -86,6 +86,6 @@ class Schema:
                 ),
                 nullable=False,
             ),
-            StructField("event_date_received", IntegerType(), nullable=False),
+            StructField("run_date", IntegerType(), nullable=False),
         ]
     )

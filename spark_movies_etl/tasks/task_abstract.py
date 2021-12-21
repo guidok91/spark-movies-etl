@@ -32,7 +32,7 @@ class AbstractTask(ABC):
 
     @property
     def output_partition_date_column(self) -> str:
-        return "event_date_received"
+        return "run_date"
 
     @property
     def output_partition_coalesce(self) -> int:
