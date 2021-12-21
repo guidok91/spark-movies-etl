@@ -28,7 +28,11 @@ def test_run_inexistent_task(spark: SparkSession, config_manager: ConfigManager,
 
 
 def test_run_end_to_end(spark: SparkSession, config_manager: ConfigManager, execution_date: datetime.date) -> None:
+    # Run tasks twice to test idempotency
     _test_run_ingest(spark, config_manager, execution_date)
+    _test_run_ingest(spark, config_manager, execution_date)
+
+    _test_run_transform(spark, config_manager, execution_date)
     _test_run_transform(spark, config_manager, execution_date)
 
 
