@@ -39,7 +39,6 @@ class AbstractTask(ABC):
         raise NotImplementedError
 
     def _output(self, df: DataFrame) -> None:
-        # TODO: handle schema mismatch
         self.logger.info(f"Saving to table {self.output_table}. Partition columns: {self.OUTPUT_PARTITION_COLUMNS}")
 
         df_writer = df.coalesce(self.OUTPUT_PARTITION_COALESCE).write.mode("overwrite").format("parquet")
