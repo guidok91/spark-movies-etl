@@ -2,7 +2,7 @@
 ![workflow](https://github.com/guidok91/spark-movies-etl/actions/workflows/python-app.yml/badge.svg)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Spark data pipeline that ingests and transforms a movies dataset.
+Spark data pipeline that ingests and transforms movie ratings data.
 
 We define a Data Lake with the following layers:
 - `Raw`: Contains raw data files directly ingested from an event stream, e.g. a Kafka connector. Data is not catalogued and should generally not be accessible (can contain PII).
@@ -12,12 +12,12 @@ We define a Data Lake with the following layers:
 [Avro](https://avro.apache.org/) format is used on `Raw` and [Parquet](https://parquet.apache.org/) on `Standardized` and `Curated`.
 
 The data pipeline consists on the following jobs:
- - Ingestion task: ingests the dataset from `Raw` into `Standardized`.
- - Transformation task: consumes the dataset from `Standardized`, performs transformations and business logic, and persists into `Curated`.
+ - Standardize task: ingests the dataset from `Raw` into `Standardized`.
+ - Curate task: consumes the dataset from `Standardized`, performs transformations and business logic, and persists into `Curated`.
 
 The datasets are partitioned by execution date.
 
-Location of the tables is not provided since it should be specified when creating the databases in the catalog.
+Base location of the catalog tables is not specified since it should be defined when creating the database(s) in the catalog.
 
 ## Execution instructions
 The repo includes a `Makefile`. Please run `make help` to see usage.

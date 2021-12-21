@@ -4,37 +4,36 @@ dynaconf_merge:
 
 global:
   task_argument_class_mapping:
-    ingest: spark_movies_etl.tasks.task_ingest_data.IngestDataTask
-    transform: spark_movies_etl.tasks.task_transform_data.TransformDataTask
-  movies_regions: ["FR", "US", "GB", "RU", "HU", "DK", "ES"]
-  movies_max_reissues: 5
+    standardize: spark_movies_etl.tasks.task_standardize_data.StandardizeDataTask
+    curate: spark_movies_etl.tasks.task_curate_data.CurateDataTask
+  movie_languages_filter: ["EN", "FR", "DE", "ES"]
 
 development:
   data_lake:
     raw:
       base_path: data-lake-raw-dev
-      dataset: movies
+      dataset: movie_ratings
     standardized:
-      table: default.movies_standardized
+      table: default.movie_ratings_standardized
     curated:
-      table: default.movies_curated
+      table: default.movie_ratings_curated
 
 staging:
   data_lake:
     raw:
       base_path: s3://data-lake-raw-staging
-      dataset: movies
+      dataset: movie_ratings
     standardized:
-      table: standardized_staging.movies
+      table: standardized_staging.movie_ratings
     curated:
-      table: curated_staging.movies
+      table: curated_staging.movie_ratings
 
 live:
   data_lake:
     raw:
       base_path: s3://data-lake-raw-live
-      dataset: movies
+      dataset: movie_ratings
     standardized:
-      table: standardized_live.movies
+      table: standardized_live.movie_ratings
     curated:
-      table: curated_live.movies
+      table: curated_live.movie_ratings

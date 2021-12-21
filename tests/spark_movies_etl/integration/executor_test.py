@@ -8,8 +8,8 @@ from spark_movies_etl.executor import Executor
 from spark_movies_etl.schema import Schema
 from tests.conftest import assert_data_frames_equal
 from tests.spark_movies_etl.integration.fixtures.data import (
-    TEST_INGEST_OUTPUT_EXPECTED,
-    TEST_TRANSFORM_OUTPUT_EXPECTED,
+    TEST_CURATE_OUTPUT_EXPECTED,
+    TEST_STANDARDIZE_OUTPUT_EXPECTED,
 )
 
 
@@ -29,18 +29,18 @@ def test_run_inexistent_task(spark: SparkSession, config_manager: ConfigManager,
 
 def test_run_end_to_end(spark: SparkSession, config_manager: ConfigManager, execution_date: datetime.date) -> None:
     # Run tasks twice to test idempotency
-    _test_run_ingest(spark, config_manager, execution_date)
-    _test_run_ingest(spark, config_manager, execution_date)
+    _test_run_standardize(spark, config_manager, execution_date)
+    _test_run_standardize(spark, config_manager, execution_date)
 
-    _test_run_transform(spark, config_manager, execution_date)
-    _test_run_transform(spark, config_manager, execution_date)
+    _test_run_curate(spark, config_manager, execution_date)
+    _test_run_curate(spark, config_manager, execution_date)
 
 
-def _test_run_ingest(spark: SparkSession, config_manager: ConfigManager, execution_date: datetime.date) -> None:
+def _test_run_standardize(spark: SparkSession, config_manager: ConfigManager, execution_date: datetime.date) -> None:
     # GIVEN
-    executor = Executor(spark=spark, config_manager=config_manager, task="ingest", execution_date=execution_date)
+    executor = Executor(spark=spark, config_manager=config_manager, task="standardize", execution_date=execution_date)
     df_expected = spark.createDataFrame(
-        TEST_INGEST_OUTPUT_EXPECTED,  # type: ignore
+        TEST_STANDARDIZE_OUTPUT_EXPECTED,  # type: ignore
         schema=Schema.STANDARDIZED,
     )
 
@@ -52,11 +52,11 @@ def _test_run_ingest(spark: SparkSession, config_manager: ConfigManager, executi
     assert_data_frames_equal(df_output, df_expected)
 
 
-def _test_run_transform(spark: SparkSession, config_manager: ConfigManager, execution_date: datetime.date) -> None:
+def _test_run_curate(spark: SparkSession, config_manager: ConfigManager, execution_date: datetime.date) -> None:
     # GIVEN
-    executor = Executor(spark=spark, config_manager=config_manager, task="transform", execution_date=execution_date)
+    executor = Executor(spark=spark, config_manager=config_manager, task="curate", execution_date=execution_date)
     df_expected = spark.createDataFrame(
-        TEST_TRANSFORM_OUTPUT_EXPECTED,  # type: ignore
+        TEST_CURATE_OUTPUT_EXPECTED,  # type: ignore
         schema=Schema.CURATED,
     )
 
