@@ -11,31 +11,31 @@ global:
 
 development:
   data_lake:
-    bronze:
-      base_path: data-lake-bronze-dev
+    raw:
+      base_path: data-lake-raw-dev
       dataset: movies
-    silver:
-      table: default.movies_silver
-    gold:
-      table: default.movies_gold
+    standardized:
+      table: default.movies_standardized
+    curated:
+      table: default.movies_curated
 
 staging:
   data_lake:
-    bronze:
-      base_path: s3://data-lake-bronze-staging
+    raw:
+      base_path: s3://data-lake-raw-staging
       dataset: movies
-    silver:
-      table: silver_staging.movies
-    gold:
-      table: gold_staging.movies
+    standardized:
+      table: standardized_staging.movies
+    curated:
+      table: curated_staging.movies
 
 
 live:
   data_lake:
-    bronze:
-      base_path: s3://data-lake-bronze-live
+    raw:
+      base_path: s3://data-lake-raw-live
       dataset: movies
-    silver:
-      table: silver_live.movies
-    gold:
-      table: gold_live.movies
+    standardized:
+      table: standardized_live.movies
+    curated:
+      table: curated_live.movies

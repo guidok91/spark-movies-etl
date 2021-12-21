@@ -14,11 +14,11 @@ def test_transform(spark: SparkSession) -> None:
     transformation = Transformation(movies_regions=["FR", "US", "GB", "RU", "HU", "DK", "ES"], movies_max_reissues=5)
     df_input = spark.createDataFrame(
         TEST_TRANSFORMATION_INPUT,  # type: ignore
-        schema=Schema.SILVER,
+        schema=Schema.STANDARDIZED,
     )
     df_expected = spark.createDataFrame(
         TEST_TRANSFORMATION_OUTPUT_EXPECTED,  # type: ignore
-        schema=Schema.GOLD,
+        schema=Schema.CURATED,
     )
 
     # WHEN

@@ -17,8 +17,8 @@ class TransformDataTask(AbstractTask):
         self, spark: SparkSession, logger: Logger, execution_date: datetime.date, config_manager: ConfigManager
     ):
         super().__init__(spark, logger, execution_date, config_manager)
-        self.input_table = self.config_manager.get("data_lake.silver.table")
-        self.output_table = self.config_manager.get("data_lake.gold.table")
+        self.input_table = self.config_manager.get("data_lake.standardized.table")
+        self.output_table = self.config_manager.get("data_lake.curated.table")
 
     def _input(self) -> DataFrame:
         partition = f"eventDateReceived = {self.execution_date.strftime('%Y%m%d')}"

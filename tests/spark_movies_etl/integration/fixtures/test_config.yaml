@@ -9,10 +9,10 @@ global:
   movies_regions: ["ES"]
   movies_max_reissues: 5
   data_lake:
-    bronze:
-      base_path: tests/spark_movies_etl/integration/fixtures/data-lake-bronze
+    raw:
+      base_path: tests/spark_movies_etl/integration/fixtures/data-lake-raw-test
       dataset: movies
-    silver:
-      table: test.movies_silver
-    gold:
-      table: test.movies_gold
+    standardized:
+      table: test.movies_standardized
+    curated:
+      table: test.movies_curated
