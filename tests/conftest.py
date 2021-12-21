@@ -10,7 +10,7 @@ def spark() -> Generator:
     spark = (
         SparkSession.builder.master("local[*]")
         .enableHiveSupport()
-        .config("spark.jars.packages", "org.apache.spark:spark-avro_2.12:3.1.2")
+        .config("spark.jars.packages", "org.apache.spark:spark-avro_2.12:3.2.0")
         .config("spark.sql.sources.partitionOverwriteMode", "dynamic")
         .getOrCreate()
     )
