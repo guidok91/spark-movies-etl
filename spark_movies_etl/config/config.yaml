@@ -29,7 +29,6 @@ staging:
     curated:
       table: curated_staging.movies
 
-
 live:
   data_lake:
     raw:
