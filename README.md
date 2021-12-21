@@ -17,6 +17,8 @@ The data pipeline consists on the following jobs:
 
 The datasets are partitioned by execution date.
 
+Location of the tables is not provided since it should be specified when creating the databases in the catalog.
+
 ## Execution instructions
 The repo includes a `Makefile`. Please run `make help` to see usage.
 
