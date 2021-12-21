@@ -38,9 +38,7 @@ pre-commit:
 run-local:
 	poetry run spark-submit \
 	--master local[*] \
-	--packages org.apache.spark:spark-avro_2.12:3.1.2,io.delta:delta-core_2.12:1.0.0 \
-	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
-	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
+	--packages org.apache.spark:spark-avro_2.12:3.1.2 \
 	spark_movies_etl/main.py \
 	--task ${task} \
 	--execution-date ${execution-date}
@@ -49,13 +47,11 @@ run-cluster:
 	PYSPARK_PYTHON=./environment/bin/python spark-submit \
 	--master yarn \
 	--deploy-mode cluster \
+	--packages org.apache.spark:spark-avro_2.12:3.1.2 \
 	--archives s3://movies-binaries/spark-movies-etl/latest/environment.tar.gz#environment \
-	--packages org.apache.spark:spark-avro_2.12:3.1.2,io.delta:delta-core_2.12:1.0.0 \
-	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
-	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	s3://movies-binaries/spark-movies-etl/latest/main.py \
 	--task ${task} \
 	--execution-date ${execution-date}
 
 clean:
-	rm -rf deps/ .pytest_cache .mypy_cache spark_movies_etl.egg-info *.xml .coverage
+	rm -rf deps/ .pytest_cache .mypy_cache spark_movies_etl.egg-info *.xml .coverage* derby.log metastore_db spark-warehouse

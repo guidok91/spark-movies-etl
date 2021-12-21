@@ -5,17 +5,19 @@
 Spark data pipeline that ingests and transforms a movies dataset.
 
 We define a Data Lake with the following layers:
-- `Bronze`: Contains raw data files directly dumped from an event stream, e.g. a Kafka connector.
-- `Silver`: Contains standardised data based on the raw files but without any transformations applied.
-- `Gold`: Contains transformed data according to business and data quality rules.
+- `Raw`: Contains raw data files directly ingested from an event stream, e.g. a Kafka connector. Data is not catalogued and should generally not be accessible (can contain PII).
+- `Standardized`: Contains standardized data (catalogued tables) based on the raw files but without any transformations applied (besides masking of PII data).
+- `Curated`: Contains transformed data (catalogued tables) according to business and data quality rules.
 
-[Avro](https://avro.apache.org/) format is used on `Bronze` and [Delta](https://delta.io/) (parquet) on `Silver` and `Gold`.
+[Avro](https://avro.apache.org/) format is used on `Raw` and [Parquet](https://parquet.apache.org/) on `Standardized` and `Curated`.
 
 The data pipeline consists on the following jobs:
- - Ingestion task: ingests the dataset from `Bronze` into `Silver`.
- - Transformation task: consumes the dataset from `Silver`, performs transformations and business logic, and persists into `Gold`.
+ - Ingestion task: ingests the dataset from `Raw` into `Standardized`.
+ - Transformation task: consumes the dataset from `Standardized`, performs transformations and business logic, and persists into `Curated`.
 
 The datasets are partitioned by execution date.
+
+Location of the tables is not provided since it should be specified when creating the databases in the catalog.
 
 ## Execution instructions
 The repo includes a `Makefile`. Please run `make help` to see usage.

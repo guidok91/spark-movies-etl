@@ -28,7 +28,11 @@ def test_run_inexistent_task(spark: SparkSession, config_manager: ConfigManager,
 
 
 def test_run_end_to_end(spark: SparkSession, config_manager: ConfigManager, execution_date: datetime.date) -> None:
+    # Run tasks twice to test idempotency
     _test_run_ingest(spark, config_manager, execution_date)
+    _test_run_ingest(spark, config_manager, execution_date)
+
+    _test_run_transform(spark, config_manager, execution_date)
     _test_run_transform(spark, config_manager, execution_date)
 
 
@@ -37,14 +41,14 @@ def _test_run_ingest(spark: SparkSession, config_manager: ConfigManager, executi
     executor = Executor(spark=spark, config_manager=config_manager, task="ingest", execution_date=execution_date)
     df_expected = spark.createDataFrame(
         TEST_INGEST_OUTPUT_EXPECTED,  # type: ignore
-        schema=Schema.SILVER,
+        schema=Schema.STANDARDIZED,
     )
 
     # WHEN
     executor.run()
 
     # THEN
-    df_output = spark.read.format("delta").load(config_manager.get("data_lake.silver"))
+    df_output = spark.read.table(config_manager.get("data_lake.standardized.table"))
     assert_data_frames_equal(df_output, df_expected)
 
 
@@ -53,12 +57,12 @@ def _test_run_transform(spark: SparkSession, config_manager: ConfigManager, exec
     executor = Executor(spark=spark, config_manager=config_manager, task="transform", execution_date=execution_date)
     df_expected = spark.createDataFrame(
         TEST_TRANSFORM_OUTPUT_EXPECTED,  # type: ignore
-        schema=Schema.GOLD,
+        schema=Schema.CURATED,
     )
 
     # WHEN
     executor.run()
 
     # THEN
-    df_output = spark.read.format("delta").load(config_manager.get("data_lake.gold"))
+    df_output = spark.read.table(config_manager.get("data_lake.curated.table"))
     assert_data_frames_equal(df_output, df_expected)

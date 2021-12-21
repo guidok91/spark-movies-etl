@@ -20,9 +20,7 @@ DAG_DEFAULT_ARGS = {
 def _build_livy_operator(task: str, spark_conf_extra: Optional[Dict[Any, Any]] = None) -> LivyOperator:
 
     spark_conf_base = {
-        "spark.jars.packages": "org.apache.spark:spark-avro_2.12:3.1.2,io.delta:delta-core_2.12:1.0.0",
-        "spark.sql.extensions": "io.delta.sql.DeltaSparkSessionExtension",
-        "spark.sql.catalog.spark_catalog": "org.apache.spark.sql.delta.catalog.DeltaCatalog",
+        "spark.jars.packages": "org.apache.spark:spark-avro_2.12:3.1.2",
         "spark.yarn.appMasterEnv.PYSPARK_PYTHON": "./env/bin/python",
     }
     spark_conf_extra = spark_conf_extra or {}

@@ -133,13 +133,9 @@ dmypy.json
 .DS_Store
 .idea/
 
-data_lake/silver/*
-!data_lake/silver/.gitkeep
-data_lake/gold/*
-!data_lake/gold/.gitkeep
-tests/spark_movies_etl/integration/fixtures/data_lake/silver/*
-!tests/spark_movies_etl/integration/fixtures/data_lake/silver/.gitkeep
-tests/spark_movies_etl/integration/fixtures/data_lake/gold/*
-!tests/spark_movies_etl/integration/fixtures/data_lake/gold/.gitkeep
-
+# Poetry
 poetry.toml
+
+# Spark
+metastore_db
+spark-warehouse
