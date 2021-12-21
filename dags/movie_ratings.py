@@ -20,7 +20,6 @@ DAG_DEFAULT_ARGS = {
 def _build_livy_operator(task: str, spark_conf_extra: Optional[Dict[Any, Any]] = None) -> LivyOperator:
 
     spark_conf_base = {
-        "spark.jars.packages": "org.apache.spark:spark-avro_2.12:3.1.2",
         "spark.yarn.appMasterEnv.PYSPARK_PYTHON": "./env/bin/python",
     }
     spark_conf_extra = spark_conf_extra or {}
@@ -43,7 +42,9 @@ with DAG(
     schedule_interval="0 0 * * *",
 ) as dag:
 
-    ingest = _build_livy_operator(task="ingest", spark_conf_extra={"spark.sql.shuffle.partitions": 5})
-    transform = _build_livy_operator(task="transform", spark_conf_extra={"spark.sql.shuffle.partitions": 10})
+    standardize = _build_livy_operator(
+        task="standardize", spark_conf_extra={"spark.jars.packages": "org.apache.spark:spark-avro_2.12:3.1.2"}
+    )
+    curate = _build_livy_operator(task="curate")
 
-    ingest >> transform
+    standardize >> curate
