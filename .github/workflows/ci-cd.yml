@@ -21,4 +21,10 @@ jobs:
       run: make test
     - name: Build application
       run: make build
+    - name: Create Github release
+    - uses: "marvinpinto/action-automatic-releases@v1.2.1"
+      with:
+        repo_token: "${{ secrets.GITHUB_TOKEN }}"
+        prerelease: false
+        files: deps/*
     # TODO: release app to S3 (so it's accessible via spark-submit)
