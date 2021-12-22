@@ -18,3 +18,6 @@ jobs:
       run: make pre-commit
     - name: Run tests
       run: make test
+    - name: Build application
+      run: make build
+    # TODO release app to S3 (so it's accessible via spark-submit)
