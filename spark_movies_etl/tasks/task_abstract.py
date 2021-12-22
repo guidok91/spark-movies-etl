@@ -34,10 +34,6 @@ class AbstractTask(ABC):
     def output_partition_date_column(self) -> str:
         return "run_date"
 
-    @property
-    def output_partition_coalesce(self) -> int:
-        return 25
-
     @abstractmethod
     def _input(self) -> DataFrame:
         raise NotImplementedError
@@ -49,7 +45,7 @@ class AbstractTask(ABC):
     def _output(self, df: DataFrame) -> None:
         self.logger.info(f"Saving to table {self.output_table}.")
 
-        df_writer = df.coalesce(self.output_partition_coalesce).write.mode("overwrite").format("parquet")
+        df_writer = df.write.mode("overwrite").format("parquet")
 
         if self._table_exists(self.output_table):
             self.logger.info("Table exists, inserting.")
@@ -60,4 +56,4 @@ class AbstractTask(ABC):
 
     def _table_exists(self, table: str) -> bool:
         db, table_name = table.split(".", maxsplit=1)
-        return table_name in [t.name for t in self.spark.catalog.listTables("default")]
+        return table_name in [t.name for t in self.spark.catalog.listTables(db)]

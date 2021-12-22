@@ -22,12 +22,12 @@ class CurateDataTask(AbstractTask):
         return self.spark.read.table(self.input_table).where(partition)
 
     def _transform(self, df: DataFrame) -> DataFrame:
-        return Transformation(
+        return CurateDataTransformation(
             movie_languages=self.config_manager.get("movie_languages_filter"),
         ).transform(df)
 
 
-class Transformation:
+class CurateDataTransformation:
     RATING_CLASS_LOW = "low"
     RATING_CLASS_AVERAGE = "avg"
     RATING_CLASS_HIGH = "high"

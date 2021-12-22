@@ -1,7 +1,7 @@
 from pyspark.sql import SparkSession
 
 from spark_movies_etl.schema import Schema
-from spark_movies_etl.tasks.task_curate_data import Transformation
+from spark_movies_etl.tasks.task_curate_data import CurateDataTransformation
 from tests.conftest import assert_data_frames_equal
 from tests.spark_movies_etl.unit.tasks.fixtures.data import (
     TEST_TRANSFORM_INPUT,
@@ -11,7 +11,7 @@ from tests.spark_movies_etl.unit.tasks.fixtures.data import (
 
 def test_transform(spark: SparkSession) -> None:
     # GIVEN
-    transformation = Transformation(movie_languages=["EN", "ES", "DE", "FR"])
+    transformation = CurateDataTransformation(movie_languages=["EN", "ES", "DE", "FR"])
     df_input = spark.createDataFrame(
         TEST_TRANSFORM_INPUT,  # type: ignore
         schema=Schema.STANDARDIZED,
