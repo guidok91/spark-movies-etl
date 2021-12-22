@@ -14,9 +14,9 @@ class Executor:
 
     def __init__(self, spark: SparkSession, config_manager: ConfigManager, task: str, execution_date: datetime.date):
         self.spark = spark
+        self.config_manager = config_manager
         self.task = task
         self.execution_date = execution_date
-        self.config_manager = config_manager
         self.logger = spark._jvm.org.apache.log4j.LogManager.getLogger(__name__)  # type: ignore
 
     def run(self) -> None:
