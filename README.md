@@ -28,8 +28,8 @@ Configuration is managed by the [ConfigManager](spark_movies_etl/config/config_m
 ## Packaging and dependency management
 [Poetry](https://python-poetry.org/) is used for Python packaging and dependency management.
 
-## CI
-A Github Actions workflow runs the unit tests and checks (see [here](https://github.com/guidok91/spark-movies-etl/actions)).
+## CI/CD
+A Github Actions workflow here [here](https://github.com/guidok91/spark-movies-etl/actions).
 
 ## Orchestration
 An example Airflow DAG to run this pipeline on a schedule is included under [dags](dags/movie_ratings.py).
