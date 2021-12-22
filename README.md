@@ -34,11 +34,11 @@ A Github Actions workflow for the CI/CD is defined [here](.github/workflows/ci-c
 The logic is as follows:
 * On PR creation:
   * Run code checks and tests.
-  * Build app **. 
+  * Build app **.
   * Release to S3 (to a specific location for the PR, e.g. `s3://movies-binaries/spark-movies-etl/PR-123`).
 * On push to master:
   * Run code checks and tests.
-  * Build app **. 
+  * Build app **.
   * Release to S3 (to the location for the master version, e.g. `s3://movies-binaries/spark-movies-etl/latest`).
   * Create Github release.
 
