@@ -31,4 +31,4 @@ jobs:
         prerelease: false
         automatic_release_tag: "${{ env.PACKAGE_VERSION }}"
         files: deps/*
-    # TODO: release app to S3 (so it's accessible via spark-submit)
+    # TODO: release to S3
