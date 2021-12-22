@@ -29,7 +29,20 @@ Configuration is managed by the [ConfigManager](spark_movies_etl/config/config_m
 [Poetry](https://python-poetry.org/) is used for Python packaging and dependency management.
 
 ## CI/CD
-A Github Actions workflow here [here](https://github.com/guidok91/spark-movies-etl/actions).
+A Github Actions workflow for the CI/CD is defined [here](.github/workflows/ci-cd.yml) can be seen here [here](https://github.com/guidok91/spark-movies-etl/actions).
+
+The logic is as follows:
+* On PR creation:
+  * Run code checks and tests.
+  * Build app **. 
+  * Release to S3 (to a specific location for the PR, e.g. `s3://movies-binaries/spark-movies-etl/PR-123`).
+* On push to master:
+  * Run code checks and tests.
+  * Build app **. 
+  * Release to S3 (to the location for the master version, e.g. `s3://movies-binaries/spark-movies-etl/latest`).
+  * Create Github release.
+
+** The app build contains the entrypoint + a zip containing the whole virtual env, so that all dependencies can be referenced when running the Spark job.
 
 ## Orchestration
 An example Airflow DAG to run this pipeline on a schedule is included under [dags](dags/movie_ratings.py).
