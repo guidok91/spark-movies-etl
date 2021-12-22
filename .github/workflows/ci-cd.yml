@@ -5,7 +5,7 @@ on:
   pull_request:
     branches: [ master ]
 jobs:
-  run-tests:
+  test-build-release:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -20,4 +20,4 @@ jobs:
       run: make test
     - name: Build application
       run: make build
-    # TODO release app to S3 (so it's accessible via spark-submit)
+    # TODO: release app to S3 (so it's accessible via spark-submit)
