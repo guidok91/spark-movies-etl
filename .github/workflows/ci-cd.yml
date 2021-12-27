@@ -16,7 +16,7 @@ jobs:
       with:
         python-version: 3.9
     - name: Test env var
-      run: "echo branch is: ${{ env.GITHUB_REF_NAME }}"
+      run: "echo branch is: $GITHUB_REF_NAME"
 #    - name: Install dependencies
 #      run: make setup
 #    - name: Run code checks
