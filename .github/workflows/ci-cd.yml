@@ -9,9 +9,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: test env var
-        run: "if [ ${{ github.event_name }} == 'push' ]; then echo PR-${{ github.event.pull_request.number }}; else echo LATEST; fi"
-#        run: "echo spark-movies-etl/${{ github.event.pull_request.number || github.event.push.ref }}"
+    - name: Get S3 release path
+      run: |
+        if [ ${{ github.event_name }} == 'push' ]
+        then
+          S3_RELEASE_PATH=spark-movies-etl/latest
+        else
+          S3_RELEASE_PATH=spark-movies-etl/PR-${{ github.event.pull_request.number }}
+        fi
+        echo $S3_RELEASE_PATH
 #    - name: Checkout code
 #      uses: actions/checkout@v2
 #    - name: Setup Python
@@ -36,6 +42,14 @@ jobs:
 #        prerelease: false
 #        automatic_release_tag: "${{ env.PACKAGE_VERSION }}"
 #        files: deps/*
+#    - name: Get S3 release path
+#      run: |
+#        if [ ${{ github.event_name }} == 'push' ]
+#        then
+#          S3_RELEASE_PATH=spark-movies-etl/latest
+#        else
+#          S3_RELEASE_PATH=spark-movies-etl/PR-${{ github.event.pull_request.number }}
+#        fi
 #    - name: Release to S3
 #      uses: jakejarvis/s3-sync-action@v0.5.1
 #      with:
