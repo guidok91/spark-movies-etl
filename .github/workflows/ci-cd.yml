@@ -10,7 +10,8 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: test env var
-        run: "echo spark-movies-etl/${{ github.event.pull_request.number || latest }}"
+        run: "if [ ${{ github.event.pull_request.number }} ]; then echo PR; else echo LATEST; fi"
+#        run: "echo spark-movies-etl/${{ github.event.pull_request.number || github.event.push.ref }}"
 #    - name: Checkout code
 #      uses: actions/checkout@v2
 #    - name: Setup Python
