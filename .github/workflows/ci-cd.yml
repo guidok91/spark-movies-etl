@@ -9,14 +9,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
-    - name: Setup Python
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.9
-    - name: Test env var
-      run: "echo branch is: $GITHUB_REF_NAME"
+      - name: test env var
+        run: "echo spark-movies-etl/${{ github.event.pull_request.number || github.event.push.ref }}"
+#    - name: Checkout code
+#      uses: actions/checkout@v2
+#    - name: Setup Python
+#      uses: actions/setup-python@v2
+#      with:
+#        python-version: 3.9
 #    - name: Install dependencies
 #      run: make setup
 #    - name: Run code checks
@@ -45,4 +45,4 @@ jobs:
 #        AWS_S3_BUCKET: movies-binaries
 #        AWS_REGION: eu-west-1
 #        SOURCE_DIR: deps
-#        DEST_DIR: "spark-movies-etl/${{ env.GITHUB_REF_NAME }}"
+#        DEST_DIR: "spark-movies-etl/${{ github.event.pull_request.number || github.event.push.ref }}"
