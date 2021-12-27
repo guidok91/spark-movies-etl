@@ -34,7 +34,7 @@ jobs:
         automatic_release_tag: "${{ env.PACKAGE_VERSION }}"
         files: deps/*
     - name: Release to S3
-      uses: jakejarvis/s3-sync-action@0.5.1
+      uses: jakejarvis/s3-sync-action@v0.5.1
       with:
         args: --delete
       env:
