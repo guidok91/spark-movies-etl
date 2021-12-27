@@ -40,7 +40,7 @@ jobs:
       env:
         AWS_ACCESS_KEY_ID: "${{ secrets.AWS_ACCESS_KEY_ID }}"
         AWS_SECRET_ACCESS_KEY: "${{ secrets.AWS_SECRET_ACCESS_KEY }}"
-        AWS_S3_BUCKET: "${{ secrets.AWS_S3_BUCKET }}"
-        AWS_REGION: "eu-west-1"
+        AWS_S3_BUCKET: movies-binaries
+        AWS_REGION: eu-west-1
         SOURCE_DIR: deps
         DEST_DIR: "spark-movies-etl/${{ env.GITHUB_REF_NAME }}"
