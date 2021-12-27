@@ -9,7 +9,7 @@ We define a Data Lake with the following layers:
 - `Standardized`: Contains standardized data (catalogued tables) based on the raw files but without any transformations applied (besides masking of PII data).
 - `Curated`: Contains transformed data (catalogued tables) according to business and data quality rules.
 
-[Avro](https://avro.apache.org/) format is used on `Raw` and [Parquet](https://parquet.apache.org/) on `Standardized` and `Curated`.
+[Avro](https://avro.apache.org/) format is used on the `Raw` layer and [Parquet](https://parquet.apache.org/) on the `Standardized` and `Curated` ones.
 
 The data pipeline consists on the following jobs:
  - Standardize task: ingests the dataset from `Raw` into `Standardized`.
@@ -17,7 +17,7 @@ The data pipeline consists on the following jobs:
 
 The datasets are partitioned by execution date.
 
-Base location of the catalog tables is not specified since it should be defined when creating the database(s) in the catalog.
+Base location of the catalog tables is not specified since it should be defined when creating the database(s) in the catalog (location defaults to `$PWD/spark-warehouse` locally).
 
 ## Execution instructions
 The repo includes a `Makefile`. Please run `make help` to see usage.
@@ -29,10 +29,10 @@ Configuration is managed by the [ConfigManager](spark_movies_etl/config/config_m
 [Poetry](https://python-poetry.org/) is used for Python packaging and dependency management.
 
 ## CI/CD
-A Github Actions workflow for the CI/CD is defined [here](.github/workflows/ci-cd.yml) can be seen here [here](https://github.com/guidok91/spark-movies-etl/actions).
+A Github Actions workflow for CI/CD is defined [here](.github/workflows/ci-cd.yml) and can be seen [here](https://github.com/guidok91/spark-movies-etl/actions).
 
 The logic is as follows:
-* On PR creation:
+* On PR creation/update:
   * Run code checks and tests.
   * Build app **.
   * Release to S3 (to a specific location for the PR, e.g. `s3://movies-binaries/spark-movies-etl/PR-123`).
