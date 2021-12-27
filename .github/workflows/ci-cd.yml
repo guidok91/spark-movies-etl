@@ -41,6 +41,7 @@ jobs:
         else
           S3_RELEASE_PATH=spark-movies-etl/PR-${{ github.event.pull_request.number }}
         fi
+        echo "S3_RELEASE_PATH=$S3_RELEASE_PATH" >> $GITHUB_ENV
     - name: Release to S3
       uses: jakejarvis/s3-sync-action@v0.5.1
       with:
