@@ -8,8 +8,8 @@ help:
 	@echo  '  test            - Run unit and integration tests.'
 	@echo  '  pre-commit      - Run checks (code formatter, linter, type checker)'
 	@echo  '  run-local       - Run a task locally. Example usage:'
-	@echo  '                    make run-local task=ingest execution-date=2021-01-01'
-	@echo  '                    make run-local task=transform execution-date=2021-01-01'
+	@echo  '                    make run-local task=standardize execution-date=2021-01-01'
+	@echo  '                    make run-local task=curate execution-date=2021-01-01'
 	@echo  '  run-cluster     - Run a task on a cluster.'
 	@echo  '  clean           - Clean auxiliary files.'
 
