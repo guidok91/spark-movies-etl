@@ -1,9 +1,10 @@
 from pyspark.sql import DataFrame
-from pyspark.sql.functions import lit
-from pyspark.sql.types import IntegerType
 
 from spark_movies_etl.schema import Schema
-from spark_movies_etl.tasks.task_abstract import AbstractTask
+from spark_movies_etl.tasks.abstract.task import AbstractTask
+from spark_movies_etl.tasks.standardize_data.transformation import (
+    StandardizeDataTransformation,
+)
 
 
 class StandardizeDataTask(AbstractTask):
@@ -25,15 +26,4 @@ class StandardizeDataTask(AbstractTask):
         return self.spark.read.format("avro").load(path=self.input_path, schema=Schema.RAW)
 
     def _transform(self, df: DataFrame) -> DataFrame:
-        return df.select(
-            "movie_id",
-            "user_id",
-            "rating",
-            "timestamp",
-            "original_title",
-            "original_language",
-            "budget",
-            "adult",
-            "genres",
-            lit(self.execution_date.strftime("%Y%m%d")).cast(IntegerType()).alias("run_date"),
-        )
+        return StandardizeDataTransformation(self.execution_date).transform(df)

@@ -4,8 +4,8 @@ dynaconf_merge:
 
 global:
   task_argument_class_mapping:
-    standardize: spark_movies_etl.tasks.task_standardize_data.StandardizeDataTask
-    curate: spark_movies_etl.tasks.task_curate_data.CurateDataTask
+    standardize: spark_movies_etl.tasks.StandardizeDataTask
+    curate: spark_movies_etl.tasks.CurateDataTask
   movie_languages_filter: ["EN", "FR", "DE", "ES"]
 
 development:
