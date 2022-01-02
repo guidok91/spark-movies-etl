@@ -18,7 +18,7 @@ jobs:
     - name: Install dependencies
       run: make setup
     - name: Run code checks
-      run: make pre-commit
+      run: make code-checks
     - name: Run tests
       run: make test
     - name: Build application
