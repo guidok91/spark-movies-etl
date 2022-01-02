@@ -1,9 +1,9 @@
 from pyspark.sql import SparkSession
 
 from spark_movies_etl.schema import Schema
-from spark_movies_etl.tasks.task_curate_data import CurateDataTransformation
+from spark_movies_etl.tasks.curate_data.transformation import CurateDataTransformation
 from tests.conftest import assert_data_frames_equal
-from tests.spark_movies_etl.unit.tasks.fixtures.data import (
+from tests.spark_movies_etl.unit.tasks.curate_data.fixtures.data import (
     TEST_TRANSFORM_INPUT,
     TEST_TRANSFORM_OUTPUT_EXPECTED,
 )
