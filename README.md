@@ -29,7 +29,7 @@ Configuration is managed by the [ConfigManager](spark_movies_etl/config/config_m
 [Poetry](https://python-poetry.org/) is used for Python packaging and dependency management.
 
 ## CI/CD
-A Github Actions workflow for CI/CD is defined [here](.github/workflows/ci-cd.yml) and can be seen [here](https://github.com/guidok91/spark-movies-etl/actions).
+Github Actions workflows for CI/CD are defined [here](.github/workflows) and can be seen [here](https://github.com/guidok91/spark-movies-etl/actions).
 
 The logic is as follows:
 * On PR creation/update:
