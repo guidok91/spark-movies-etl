@@ -1,4 +1,4 @@
-name: CI/CD - PR workflow
+name: CI/CD - PR
 on:
   pull_request:
     branches: [ master ]

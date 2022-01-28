@@ -1,4 +1,4 @@
-name: CI/CD - Push to master workflow
+name: CI/CD - Push to master
 on:
   push:
     branches: [ master ]
