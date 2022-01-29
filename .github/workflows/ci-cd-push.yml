@@ -1,7 +1,9 @@
 name: CI/CD - Push to master
+
 on:
   push:
     branches: [ master ]
+
 jobs:
   ci-cd-push:
     runs-on: ubuntu-latest
@@ -9,20 +11,27 @@ jobs:
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
+
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
         python-version: 3.9
+
     - name: Install dependencies
       run: make setup
+
     - name: Run code checks
       run: make code-checks
+
     - name: Run tests
       run: make test
+
     - name: Build application
       run: make build
+
     - name: Get package version
       run: echo "PACKAGE_VERSION=$(poetry version --short)" >> $GITHUB_ENV
+
     - name: Create Github release
       uses: "marvinpinto/action-automatic-releases@v1.2.1"
       with:
@@ -30,6 +39,7 @@ jobs:
         prerelease: false
         automatic_release_tag: "${{ env.PACKAGE_VERSION }}"
         files: deps/*
+
     # Leave S3 release commented out since it's not a production repo
     # - name: Release to S3
     #   uses: jakejarvis/s3-sync-action@v0.5.1
