@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "spark-movies-etl"
-version = "0.1.0"
-description = "Data pipeline that ingests and transforms a movies dataset"
+version = "0.1.1"
+description = "Data pipeline that ingests and transforms movie ratings data"
 authors = ["Guido Kosloff Gancedo <guidokosloff@gmail.com>"]
 
 [tool.poetry.dependencies]
@@ -15,7 +15,7 @@ mypy = "0.910"
 isort = "5.10.1"
 pytest = "6.2.5"
 pytest-cov = "2.12.1"
-black = "21.12b0"
+black = "22.1.0"
 pre-commit = "2.16.0"
 pandas = "1.3.5"
 apache-airflow = "2.2.3"
