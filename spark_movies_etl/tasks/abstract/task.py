@@ -44,15 +44,24 @@ class AbstractTask(ABC):
 
     def _output(self, df: DataFrame) -> None:
         self.logger.info(f"Saving to table {self.output_table}.")
-
-        df_writer = df.write.mode("overwrite").format("parquet")
+        write_mode = "overwrite"
+        write_format = "parquet"
 
         if self._table_exists(self.output_table):
             self.logger.info("Table exists, inserting.")
-            df_writer.insertInto(self.output_table)
+            (
+                df.select(self.spark.read.table(self.output_table).columns)
+                .write.mode(write_mode)
+                .insertInto(self.output_table)
+            )
         else:
             self.logger.info("Table does not exist, creating and saving.")
-            df_writer.partitionBy([self.output_partition_date_column]).saveAsTable(self.output_table)
+            (
+                df.write.mode(write_mode)
+                .format(write_format)
+                .partitionBy([self.output_partition_date_column])
+                .saveAsTable(self.output_table)
+            )
 
     def _table_exists(self, table: str) -> bool:
         db, table_name = table.split(".", maxsplit=1)
