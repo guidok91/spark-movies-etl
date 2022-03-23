@@ -14,7 +14,7 @@ help:
 	@echo  '  clean           - Clean auxiliary files.'
 
 setup:
-	pip install poetry
+	pip install --upgrade pip setuptools wheel poetry
 	poetry config virtualenvs.in-project true --local
 	poetry install
 
