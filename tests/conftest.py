@@ -1,7 +1,7 @@
 from typing import Generator
 
 import pytest as pytest
-from pandas import testing
+from chispa.dataframe_comparer import assert_df_equality
 from pyspark.sql import DataFrame, SparkSession
 
 
@@ -20,7 +20,4 @@ def spark() -> Generator:
 
 
 def assert_data_frames_equal(left: DataFrame, right: DataFrame) -> None:
-    testing.assert_frame_equal(
-        left.orderBy(left.columns).toPandas(),  # type: ignore
-        right.orderBy(right.columns).toPandas(),  # type: ignore
-    )
+    assert_df_equality(left, right, ignore_row_order=True)
