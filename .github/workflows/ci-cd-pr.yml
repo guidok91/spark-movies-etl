@@ -5,7 +5,8 @@ on:
     branches: [ master ]
 
 jobs:
-  ci-cd-pr:
+  test:
+    name: Test
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
@@ -25,6 +26,20 @@ jobs:
 
     - name: Run tests
       run: make test
+
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    needs: test
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Setup Python
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.9
 
     - name: Build application
       run: make build
