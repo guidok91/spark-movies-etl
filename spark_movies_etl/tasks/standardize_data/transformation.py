@@ -22,5 +22,5 @@ class StandardizeDataTransformation(AbstractTransformation):
             "budget",
             "adult",
             "genres",
-            lit(self.execution_date.strftime("%Y%m%d")).cast(IntegerType()).alias("run_date"),
+            lit(int(self.execution_date.strftime("%Y%m%d"))).alias("run_date"),
         )
