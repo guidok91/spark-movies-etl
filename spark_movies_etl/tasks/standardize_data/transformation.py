@@ -2,7 +2,6 @@ import datetime
 
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import lit
-from pyspark.sql.types import IntegerType
 
 from spark_movies_etl.tasks.abstract.transformation import AbstractTransformation
 
@@ -22,5 +21,5 @@ class StandardizeDataTransformation(AbstractTransformation):
             "budget",
             "adult",
             "genres",
-            lit(self.execution_date.strftime("%Y%m%d")).cast(IntegerType()).alias("run_date"),
+            lit(int(self.execution_date.strftime("%Y%m%d"))).alias("run_date"),
         )
