@@ -2,7 +2,6 @@ import datetime
 
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import lit
-from pyspark.sql.types import IntegerType
 
 from spark_movies_etl.tasks.abstract.transformation import AbstractTransformation
 
