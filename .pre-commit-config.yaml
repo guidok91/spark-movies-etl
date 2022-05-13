@@ -9,25 +9,25 @@ repos:
     hooks:
     -   id: black
         name: black
-        entry: black spark_movies_etl tests dags
+        entry: black spark_movies_etl tests
         language: system
         types: [python]
         pass_filenames: false
     -   id: isort
         name: isort
-        entry: isort spark_movies_etl tests dags
+        entry: isort spark_movies_etl tests
         language: system
         types: [python]
         pass_filenames: false
     -   id: flake8
         name: flake8
-        entry: flake8 spark_movies_etl tests dags
+        entry: flake8 spark_movies_etl tests
         language: system
         types: [python]
         pass_filenames: false
     -   id: mypy
         name: mypy
-        entry: mypy spark_movies_etl tests dags
+        entry: mypy spark_movies_etl tests
         language: system
         types: [python]
         pass_filenames: false
