@@ -45,4 +45,4 @@ The logic is as follows:
 ** The app build contains the entrypoint + a zip containing the whole virtual env, so that all dependencies can be referenced when running the Spark job.
 
 ## Orchestration
-An example Airflow DAG to run this pipeline on a schedule is included under [dags](dags/movie_ratings.py).
+An example Airflow DAG to run this pipeline on a schedule can be found [here](https://github.com/guidok91/airflow-demo/tree/master/dags/movie_ratings).
