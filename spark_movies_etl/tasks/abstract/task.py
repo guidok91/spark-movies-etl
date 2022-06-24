@@ -3,6 +3,7 @@ from abc import ABC, abstractmethod
 from logging import Logger
 
 from pyspark.sql import DataFrame, SparkSession
+from pyspark.sql.types import StructType
 
 from spark_movies_etl.config.config_manager import ConfigManager
 
@@ -25,15 +26,6 @@ class AbstractTask(ABC):
         df_transformed = self._transform(df)
         self._output(df_transformed)
 
-    @property
-    @abstractmethod
-    def output_table(self) -> str:
-        raise NotImplementedError
-
-    @property
-    def output_partition_date_column(self) -> str:
-        return "run_date"
-
     @abstractmethod
     def _input(self) -> DataFrame:
         raise NotImplementedError
@@ -43,24 +35,38 @@ class AbstractTask(ABC):
         raise NotImplementedError
 
     def _output(self, df: DataFrame) -> None:
-        self.logger.info(f"Saving to table {self.output_table}.")
+        self.logger.info(f"Saving to table {self._output_table}.")
         write_mode = "overwrite"
         write_format = "parquet"
 
-        if self._table_exists(self.output_table):
+        self._validate_schema(df)
+
+        if self._table_exists(self._output_table):
             self.logger.info("Table exists, inserting.")
             (
-                df.select(self.spark.read.table(self.output_table).columns)
+                df.select(self.spark.read.table(self._output_table).columns)
                 .write.mode(write_mode)
-                .insertInto(self.output_table)
+                .insertInto(self._output_table)
             )
         else:
             self.logger.info("Table does not exist, creating and saving.")
-            (
-                df.write.mode(write_mode)
-                .format(write_format)
-                .partitionBy([self.output_partition_date_column])
-                .saveAsTable(self.output_table)
+            (df.write.mode(write_mode).format(write_format).partitionBy(["run_date"]).saveAsTable(self._output_table))
+
+    @property
+    @abstractmethod
+    def _output_table(self) -> str:
+        raise NotImplementedError
+
+    @property
+    def _output_schema(self) -> StructType:
+        raise NotImplementedError
+
+    def _validate_schema(self, df: DataFrame) -> None:
+        if df.schema != self._output_schema:
+            raise TypeError(
+                f"DataFrame schema does not match required output schema.\n"
+                f"DataFrame schema: {df.schema}\n"
+                f"Required output schema: {self._output_schema}"
             )
 
     def _table_exists(self, table: str) -> bool:
