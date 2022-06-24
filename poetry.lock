@@ -54,7 +54,7 @@ python-versions = ">=3.6.1"
 name = "chispa"
 version = "0.9.2"
 description = "Pyspark test helper library"
-category = "dev"
+category = "main"
 optional = false
 python-versions = ">=3.5"
 
@@ -433,7 +433,7 @@ testing = ["coverage (>=4)", "coverage-enable-subprocess (>=1)", "flaky (>=3)", 
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "2bcc26014d49c233de331a44ab210e1cfa245c09b2249793a0f1d95babe2b4ea"
+content-hash = "9f89fecc360cef41e8704f190878be5976df99e268cfdab61289e3f9c8ad0a96"
 
 [metadata.files]
 atomicwrites = [

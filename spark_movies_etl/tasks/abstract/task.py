@@ -4,7 +4,7 @@ from logging import Logger
 
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.types import StructType
-
+from chispa.schema_comparer import assert_schema_equality_ignore_nullable
 from spark_movies_etl.config.config_manager import ConfigManager
 
 
@@ -39,7 +39,7 @@ class AbstractTask(ABC):
         write_mode = "overwrite"
         write_format = "parquet"
 
-        self._validate_schema(df)
+        assert_schema_equality_ignore_nullable(df.schema, self._output_schema)
 
         if self._table_exists(self._output_table):
             self.logger.info("Table exists, inserting.")
@@ -60,14 +60,6 @@ class AbstractTask(ABC):
     @property
     def _output_schema(self) -> StructType:
         raise NotImplementedError
-
-    def _validate_schema(self, df: DataFrame) -> None:
-        if df.schema != self._output_schema:
-            raise TypeError(
-                f"DataFrame schema does not match required output schema.\n"
-                f"DataFrame schema: {df.schema}\n"
-                f"Required output schema: {self._output_schema}"
-            )
 
     def _table_exists(self, table: str) -> bool:
         db, table_name = table.split(".", maxsplit=1)
