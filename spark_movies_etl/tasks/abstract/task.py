@@ -2,9 +2,10 @@ import datetime
 from abc import ABC, abstractmethod
 from logging import Logger
 
+from chispa.schema_comparer import assert_schema_equality_ignore_nullable
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.types import StructType
-from chispa.schema_comparer import assert_schema_equality_ignore_nullable
+
 from spark_movies_etl.config.config_manager import ConfigManager
 
 
