@@ -3,8 +3,8 @@ import datetime
 
 from pyspark.sql import SparkSession
 
-from spark_movies_etl.config.config_manager import ConfigManager
-from spark_movies_etl.executor import Executor
+from movies_etl.config.config_manager import ConfigManager
+from movies_etl.executor import Executor
 
 
 def _parse_args() -> argparse.Namespace:

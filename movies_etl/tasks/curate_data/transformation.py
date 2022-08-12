@@ -5,7 +5,7 @@ from typing import List
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col, size, upper, when
 
-from spark_movies_etl.tasks.abstract.transformation import AbstractTransformation
+from movies_etl.tasks.abstract.transformation import AbstractTransformation
 
 
 class CurateDataTransformation(AbstractTransformation):

@@ -23,7 +23,7 @@ Base location of the catalog tables is not specified since it should be defined 
 The repo includes a `Makefile`. Please run `make help` to see usage.
 
 ## Configuration management
-Configuration is managed by the [ConfigManager](spark_movies_etl/config/config_manager.py) class, which is a wrapper around [Dynaconf](https://www.dynaconf.com/).
+Configuration is managed by the [ConfigManager](movies_etl/config/config_manager.py) class, which is a wrapper around [Dynaconf](https://www.dynaconf.com/).
 
 ## Packaging and dependency management
 [Poetry](https://python-poetry.org/) is used for Python packaging and dependency management.

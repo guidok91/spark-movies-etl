@@ -3,11 +3,11 @@ import datetime
 import pytest
 from pyspark.sql import SparkSession
 
-from spark_movies_etl.config.config_manager import ConfigException, ConfigManager
-from spark_movies_etl.executor import Executor
-from spark_movies_etl.schema import Schema
+from movies_etl.config.config_manager import ConfigException, ConfigManager
+from movies_etl.executor import Executor
+from movies_etl.schema import Schema
 from tests.conftest import assert_data_frames_equal
-from tests.spark_movies_etl.integration.fixtures.data import (
+from tests.movies_etl.integration.fixtures.data import (
     TEST_CURATE_OUTPUT_EXPECTED,
     TEST_STANDARDIZE_OUTPUT_EXPECTED,
 )

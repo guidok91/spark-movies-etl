@@ -3,7 +3,7 @@ import datetime
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import lit
 
-from spark_movies_etl.tasks.abstract.transformation import AbstractTransformation
+from movies_etl.tasks.abstract.transformation import AbstractTransformation
 
 
 class StandardizeDataTransformation(AbstractTransformation):
