@@ -1,6 +1,7 @@
 import datetime
 from abc import ABC, abstractmethod
 from logging import Logger
+from typing import List
 
 from pyspark.sql import DataFrame, SparkSession
 
@@ -31,8 +32,12 @@ class AbstractTask(ABC):
         raise NotImplementedError
 
     @property
-    def output_partition_date_column(self) -> str:
+    def partition_column_run_day(self) -> str:
         return "run_date"
+
+    @property
+    def partition_columns_extra(self) -> List[str]:
+        return []
 
     @abstractmethod
     def _input(self) -> DataFrame:
@@ -59,7 +64,7 @@ class AbstractTask(ABC):
             (
                 df.write.mode(write_mode)
                 .format(write_format)
-                .partitionBy([self.output_partition_date_column])
+                .partitionBy([self.partition_column_run_day] + self.partition_columns_extra)
                 .saveAsTable(self.output_table)
             )
 
