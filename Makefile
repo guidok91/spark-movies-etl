@@ -19,10 +19,9 @@ setup:
 	poetry install
 
 build:
-	rm -rf deps
-	mkdir deps
 	poetry build
 	poetry run pip install dist/*.whl -t libs
+	mkdir deps
 	cp movies_etl/main.py deps
 	poetry run python -m zipfile -c deps/libs.zip libs/*
 
