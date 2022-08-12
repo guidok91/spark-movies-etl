@@ -1,8 +1,8 @@
 from pyspark.sql import DataFrame
 
-from spark_movies_etl.schema import Schema
-from spark_movies_etl.tasks.abstract.task import AbstractTask
-from spark_movies_etl.tasks.standardize_data.transformation import (
+from movies_etl.schema import Schema
+from movies_etl.tasks.abstract.task import AbstractTask
+from movies_etl.tasks.standardize_data.transformation import (
     StandardizeDataTransformation,
 )
 

@@ -4,7 +4,7 @@ from typing import Callable
 
 from pyspark.sql import SparkSession
 
-from spark_movies_etl.config.config_manager import ConfigManager
+from movies_etl.config.config_manager import ConfigManager
 
 
 class Executor:

@@ -4,12 +4,12 @@ dynaconf_merge:
 
 global:
   task_argument_class_mapping:
-    standardize: spark_movies_etl.tasks.StandardizeDataTask
-    curate: spark_movies_etl.tasks.CurateDataTask
+    standardize: movies_etl.tasks.StandardizeDataTask
+    curate: movies_etl.tasks.CurateDataTask
   movie_languages_filter: ["EN"]
   data_lake:
     raw:
-      base_path: tests/spark_movies_etl/integration/fixtures/data-lake-raw-test
+      base_path: tests/movies_etl/integration/fixtures/data-lake-raw-test
       dataset: movie_ratings
     standardized:
       table: test.movie_ratings_standardized

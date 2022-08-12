@@ -4,7 +4,7 @@ from logging import Logger
 
 from pyspark.sql import DataFrame, SparkSession
 
-from spark_movies_etl.config.config_manager import ConfigManager
+from movies_etl.config.config_manager import ConfigManager
 
 
 class AbstractTask(ABC):

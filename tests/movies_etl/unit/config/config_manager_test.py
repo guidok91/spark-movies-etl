@@ -2,7 +2,7 @@ import os
 
 import pytest
 
-from spark_movies_etl.config.config_manager import ConfigException, ConfigManager
+from movies_etl.config.config_manager import ConfigException, ConfigManager
 
 
 def test_read_existent_key() -> None:

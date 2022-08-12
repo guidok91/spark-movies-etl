@@ -1,7 +1,7 @@
 from pyspark.sql import DataFrame
 
-from spark_movies_etl.tasks.abstract.task import AbstractTask
-from spark_movies_etl.tasks.curate_data.transformation import CurateDataTransformation
+from movies_etl.tasks.abstract.task import AbstractTask
+from movies_etl.tasks.curate_data.transformation import CurateDataTransformation
 
 
 class CurateDataTask(AbstractTask):

@@ -26,7 +26,7 @@ build:
 	source .venv_build/bin/activate && \
 	pip install venv-pack==0.2.0 . && \
 	venv-pack -o deps/environment.tar.gz && \
-	cp spark_movies_etl/main.py deps && \
+	cp movies_etl/main.py deps && \
 	rm -r .venv_build
 
 test:
@@ -38,7 +38,7 @@ code-checks:
 run-local:
 	poetry run spark-submit \
 	--master local[*] \
-	spark_movies_etl/main.py \
+	movies_etl/main.py \
 	--task ${task} \
 	--execution-date ${execution-date}
 
@@ -52,4 +52,4 @@ run-cluster:
 	--execution-date ${execution-date}
 
 clean:
-	rm -rf deps/ .pytest_cache .mypy_cache spark_movies_etl.egg-info *.xml .coverage* derby.log metastore_db spark-warehouse
+	rm -rf deps/ .pytest_cache .mypy_cache movies_etl.egg-info *.xml .coverage* derby.log metastore_db spark-warehouse

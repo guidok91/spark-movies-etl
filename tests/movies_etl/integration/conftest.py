@@ -3,7 +3,7 @@ import os
 
 import pytest as pytest
 
-from spark_movies_etl.config.config_manager import ConfigManager
+from movies_etl.config.config_manager import ConfigManager
 
 
 @pytest.fixture(scope="package")

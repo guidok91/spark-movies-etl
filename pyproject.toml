@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "spark-movies-etl"
+name = "movies-etl"
 version = "0.1.1"
 description = "Data pipeline that ingests and transforms movie ratings data"
 authors = ["Guido Kosloff Gancedo <guidokosloff@gmail.com>"]
@@ -47,7 +47,7 @@ profile = "black"
 
 [tool.coverage.run]
 branch = true
-source = ["spark_movies_etl"]
+source = ["movies_etl"]
 
 [tool.coverage.report]
 show_missing = true
