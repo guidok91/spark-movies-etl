@@ -42,7 +42,7 @@ The logic is as follows:
   * Release to S3 (to the location for the master version, e.g. `s3://movies-binaries/movies-etl/latest`).
   * Create Github release.
 
-** The app build contains the entrypoint + a zip containing the whole virtual env, so that all dependencies can be referenced when running the Spark job.
+** The app build contains the Python entrypoint file + a zip containing all the dependencies (Python packages).
 
 ## Orchestration
 An example Airflow DAG to run this pipeline on a schedule can be found [here](https://github.com/guidok91/airflow-demo/tree/master/dags/movie_ratings).
