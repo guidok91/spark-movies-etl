@@ -23,7 +23,7 @@ Base location of the catalog tables is not specified since it should be defined 
 The repo includes a `Makefile`. Please run `make help` to see usage.
 
 ## Configuration management
-Configuration is managed by the [ConfigManager](movies_etl/config/config_manager.py) class, which is a wrapper around [Dynaconf](https://www.dynaconf.com/).
+Configuration is managed by the [ConfigManager](movies_etl/config_manager.py) class, which is a wrapper around [Dynaconf](https://www.dynaconf.com/).
 
 ## Packaging and dependency management
 [Poetry](https://python-poetry.org/) is used for Python packaging and dependency management.
@@ -34,15 +34,18 @@ Github Actions workflows for CI/CD are defined [here](.github/workflows) and can
 The logic is as follows:
 * On PR creation/update:
   * Run code checks and tests.
-  * Build app **.
+  * Build app (*).
   * Release to S3 (to a specific location for the PR, e.g. `s3://movies-binaries/movies-etl/PR-123`).
 * On push to master:
   * Run code checks and tests.
-  * Build app **.
+  * Build app (*).
   * Release to S3 (to the location for the master version, e.g. `s3://movies-binaries/movies-etl/latest`).
   * Create Github release.
 
-** The app build contains the Python entrypoint file + a zip containing all the dependencies (Python packages).
+(*) The app build contains:
+* The Python entrypoint file.
+* A zip containing all the dependencies (Python packages).
+* The `app_config.yaml` file.
 
 ## Orchestration
 An example Airflow DAG to run this pipeline on a schedule can be found [here](https://github.com/guidok91/airflow-demo/tree/master/dags/movie_ratings).
