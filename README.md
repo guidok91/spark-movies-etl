@@ -9,7 +9,7 @@ We define a Data Lake with the following layers:
 - `Standardized`: Contains standardized data (catalogued tables) based on the raw files but without any transformations applied (besides masking of PII data).
 - `Curated`: Contains transformed data (catalogued tables) according to business and data quality rules.
 
-[Avro](https://avro.apache.org/) format is used on the `Raw` layer and [Parquet](https://parquet.apache.org/) on the `Standardized` and `Curated` ones.
+[Parquet](https://parquet.apache.org/) file format is used on all layers.
 
 The data pipeline consists on the following jobs:
  - Standardize task: ingests the dataset from `Raw` into `Standardized`.

@@ -23,7 +23,7 @@ class StandardizeDataTask(AbstractTask):
 
     def _input(self) -> DataFrame:
         self.logger.info(f"Reading raw data from {self.input_path}.")
-        return self.spark.read.format("avro").load(path=self.input_path, schema=Schema.RAW)
+        return self.spark.read.format("parquet").load(path=self.input_path, schema=Schema.RAW)
 
     def _transform(self, df: DataFrame) -> DataFrame:
         return StandardizeDataTransformation(self.execution_date).transform(df)
