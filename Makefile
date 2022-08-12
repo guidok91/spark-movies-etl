@@ -38,7 +38,6 @@ code-checks:
 run-local:
 	poetry run spark-submit \
 	--master local[*] \
-	--packages org.apache.spark:spark-avro_2.12:3.2.0 \
 	spark_movies_etl/main.py \
 	--task ${task} \
 	--execution-date ${execution-date}
@@ -47,7 +46,6 @@ run-cluster:
 	PYSPARK_PYTHON=./environment/bin/python spark-submit \
 	--master yarn \
 	--deploy-mode cluster \
-	--packages org.apache.spark:spark-avro_2.12:3.2.0 \
 	--archives s3://movies-binaries/spark-movies-etl/latest/environment.tar.gz#environment \
 	s3://movies-binaries/spark-movies-etl/latest/main.py \
 	--task ${task} \
