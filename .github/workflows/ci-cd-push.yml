@@ -67,4 +67,4 @@ jobs:
     #     AWS_REGION: eu-west-1
     #     AWS_S3_BUCKET: movies-binaries
     #     SOURCE_DIR: deps
-    #     DEST_DIR: spark-movies-etl/latest
+    #     DEST_DIR: movies-etl/latest

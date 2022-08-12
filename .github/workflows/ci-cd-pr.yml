@@ -41,6 +41,9 @@ jobs:
       with:
         python-version: 3.9
 
+    - name: Install dependencies
+      run: make setup
+
     - name: Build application
       run: make build
 
@@ -53,4 +56,4 @@ jobs:
     #     AWS_REGION: eu-west-1
     #     AWS_S3_BUCKET: movies-binaries
     #     SOURCE_DIR: deps
-    #     DEST_DIR: "spark-movies-etl/PR-${{ github.event.pull_request.number }}"
+    #     DEST_DIR: "movies-etl/PR-${{ github.event.pull_request.number }}"
