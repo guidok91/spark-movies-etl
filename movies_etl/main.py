@@ -4,7 +4,7 @@ import datetime
 from pyspark.sql import SparkSession
 
 from movies_etl.config_manager import ConfigManager
-from movies_etl.executor import Executor
+from movies_etl.tasks.task_runner import TaskRunner
 
 
 def _parse_args() -> argparse.Namespace:
@@ -31,7 +31,7 @@ def main() -> None:
     spark = _init_spark(args.task)
     config_manager = ConfigManager(args.config_file_path)
 
-    Executor(spark, config_manager, args.task, args.execution_date).run()
+    TaskRunner(spark, config_manager, args.task, args.execution_date).run()
 
 
 if __name__ == "__main__":

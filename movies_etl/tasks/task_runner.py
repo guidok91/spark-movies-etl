@@ -7,7 +7,7 @@ from pyspark.sql import SparkSession
 from movies_etl.config_manager import ConfigManager
 
 
-class Executor:
+class TaskRunner:
     """
     Loads a Task class and calls its `run()` method.
     """
