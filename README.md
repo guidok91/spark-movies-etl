@@ -35,11 +35,11 @@ The logic is as follows:
 * On PR creation/update:
   * Run code checks and tests.
   * Build app **.
-  * Release to S3 (to a specific location for the PR, e.g. `s3://movies-binaries/spark-movies-etl/PR-123`).
+  * Release to S3 (to a specific location for the PR, e.g. `s3://movies-binaries/movies-etl/PR-123`).
 * On push to master:
   * Run code checks and tests.
   * Build app **.
-  * Release to S3 (to the location for the master version, e.g. `s3://movies-binaries/spark-movies-etl/latest`).
+  * Release to S3 (to the location for the master version, e.g. `s3://movies-binaries/movies-etl/latest`).
   * Create Github release.
 
 ** The app build contains the entrypoint + a zip containing the whole virtual env, so that all dependencies can be referenced when running the Spark job.

@@ -19,15 +19,12 @@ setup:
 	poetry install
 
 build:
-	# Can't use `poetry build`: we need to package the whole venv with all dependencies.
-	rm -rf deps && \
-	mkdir deps && \
-	python -m venv .venv_build && \
-	source .venv_build/bin/activate && \
-	pip install venv-pack==0.2.0 . && \
-	venv-pack -o deps/environment.tar.gz && \
-	cp movies_etl/main.py deps && \
-	rm -r .venv_build
+	rm -rf deps
+	mkdir deps
+	poetry build
+	poetry run pip install dist/*.whl -t libs
+	cp movies_etl/main.py deps
+	poetry run python -m zipfile -c deps/libs.zip libs/*
 
 test:
 	poetry run pytest --cov -vvvv --showlocals --disable-warnings tests
@@ -43,13 +40,13 @@ run-local:
 	--execution-date ${execution-date}
 
 run-cluster:
-	PYSPARK_PYTHON=./environment/bin/python spark-submit \
+	spark-submit \
 	--master yarn \
 	--deploy-mode cluster \
-	--archives s3://movies-binaries/spark-movies-etl/latest/environment.tar.gz#environment \
-	s3://movies-binaries/spark-movies-etl/latest/main.py \
+	--py-files s3://movies-binaries/movies-etl/latest/libs.zip \
+	s3://movies-binaries/movies-etl/latest/main.py \
 	--task ${task} \
 	--execution-date ${execution-date}
 
 clean:
-	rm -rf deps/ .pytest_cache .mypy_cache movies_etl.egg-info *.xml .coverage* derby.log metastore_db spark-warehouse
+	rm -rf deps/ dist/ libs/ .pytest_cache .mypy_cache movies_etl.egg-info *.xml .coverage* derby.log metastore_db spark-warehouse
