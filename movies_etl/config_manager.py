@@ -5,9 +5,7 @@ from dynaconf import LazySettings
 
 
 class ConfigManager:
-    LOCAL_CONFIG_FILE = f"{os.path.dirname(os.path.realpath(__file__))}/config.yaml"
-
-    def __init__(self, config_file: str = LOCAL_CONFIG_FILE) -> None:
+    def __init__(self, config_file: str) -> None:
         self._validate_config_file(config_file)
         self.settings = LazySettings(environments=True, settings_file=config_file)
 

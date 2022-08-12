@@ -3,7 +3,7 @@ import datetime
 import pytest
 from pyspark.sql import SparkSession
 
-from movies_etl.config.config_manager import ConfigException, ConfigManager
+from movies_etl.config_manager import ConfigException, ConfigManager
 from movies_etl.executor import Executor
 from movies_etl.schema import Schema
 from tests.conftest import assert_data_frames_equal
