@@ -7,11 +7,10 @@ global:
     standardize: movies_etl.tasks.StandardizeDataTask
     curate: movies_etl.tasks.CurateDataTask
   movie_languages_filter: ["EN"]
-  data_lake:
+  data:
     raw:
-      base_path: tests/movies_etl/integration/fixtures/data-lake-raw-test
-      dataset: movie_ratings
+      location: tests/movies_etl/integration/fixtures/data-lake-raw-test/movie_ratings
     standardized:
-      table: test.movie_ratings_standardized
+      table: iceberg.test.movie_ratings_standardized
     curated:
-      table: test.movie_ratings_curated
+      table: iceberg.test.movie_ratings_curated

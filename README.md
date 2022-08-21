@@ -4,20 +4,22 @@
 
 Spark data pipeline that ingests and transforms movie ratings data.
 
-We define a Data Lake with the following layers:
-- `Raw`: Contains raw data files directly ingested from an event stream, e.g. a Kafka connector. Data is not catalogued and should generally not be accessible (can contain PII).
-- `Standardized`: Contains standardized data (catalogued tables) based on the raw files but without any transformations applied (besides masking of PII data).
+## Data Architecture
+We define a Data Lakehouse architecture with the following layers:
+- `Raw`: Contains raw data files directly ingested from an event stream, e.g. Kafka. Data is not catalogued and should generally not be accessible (can contain PII).
+- `Standardized`: Contains standardized data (catalogued tables) based on the raw data but without any transformations applied (besides masking of PII data if necessary).
 - `Curated`: Contains transformed data (catalogued tables) according to business and data quality rules.
 
-[Parquet](https://parquet.apache.org/) file format is used on all layers.
+[Apache Iceberg](https://iceberg.apache.org/) is used as the table format.
 
-The data pipeline consists on the following jobs:
- - Standardize task: ingests the dataset from `Raw` into `Standardized`.
+![data architecture](https://user-images.githubusercontent.com/38698125/185810636-6eab5eff-9129-44b2-b366-0823e3c37759.png)
+
+## Data pipeline design
+The data pipeline consists of the following tasks:
+ - Standardize task: ingests the dataset from the `Raw` layer into the `Standardized` one.
  - Curate task: consumes the dataset from `Standardized`, performs transformations and business logic, and persists into `Curated`.
 
 The datasets are partitioned by execution date.
-
-Base location of the catalog tables is not specified since it should be defined when creating the database(s) in the catalog (location defaults to `$PWD/spark-warehouse` locally).
 
 ## Execution instructions
 The repo includes a `Makefile`. Please run `make help` to see usage.
