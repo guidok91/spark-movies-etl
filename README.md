@@ -12,7 +12,7 @@ We define a Data Lake with the following layers:
 
 [Parquet](https://parquet.apache.org/) file format is used on the raw layer and [Iceberg](https://iceberg.apache.org/) on the standardized and curated ones.
 
-![data architecture](https://user-images.githubusercontent.com/38698125/185794696-f02fe543-658d-47f1-8e6a-41fb36adeebb.png)
+![data architecture](https://user-images.githubusercontent.com/38698125/185795387-76d6206c-6741-4169-b090-5fe31dc5fd9e.png)
 
 ## Data pipeline design
 The data pipeline consists of the following tasks:
