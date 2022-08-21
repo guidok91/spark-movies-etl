@@ -50,7 +50,7 @@ def _test_run_standardize(spark: SparkSession, config_manager: ConfigManager, ex
     task_runner.run()
 
     # THEN
-    df_output = spark.read.table(config_manager.get("data_lake.standardized.table"))
+    df_output = spark.read.table(config_manager.get("data.standardized.table"))
     assert_data_frames_equal(df_output, df_expected)
 
 
@@ -66,5 +66,5 @@ def _test_run_curate(spark: SparkSession, config_manager: ConfigManager, executi
     task_runner.run()
 
     # THEN
-    df_output = spark.read.table(config_manager.get("data_lake.curated.table"))
+    df_output = spark.read.table(config_manager.get("data.curated.table"))
     assert_data_frames_equal(df_output, df_expected)

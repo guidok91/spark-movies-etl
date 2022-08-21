@@ -10,16 +10,12 @@ from movies_etl.tasks.standardize_data.transformation import (
 class StandardizeDataTask(AbstractTask):
     @property
     def input_path(self) -> str:
-        base_input_path = (
-            f"{self.config_manager.get('data_lake.raw.base_path')}"
-            f"/{self.config_manager.get('data_lake.raw.dataset')}"
-        )
         execution_date_str = self.execution_date.strftime("%Y/%m/%d")
-        return f"{base_input_path}/{execution_date_str}"
+        return f"{self.config_manager.get('data.raw.location')}/{execution_date_str}"
 
     @property
     def output_table(self) -> str:
-        return self.config_manager.get("data_lake.standardized.table")
+        return self.config_manager.get("data.standardized.table")
 
     def _input(self) -> DataFrame:
         self.logger.info(f"Reading raw data from {self.input_path}.")

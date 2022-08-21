@@ -7,11 +7,11 @@ from movies_etl.tasks.curate_data.transformation import CurateDataTransformation
 class CurateDataTask(AbstractTask):
     @property
     def input_table(self) -> str:
-        return self.config_manager.get("data_lake.standardized.table")
+        return self.config_manager.get("data.standardized.table")
 
     @property
     def output_table(self) -> str:
-        return self.config_manager.get("data_lake.curated.table")
+        return self.config_manager.get("data.curated.table")
 
     def _input(self) -> DataFrame:
         partition_expr = f"{self.partition_column_run_day} = {self.execution_date.strftime('%Y%m%d')}"

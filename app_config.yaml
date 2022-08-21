@@ -9,30 +9,27 @@ global:
   movie_languages_filter: ["EN", "FR", "DE", "ES"]
 
 development:
-  data_lake:
+  data:
     raw:
-      base_path: data-lake-raw-dev
-      dataset: movie_ratings
+      location: data-lake-raw-dev/movie_ratings
     standardized:
       table: iceberg.default.movie_ratings_standardized
     curated:
       table: iceberg.default.movie_ratings_curated
 
 staging:
-  data_lake:
+  data:
     raw:
-      base_path: s3://data-lake-raw-staging
-      dataset: movie_ratings
+      location: s3://data-lake-raw-staging/movie_ratings
     standardized:
       table: iceberg.standardized_staging.movie_ratings
     curated:
       table: iceberg.curated_staging.movie_ratings
 
 live:
-  data_lake:
+  data:
     raw:
-      base_path: s3://data-lake-raw-live
-      dataset: movie_ratings
+      location: s3://data-lake-raw-live/movie_ratings
     standardized:
       table: iceberg.standardized_live.movie_ratings
     curated:

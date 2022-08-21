@@ -26,8 +26,11 @@ def assert_data_frames_equal(left: DataFrame, right: DataFrame) -> None:
 
 
 def _drop_database_cascade(spark: SparkSession, db: str) -> None:
-    # TODO: Iceberg does not currently support `DROP DATABASE CASCASDE`
-    # https://github.com/apache/iceberg/issues/3541
+    """
+    Drop all tables from the database and then drop the database itself.
+    It has to be done this way for now because Iceberg does not currently support `DROP DATABASE CASCASDE`.
+    TODO: simplify when Iceberg resolves the issue (https://github.com/apache/iceberg/issues/3541).
+    """
     tables = spark.sql(f"SHOW TABLES IN {db}").collect()
     [spark.sql(f"DROP TABLE {db}.{t.tableName}") for t in tables]
     spark.sql(f"DROP DATABASE {db}")
