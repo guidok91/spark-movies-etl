@@ -18,12 +18,7 @@ def _parse_args() -> argparse.Namespace:
 
 
 def _init_spark(task: str) -> SparkSession:
-    return (
-        SparkSession.builder.appName(f"Movies task: {task}")
-        .config("spark.jars.packages", "org.apache.iceberg:iceberg-spark-runtime-3.2_2.12:0.14.0")
-        .config("spark.sql.extensions", "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions")
-        .getOrCreate()
-    )
+    return SparkSession.builder.appName(f"Movies task: {task}").getOrCreate()
 
 
 def main() -> None:

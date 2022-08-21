@@ -5,6 +5,7 @@ from typing import List
 
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql.functions import col
+from pyspark.sql.utils import AnalysisException
 
 from movies_etl.config_manager import ConfigManager
 
@@ -60,5 +61,10 @@ class AbstractTask(ABC):
             df.writeTo(self.output_table).partitionedBy(*partition_cols).create()
 
     def _table_exists(self, table: str) -> bool:
-        db, table_name = table.rsplit(".", maxsplit=1)
-        return not self.spark.sql(f"SHOW TABLES IN {db} LIKE '{table_name}'").rdd.isEmpty()
+        try:
+            self.spark.read.table(table)
+        except AnalysisException as e:
+            if "Table or view not found" in str(e):
+                return False
+            raise e
+        return True
