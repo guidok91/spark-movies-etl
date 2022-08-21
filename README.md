@@ -4,15 +4,19 @@
 
 Spark data pipeline that ingests and transforms movie ratings data.
 
+## Data Architecture
 We define a Data Lake with the following layers:
-- `Raw`: Contains raw data files directly ingested from an event stream, e.g. a Kafka connector. Data is not catalogued and should generally not be accessible (can contain PII).
+- `Raw`: Contains raw data files directly ingested from an event stream, e.g. through a Kafka connector. Data is not catalogued and should generally not be accessible (can contain PII).
 - `Standardized`: Contains standardized data (catalogued tables) based on the raw dataset but without any transformations applied (besides masking of PII data if necessary).
 - `Curated`: Contains transformed data (catalogued tables) according to business and data quality rules.
 
 [Parquet](https://parquet.apache.org/) file format is used on the raw layer and [Iceberg](https://iceberg.apache.org/) on the standardized and curated ones.
 
+![data architecture](https://user-images.githubusercontent.com/38698125/185794696-f02fe543-658d-47f1-8e6a-41fb36adeebb.png)
+
+## Data pipeline design
 The data pipeline consists of the following tasks:
- - Standardize task: ingests the dataset from `Raw` into `Standardized`.
+ - Standardize task: ingests the dataset from `Raw` layer into the `Standardized` one.
  - Curate task: consumes the dataset from `Standardized`, performs transformations and business logic, and persists into `Curated`.
 
 The datasets are partitioned by execution date.
