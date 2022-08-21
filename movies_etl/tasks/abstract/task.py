@@ -4,6 +4,7 @@ from logging import Logger
 from typing import List
 
 from pyspark.sql import DataFrame, SparkSession
+from pyspark.sql.functions import col
 
 from movies_etl.config_manager import ConfigManager
 
@@ -49,25 +50,15 @@ class AbstractTask(ABC):
 
     def _output(self, df: DataFrame) -> None:
         self.logger.info(f"Saving to table {self.output_table}.")
-        write_mode = "overwrite"
-        write_format = "parquet"
 
         if self._table_exists(self.output_table):
             self.logger.info("Table exists, inserting.")
-            (
-                df.select(self.spark.read.table(self.output_table).columns)
-                .write.mode(write_mode)
-                .insertInto(self.output_table)
-            )
+            df.writeTo(self.output_table).overwritePartitions()
         else:
             self.logger.info("Table does not exist, creating and saving.")
-            (
-                df.write.mode(write_mode)
-                .format(write_format)
-                .partitionBy([self.partition_column_run_day] + self.partition_columns_extra)
-                .saveAsTable(self.output_table)
-            )
+            partition_cols = [col(c) for c in [self.partition_column_run_day] + self.partition_columns_extra]
+            df.writeTo(self.output_table).partitionedBy(*partition_cols).create()
 
     def _table_exists(self, table: str) -> bool:
-        db, table_name = table.split(".", maxsplit=1)
-        return table_name in [t.name for t in self.spark.catalog.listTables(db)]
+        db, table_name = table.rsplit(".", maxsplit=1)
+        return not self.spark.sql(f"SHOW TABLES IN {db} LIKE '{table_name}'").rdd.isEmpty()
