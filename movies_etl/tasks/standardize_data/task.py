@@ -1,6 +1,5 @@
 from pyspark.sql import DataFrame
 
-from movies_etl.schema import Schema
 from movies_etl.tasks.abstract.task import AbstractTask
 from movies_etl.tasks.standardize_data.transformation import (
     StandardizeDataTransformation,
@@ -19,7 +18,7 @@ class StandardizeDataTask(AbstractTask):
 
     def _input(self) -> DataFrame:
         self.logger.info(f"Reading raw data from {self._input_path}.")
-        return self.spark.read.format("parquet").load(path=self._input_path, schema=Schema.RAW)
+        return self.spark.read.format("parquet").load(path=self._input_path)
 
     def _transform(self, df: DataFrame) -> DataFrame:
         return StandardizeDataTransformation(self.execution_date).transform(df)

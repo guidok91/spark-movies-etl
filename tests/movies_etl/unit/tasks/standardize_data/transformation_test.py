@@ -2,11 +2,10 @@ from datetime import date
 
 from pyspark.sql import SparkSession
 
-from movies_etl.schema import Schema
 from movies_etl.tasks.standardize_data.transformation import (
     StandardizeDataTransformation,
 )
-from tests.conftest import assert_data_frames_equal
+from tests.conftest import Schema, assert_data_frames_equal
 from tests.movies_etl.unit.tasks.standardize_data.fixtures.data import (
     TEST_TRANSFORM_INPUT,
     TEST_TRANSFORM_OUTPUT_EXPECTED,

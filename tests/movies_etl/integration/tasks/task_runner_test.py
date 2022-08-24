@@ -4,9 +4,8 @@ import pytest
 from pyspark.sql import SparkSession
 
 from movies_etl.config_manager import ConfigException, ConfigManager
-from movies_etl.schema import Schema
 from movies_etl.tasks.task_runner import TaskRunner
-from tests.conftest import assert_data_frames_equal
+from tests.conftest import Schema, assert_data_frames_equal
 from tests.movies_etl.integration.fixtures.data import (
     TEST_CURATE_OUTPUT_EXPECTED,
     TEST_STANDARDIZE_OUTPUT_EXPECTED,
