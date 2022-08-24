@@ -6,17 +6,17 @@ from movies_etl.tasks.curate_data.transformation import CurateDataTransformation
 
 class CurateDataTask(AbstractTask):
     @property
-    def input_table(self) -> str:
+    def _input_table(self) -> str:
         return self.config_manager.get("data.standardized.table")
 
     @property
-    def output_table(self) -> str:
+    def _output_table(self) -> str:
         return self.config_manager.get("data.curated.table")
 
     def _input(self) -> DataFrame:
-        partition_expr = f"{self.partition_column_run_day} = {self.execution_date.strftime('%Y%m%d')}"
-        self.logger.info(f"Reading from table {self.input_table}. Date partition '{partition_expr}'.")
-        return self.spark.read.table(self.input_table).where(partition_expr)
+        partition_expr = f"{self._partition_column_run_day} = {self.execution_date.strftime('%Y%m%d')}"
+        self.logger.info(f"Reading from table {self._input_table}. Date partition '{partition_expr}'.")
+        return self.spark.read.table(self._input_table).where(partition_expr)
 
     def _transform(self, df: DataFrame) -> DataFrame:
         return CurateDataTransformation(
