@@ -28,19 +28,6 @@ class AbstractTask(ABC):
         df_transformed = self._transform(df)
         self._output(df_transformed)
 
-    @property
-    @abstractmethod
-    def output_table(self) -> str:
-        raise NotImplementedError
-
-    @property
-    def partition_column_run_day(self) -> str:
-        return "run_date"
-
-    @property
-    def partition_columns_extra(self) -> List[str]:
-        return []
-
     @abstractmethod
     def _input(self) -> DataFrame:
         raise NotImplementedError
@@ -50,15 +37,28 @@ class AbstractTask(ABC):
         raise NotImplementedError
 
     def _output(self, df: DataFrame) -> None:
-        self.logger.info(f"Saving to table {self.output_table}.")
+        self.logger.info(f"Saving to table {self._output_table}.")
 
-        if self._table_exists(self.output_table):
+        if self._table_exists(self._output_table):
             self.logger.info("Table exists, inserting.")
-            df.writeTo(self.output_table).overwritePartitions()
+            df.writeTo(self._output_table).overwritePartitions()
         else:
             self.logger.info("Table does not exist, creating and saving.")
-            partition_cols = [col(c) for c in [self.partition_column_run_day] + self.partition_columns_extra]
-            df.writeTo(self.output_table).partitionedBy(*partition_cols).create()
+            partition_cols = [col(c) for c in [self._partition_column_run_day] + self._partition_columns_extra]
+            df.writeTo(self._output_table).partitionedBy(*partition_cols).create()
+
+    @property
+    @abstractmethod
+    def _output_table(self) -> str:
+        raise NotImplementedError
+
+    @property
+    def _partition_column_run_day(self) -> str:
+        return "run_date"
+
+    @property
+    def _partition_columns_extra(self) -> List[str]:
+        return []
 
     def _table_exists(self, table: str) -> bool:
         try:
