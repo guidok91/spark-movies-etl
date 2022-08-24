@@ -1,8 +1,7 @@
 from typing import Generator
 
 import pytest as pytest
-from chispa.dataframe_comparer import assert_df_equality
-from pyspark.sql import DataFrame, SparkSession
+from pyspark.sql import SparkSession
 from pyspark.sql.types import (
     ArrayType,
     BooleanType,
@@ -13,6 +12,8 @@ from pyspark.sql.types import (
     StructField,
     StructType,
 )
+
+from tests.utils import create_database, drop_database_cascade
 
 
 @pytest.fixture(scope="session")
@@ -26,28 +27,14 @@ def spark() -> Generator:
         .config("spark.sql.catalog.iceberg.warehouse", "spark-warehouse")
         .getOrCreate()
     )
-    spark.sql("CREATE DATABASE IF NOT EXISTS iceberg.test")
+    create_database(spark, "iceberg.test")
     yield spark
-    _drop_database_cascade(spark, "iceberg.test")
+    drop_database_cascade(spark, "iceberg.test")
 
 
-def assert_data_frames_equal(left: DataFrame, right: DataFrame) -> None:
-    assert_df_equality(left, right, ignore_row_order=True, ignore_nullable=True)
-
-
-def _drop_database_cascade(spark: SparkSession, db: str) -> None:
-    """
-    Drop all tables from the database and then drop the database itself.
-    It has to be done this way for now because Iceberg does not currently support `DROP DATABASE CASCASDE`.
-    TODO: simplify when Iceberg resolves the issue (https://github.com/apache/iceberg/issues/3541).
-    """
-    tables = spark.sql(f"SHOW TABLES IN {db}").collect()
-    [spark.sql(f"DROP TABLE {db}.{t.tableName}") for t in tables]
-    spark.sql(f"DROP DATABASE {db}")
-
-
-class Schema:
-    RAW = StructType(
+@pytest.fixture(scope="session")
+def schema_raw() -> StructType:
+    return StructType(
         [
             StructField("movie_id", LongType()),
             StructField("user_id", LongType()),
@@ -72,7 +59,10 @@ class Schema:
         ]
     )
 
-    STANDARDIZED = StructType(
+
+@pytest.fixture(scope="session")
+def schema_standardized() -> StructType:
+    return StructType(
         [
             StructField("movie_id", LongType()),
             StructField("user_id", LongType()),
@@ -97,7 +87,10 @@ class Schema:
         ]
     )
 
-    CURATED = StructType(
+
+@pytest.fixture(scope="session")
+def schema_curated() -> StructType:
+    return StructType(
         [
             StructField("movie_id", LongType()),
             StructField("user_id", LongType()),
