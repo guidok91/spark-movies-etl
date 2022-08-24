@@ -1,16 +1,17 @@
 import datetime
+import os
 
 import pytest
 from pyspark.sql import SparkSession
+from pyspark.sql.types import StructType
 
 from movies_etl.config_manager import ConfigException, ConfigManager
-from movies_etl.schema import Schema
 from movies_etl.tasks.task_runner import TaskRunner
-from tests.conftest import assert_data_frames_equal
 from tests.movies_etl.integration.fixtures.data import (
     TEST_CURATE_OUTPUT_EXPECTED,
     TEST_STANDARDIZE_OUTPUT_EXPECTED,
 )
+from tests.utils import assert_data_frames_equal
 
 
 def test_run_inexistent_task(spark: SparkSession, config_manager: ConfigManager, execution_date: datetime.date) -> None:
@@ -27,23 +28,31 @@ def test_run_inexistent_task(spark: SparkSession, config_manager: ConfigManager,
         task_runner.run()
 
 
-def test_run_end_to_end(spark: SparkSession, config_manager: ConfigManager, execution_date: datetime.date) -> None:
+def test_run_end_to_end(
+    spark: SparkSession,
+    config_manager: ConfigManager,
+    execution_date: datetime.date,
+    schema_standardized: StructType,
+    schema_curated: StructType,
+) -> None:
     # Run tasks twice to test idempotency
-    _test_run_standardize(spark, config_manager, execution_date)
-    _test_run_standardize(spark, config_manager, execution_date)
+    _test_run_standardize(spark, config_manager, execution_date, schema_standardized)
+    _test_run_standardize(spark, config_manager, execution_date, schema_standardized)
 
-    _test_run_curate(spark, config_manager, execution_date)
-    _test_run_curate(spark, config_manager, execution_date)
+    _test_run_curate(spark, config_manager, execution_date, schema_curated)
+    _test_run_curate(spark, config_manager, execution_date, schema_curated)
 
 
-def _test_run_standardize(spark: SparkSession, config_manager: ConfigManager, execution_date: datetime.date) -> None:
+def _test_run_standardize(
+    spark: SparkSession, config_manager: ConfigManager, execution_date: datetime.date, schema_standardized: StructType
+) -> None:
     # GIVEN
     task_runner = TaskRunner(
         spark=spark, config_manager=config_manager, task="standardize", execution_date=execution_date
     )
     df_expected = spark.createDataFrame(
         TEST_STANDARDIZE_OUTPUT_EXPECTED,  # type: ignore
-        schema=Schema.STANDARDIZED,
+        schema=schema_standardized,
     )
 
     # WHEN
@@ -54,12 +63,14 @@ def _test_run_standardize(spark: SparkSession, config_manager: ConfigManager, ex
     assert_data_frames_equal(df_output, df_expected)
 
 
-def _test_run_curate(spark: SparkSession, config_manager: ConfigManager, execution_date: datetime.date) -> None:
+def _test_run_curate(
+    spark: SparkSession, config_manager: ConfigManager, execution_date: datetime.date, schema_curated: StructType
+) -> None:
     # GIVEN
     task_runner = TaskRunner(spark=spark, config_manager=config_manager, task="curate", execution_date=execution_date)
     df_expected = spark.createDataFrame(
         TEST_CURATE_OUTPUT_EXPECTED,  # type: ignore
-        schema=Schema.CURATED,
+        schema=schema_curated,
     )
 
     # WHEN
@@ -68,3 +79,13 @@ def _test_run_curate(spark: SparkSession, config_manager: ConfigManager, executi
     # THEN
     df_output = spark.read.table(config_manager.get("data.curated.table"))
     assert_data_frames_equal(df_output, df_expected)
+
+
+@pytest.fixture()
+def config_manager() -> ConfigManager:
+    return ConfigManager(config_file=f"{os.path.dirname(os.path.realpath(__file__))}/../fixtures/test_app_config.yaml")
+
+
+@pytest.fixture()
+def execution_date() -> datetime.date:
+    return datetime.date(2021, 6, 3)
