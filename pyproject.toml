@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "movies-etl"
-version = "0.1.1"
+version = "0.1.2"
 description = "Data pipeline that ingests and transforms movie ratings data"
 authors = ["Guido Kosloff Gancedo <guidokosloff@gmail.com>"]
 
@@ -9,7 +9,7 @@ python = "^3.9"
 dynaconf = "^3.1.8"
 
 [tool.poetry.dev-dependencies]
-pyspark = "3.2.2"
+pyspark = "3.3.0"
 flake8 = "^4.0.1"
 mypy = "^0.942"
 isort = "^5.10.1"

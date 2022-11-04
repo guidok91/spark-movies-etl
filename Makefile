@@ -34,7 +34,7 @@ code-checks:
 run-local:
 	poetry run spark-submit \
 	--master local[*] \
-	--packages=org.apache.iceberg:iceberg-spark-runtime-3.2_2.12:0.14.0 \
+	--packages=org.apache.iceberg:iceberg-spark-runtime-3.3_2.12:1.0.0 \
 	--conf spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions \
 	--conf spark.sql.catalog.iceberg=org.apache.iceberg.spark.SparkCatalog \
 	--conf spark.sql.catalog.iceberg.type=hadoop \
@@ -48,7 +48,7 @@ run-cluster:
 	spark-submit \
 	--master yarn \
 	--deploy-mode cluster \
-	--packages=org.apache.iceberg:iceberg-spark-runtime-3.2_2.12:0.14.0 \
+	--packages=org.apache.iceberg:iceberg-spark-runtime-3.3_2.12:1.0.0 \
 	--conf spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions \
 	--conf spark.sql.catalog.iceberg=org.apache.iceberg.spark.SparkCatalog \
 	--conf spark.sql.catalog.iceberg.warehouse=s3://movies-default-warehouse \
