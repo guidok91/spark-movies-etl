@@ -4,7 +4,6 @@ from logging import Logger
 from typing import List
 
 from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql.functions import col
 from pyspark.sql.utils import AnalysisException
 
 from movies_etl.config_manager import ConfigManager
@@ -41,11 +40,11 @@ class AbstractTask(ABC):
 
         if self._table_exists(self._output_table):
             self.logger.info("Table exists, inserting.")
-            df.writeTo(self._output_table).overwritePartitions()
+            df.write.mode("overwrite").insertInto(self._output_table)
         else:
             self.logger.info("Table does not exist, creating and saving.")
-            partition_cols = [col(c) for c in [self._partition_column_run_day] + self._partition_columns_extra]
-            df.writeTo(self._output_table).partitionedBy(*partition_cols).create()
+            partition_cols = [self._partition_column_run_day] + self._partition_columns_extra
+            df.write.mode("overwrite").partitionBy(partition_cols).format("delta").saveAsTable(self._output_table)
 
     @property
     @abstractmethod

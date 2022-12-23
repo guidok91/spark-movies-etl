@@ -34,11 +34,9 @@ code-checks:
 run-local:
 	poetry run spark-submit \
 	--master local[*] \
-	--packages=org.apache.iceberg:iceberg-spark-runtime-3.3_2.12:1.0.0 \
-	--conf spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions \
-	--conf spark.sql.catalog.iceberg=org.apache.iceberg.spark.SparkCatalog \
-	--conf spark.sql.catalog.iceberg.type=hadoop \
-	--conf spark.sql.catalog.iceberg.warehouse=spark-warehouse \
+	--packages=io.delta:delta-core_2.12:2.2.0 \
+	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
+	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	movies_etl/main.py \
 	--task ${task} \
 	--execution-date ${execution-date} \
@@ -48,14 +46,9 @@ run-cluster:
 	spark-submit \
 	--master yarn \
 	--deploy-mode cluster \
-	--packages=org.apache.iceberg:iceberg-spark-runtime-3.3_2.12:1.0.0 \
-	--conf spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions \
-	--conf spark.sql.catalog.iceberg=org.apache.iceberg.spark.SparkCatalog \
-	--conf spark.sql.catalog.iceberg.warehouse=s3://movies-default-warehouse \
-	--conf spark.sql.catalog.iceberg.catalog-impl=org.apache.iceberg.aws.glue.GlueCatalog \
-	--conf spark.sql.catalog.iceberg.io-impl=org.apache.iceberg.aws.s3.S3FileIO \
-	--conf spark.sql.catalog.iceberg.lock-impl=org.apache.iceberg.aws.glue.DynamoLockManager \
-	--conf spark.sql.catalog.iceberg.lock.table=GlueLockTable \
+	--packages=io.delta:delta-core_2.12:2.2.0 \
+	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
+	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	--py-files s3://movies-binaries/movies-etl/latest/libs.zip \
 	--files s3://movies-binaries/movies-etl/latest/app_config.yaml \
 	s3://movies-binaries/movies-etl/latest/main.py \
