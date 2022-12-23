@@ -6,13 +6,13 @@ Spark data pipeline that ingests and transforms movie ratings data.
 
 ## Data Architecture
 We define a Data Lakehouse architecture with the following layers:
-- `Raw`: Contains raw data files directly ingested from an event stream, e.g. Kafka. Data is not catalogued and should generally not be accessible (can contain PII).
+- `Raw`: Contains raw data files directly ingested from an event stream, e.g. Kafka. This data should generally not be accessible (can contain PII).
 - `Standardized`: Contains standardized data (catalogued tables) based on the raw data but without any transformations applied (besides masking of PII data if necessary).
 - `Curated`: Contains transformed data (catalogued tables) according to business and data quality rules.
 
-[Apache Iceberg](https://iceberg.apache.org/) is used as the table format.
+[Delta](https://delta.io/) is used as the table format.
 
-![data architecture](https://user-images.githubusercontent.com/38698125/185810636-6eab5eff-9129-44b2-b366-0823e3c37759.png)
+![data architecture](https://user-images.githubusercontent.com/38698125/209374650-597feb32-577b-4356-924c-2d206953156d.png)
 
 ## Data pipeline design
 The data pipeline consists of the following tasks:

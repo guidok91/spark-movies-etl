@@ -11,6 +11,6 @@ global:
     raw:
       location: tests/movies_etl/integration/fixtures/data-lake-raw-test/movie_ratings
     standardized:
-      table: iceberg.test.movie_ratings_standardized
+      table: test.movie_ratings_standardized
     curated:
-      table: iceberg.test.movie_ratings_curated
+      table: test.movie_ratings_curated
