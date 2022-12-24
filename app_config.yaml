@@ -13,9 +13,9 @@ development:
     raw:
       location: data-lake-raw-dev/movie_ratings
     standardized:
-      table: movie_ratings_standardized
+      table: default.movie_ratings_standardized
     curated:
-      table: movie_ratings_curated
+      table: default.movie_ratings_curated
 
 staging:
   data:

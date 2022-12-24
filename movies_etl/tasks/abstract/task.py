@@ -3,8 +3,7 @@ from abc import ABC, abstractmethod
 from logging import Logger
 from typing import List
 
-from pyspark.sql import DataFrame, SparkSession
-from pyspark.sql.utils import AnalysisException
+from pyspark.sql import Catalog, DataFrame, SparkSession
 
 from movies_etl.config_manager import ConfigManager
 
@@ -60,10 +59,5 @@ class AbstractTask(ABC):
         return []
 
     def _table_exists(self, table: str) -> bool:
-        try:
-            self.spark.read.table(table)
-        except AnalysisException as e:
-            if "Table or view not found" in str(e):
-                return False
-            raise e
-        return True
+        db_name, table_name = table.split(".")
+        return Catalog(self.spark).tableExists(dbName=db_name, tableName=table_name)

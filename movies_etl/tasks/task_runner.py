@@ -26,8 +26,8 @@ class TaskRunner:
 
     def _load_task(self) -> Callable:
         self.logger.info(f"Loading task '{self.task}'...")
-        task_class_name = self.config_manager.get(f"task_argument_class_mapping.{self.task}")
-        return _load_class(task_class_name)
+        task_class_path = self.config_manager.get(f"task_argument_class_mapping.{self.task}")
+        return _load_class(task_class_path)
 
 
 def _load_class(class_path: str) -> Callable:
