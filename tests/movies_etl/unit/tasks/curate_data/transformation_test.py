@@ -13,11 +13,11 @@ def test_transform(spark: SparkSession, schema_standardized: StructType, schema_
     # GIVEN
     transformation = CurateDataTransformation(movie_languages=["EN", "ES", "DE", "FR"])
     df_input = spark.createDataFrame(
-        TEST_TRANSFORM_INPUT,  # type: ignore
+        TEST_TRANSFORM_INPUT,
         schema=schema_standardized,
     )
     df_expected = spark.createDataFrame(
-        TEST_TRANSFORM_OUTPUT_EXPECTED,  # type: ignore
+        TEST_TRANSFORM_OUTPUT_EXPECTED,
         schema=schema_curated,
     )
 
