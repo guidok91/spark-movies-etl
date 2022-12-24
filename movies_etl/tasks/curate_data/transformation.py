@@ -23,6 +23,7 @@ class CurateDataTransformation(AbstractTransformation):
 
         transformations = (
             self._normalize_columns,
+            self._remove_duplicates,
             partial(self._filter_languages, movie_languages=self.movie_languages),
             self._calculate_multigenre,
             self._calculate_rating_class,
@@ -34,6 +35,11 @@ class CurateDataTransformation(AbstractTransformation):
     @staticmethod
     def _normalize_columns(df: DataFrame) -> DataFrame:
         return df.withColumn("is_adult", col("adult")).withColumn("original_language", upper("original_language"))
+
+    @staticmethod
+    def _remove_duplicates(df: DataFrame) -> DataFrame:
+        # TODO: rm duplicates based on movie_id and user_id, keep first event
+        return df
 
     @staticmethod
     def _filter_languages(df: DataFrame, movie_languages: List[str]) -> DataFrame:
