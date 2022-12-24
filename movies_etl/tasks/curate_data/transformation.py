@@ -8,6 +8,13 @@ from pyspark.sql.functions import col, size, upper, when
 from movies_etl.tasks.abstract.transformation import AbstractTransformation
 
 
+class RatingClass(str, Enum):
+    LOW = "low"
+    MID = "mid"
+    HIGH = "high"
+    UNKNOWN = "unk"
+
+
 class CurateDataTransformation(AbstractTransformation):
     def __init__(self, movie_languages: List[str]):
         self.movie_languages = movie_languages
@@ -41,7 +48,7 @@ class CurateDataTransformation(AbstractTransformation):
         return df.withColumn(
             "rating_class",
             when(col("rating") <= 2, RatingClass.LOW)
-            .when((col("rating") > 2) & (col("rating") <= 4), RatingClass.AVERAGE)
+            .when((col("rating") > 2) & (col("rating") <= 4), RatingClass.MID)
             .when(col("rating") > 4, RatingClass.HIGH)
             .otherwise(RatingClass.UNKNOWN),
         )
@@ -62,10 +69,3 @@ class CurateDataTransformation(AbstractTransformation):
             "genres",
             "run_date",
         )
-
-
-class RatingClass(str, Enum):
-    LOW = "low"
-    AVERAGE = "avg"
-    HIGH = "high"
-    UNKNOWN = "unk"

@@ -8,7 +8,7 @@ TEST_CURATE_OUTPUT_EXPECTED = [
         1371,
         311,
         3.0,
-        "avg",
+        "mid",
         898008328,
         "Rocky III",
         "EN",
