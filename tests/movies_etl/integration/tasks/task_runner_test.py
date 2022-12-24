@@ -51,7 +51,7 @@ def _test_run_standardize(
         spark=spark, config_manager=config_manager, task="standardize", execution_date=execution_date
     )
     df_expected = spark.createDataFrame(
-        TEST_STANDARDIZE_OUTPUT_EXPECTED,  # type: ignore
+        TEST_STANDARDIZE_OUTPUT_EXPECTED,
         schema=schema_standardized,
     )
 
@@ -69,7 +69,7 @@ def _test_run_curate(
     # GIVEN
     task_runner = TaskRunner(spark=spark, config_manager=config_manager, task="curate", execution_date=execution_date)
     df_expected = spark.createDataFrame(
-        TEST_CURATE_OUTPUT_EXPECTED,  # type: ignore
+        TEST_CURATE_OUTPUT_EXPECTED,
         schema=schema_curated,
     )
 

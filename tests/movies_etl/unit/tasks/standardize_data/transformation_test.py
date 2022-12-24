@@ -17,11 +17,11 @@ def test_transform(spark: SparkSession, schema_raw: StructType, schema_standardi
     # GIVEN
     transformation = StandardizeDataTransformation(execution_date=date(2021, 1, 1))
     df_input = spark.createDataFrame(
-        TEST_TRANSFORM_INPUT,  # type: ignore
+        TEST_TRANSFORM_INPUT,
         schema=schema_raw,
     )
     df_expected = spark.createDataFrame(
-        TEST_TRANSFORM_OUTPUT_EXPECTED,  # type: ignore
+        TEST_TRANSFORM_OUTPUT_EXPECTED,
         schema=schema_standardized,
     )
 

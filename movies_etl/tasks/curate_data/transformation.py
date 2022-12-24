@@ -3,9 +3,17 @@ from functools import partial, reduce
 from typing import List
 
 from pyspark.sql import DataFrame
-from pyspark.sql.functions import col, size, upper, when
+from pyspark.sql.functions import col, row_number, size, upper, when
+from pyspark.sql.window import Window
 
 from movies_etl.tasks.abstract.transformation import AbstractTransformation
+
+
+class RatingClass(str, Enum):
+    LOW = "low"
+    MID = "mid"
+    HIGH = "high"
+    UNKNOWN = "unk"
 
 
 class CurateDataTransformation(AbstractTransformation):
@@ -16,6 +24,7 @@ class CurateDataTransformation(AbstractTransformation):
 
         transformations = (
             self._normalize_columns,
+            self._remove_duplicates,
             partial(self._filter_languages, movie_languages=self.movie_languages),
             self._calculate_multigenre,
             self._calculate_rating_class,
@@ -27,6 +36,13 @@ class CurateDataTransformation(AbstractTransformation):
     @staticmethod
     def _normalize_columns(df: DataFrame) -> DataFrame:
         return df.withColumn("is_adult", col("adult")).withColumn("original_language", upper("original_language"))
+
+    @staticmethod
+    def _remove_duplicates(df: DataFrame) -> DataFrame:
+        """Drop duplicates based on `movie_id` and `user_id`, keeping the first event (based on `timestamp`)."""
+        window_spec = Window.partitionBy(["movie_id", "user_id"]).orderBy("timestamp")
+        df = df.withColumn("rnum", row_number().over(window_spec))
+        return df.where(col("rnum") == 1).drop("rnum")
 
     @staticmethod
     def _filter_languages(df: DataFrame, movie_languages: List[str]) -> DataFrame:
@@ -41,7 +57,7 @@ class CurateDataTransformation(AbstractTransformation):
         return df.withColumn(
             "rating_class",
             when(col("rating") <= 2, RatingClass.LOW)
-            .when((col("rating") > 2) & (col("rating") <= 4), RatingClass.AVERAGE)
+            .when((col("rating") > 2) & (col("rating") <= 4), RatingClass.MID)
             .when(col("rating") > 4, RatingClass.HIGH)
             .otherwise(RatingClass.UNKNOWN),
         )
@@ -62,10 +78,3 @@ class CurateDataTransformation(AbstractTransformation):
             "genres",
             "run_date",
         )
-
-
-class RatingClass(str, Enum):
-    LOW = "low"
-    AVERAGE = "avg"
-    HIGH = "high"
-    UNKNOWN = "unk"
