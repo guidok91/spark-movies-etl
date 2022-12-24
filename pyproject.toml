@@ -1,12 +1,13 @@
 [tool.poetry]
 name = "movies-etl"
-version = "0.1.3"
+version = "0.1.4"
 description = "Data pipeline that ingests and transforms movie ratings data"
 authors = ["Guido Kosloff Gancedo <guidokosloff@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.9"
 dynaconf = "^3.1.8"
+delta-spark = "^2.2.0"
 
 [tool.poetry.dev-dependencies]
 pyspark = "3.3.1"
