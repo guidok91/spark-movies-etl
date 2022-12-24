@@ -3,7 +3,8 @@ from functools import partial, reduce
 from typing import List
 
 from pyspark.sql import DataFrame
-from pyspark.sql.functions import col, size, upper, when
+from pyspark.sql.functions import col, row_number, size, upper, when
+from pyspark.sql.window import Window
 
 from movies_etl.tasks.abstract.transformation import AbstractTransformation
 
@@ -38,8 +39,10 @@ class CurateDataTransformation(AbstractTransformation):
 
     @staticmethod
     def _remove_duplicates(df: DataFrame) -> DataFrame:
-        # TODO: rm duplicates based on movie_id and user_id, keep first event
-        return df
+        """Drop duplicates based on `movie_id` and `user_id`, keeping the first event (based on `timestamp`)."""
+        window_spec = Window.partitionBy(["movie_id", "user_id"]).orderBy("timestamp")
+        df = df.withColumn("rnum", row_number().over(window_spec))
+        return df.where(col("rnum") == 1).drop("rnum")
 
     @staticmethod
     def _filter_languages(df: DataFrame, movie_languages: List[str]) -> DataFrame:
