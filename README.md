@@ -12,7 +12,7 @@ We define a Data Lakehouse architecture with the following layers:
 
 [Delta](https://delta.io/) is used as the table format.
 
-![data architecture](https://user-images.githubusercontent.com/38698125/209374650-597feb32-577b-4356-924c-2d206953156d.png)
+![data architecture](https://user-images.githubusercontent.com/38698125/209481672-62a861c1-bbf7-4b5d-9d41-4c2b65487f80.png)
 
 ## Data pipeline design
 The data pipeline consists of the following tasks:
