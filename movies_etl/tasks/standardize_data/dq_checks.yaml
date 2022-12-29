@@ -1,0 +1,20 @@
+filter ${table} [daily]:
+   where: run_date = "${run_date}"
+
+checks for ${table} [daily]:
+  - schema:
+      name: Ingested dataset should have specific schema.
+      fail:
+        when wrong column type:
+          movie_id: bigint
+          user_id: bigint
+          rating: float
+          timestamp: bigint
+          original_title: string
+          original_language: string
+          budget: bigint
+          adult: boolean
+          genres: array<struct<id:bigint,name:string>>
+          run_date: int
+  - row_count > 0:
+      name: Ingested dataset should not be empty.
