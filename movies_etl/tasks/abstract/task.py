@@ -4,6 +4,7 @@ from logging import Logger
 from typing import List
 
 from pyspark.sql import Catalog, DataFrame, SparkSession
+from soda.scan import Scan
 
 from movies_etl.config_manager import ConfigManager
 
@@ -25,6 +26,7 @@ class AbstractTask(ABC):
         df = self._input()
         df_transformed = self._transform(df)
         self._output(df_transformed)
+        self._run_data_quality_checks()
 
     @abstractmethod
     def _input(self) -> DataFrame:
@@ -45,9 +47,34 @@ class AbstractTask(ABC):
             partition_cols = [self._partition_column_run_day] + self._partition_columns_extra
             df.write.mode("overwrite").partitionBy(partition_cols).format("delta").saveAsTable(self._output_table)
 
+    def _run_data_quality_checks(self) -> None:
+        self.logger.info(f"Running Data Quality checks for table {self._output_table}.")
+        scan = Scan()
+
+        scan.set_data_source_name("spark_df")
+        scan.add_spark_session(self.spark)
+        scan.add_variables(
+            {
+                "table": self._output_table,
+                "run_date": self.execution_date.strftime("%Y%m%d"),
+            }
+        )
+        scan.add_sodacl_yaml_file(self._dq_checks_config_file)
+
+        scan.execute()
+
+        self.logger.info(scan.get_scan_results())
+        scan.assert_no_error_logs()
+        scan.assert_no_checks_fail()
+
     @property
     @abstractmethod
     def _output_table(self) -> str:
+        raise NotImplementedError
+
+    @property
+    @abstractmethod
+    def _dq_checks_config_file(self) -> str:
         raise NotImplementedError
 
     @property

@@ -12,20 +12,19 @@ We define a Data Lakehouse architecture with the following layers:
 
 [Delta](https://delta.io/) is used as the table format.
 
-![data architecture](https://user-images.githubusercontent.com/38698125/209481672-62a861c1-bbf7-4b5d-9d41-4c2b65487f80.png)
+![data architecture](https://user-images.githubusercontent.com/38698125/210083824-0958e02c-8491-446a-8e85-dba7415047f8.png)
 
 ## Data pipeline design
 The data pipeline consists of the following tasks:
  - Standardize task: ingests the dataset from the `Raw` layer into the `Standardized` one.
  - Curate task: consumes the dataset from `Standardized`, performs transformations and business logic, and persists into `Curated`.
 
-The datasets are partitioned by execution date.
+The datasets are initially partitioned by execution date (with the option to add more partitioning columns).
 
-## Execution instructions
-The repo includes a `Makefile`. Please run `make help` to see usage.
+Each task runs Data Quality checks on the output dataset just after writing. Data Quality checks are defined using [Soda](https://docs.soda.io/soda-core/overview-main.html).
 
 ## Configuration management
-Configuration is managed by the [ConfigManager](movies_etl/config_manager.py) class, which is a wrapper around [Dynaconf](https://www.dynaconf.com/).
+Configuration is defined in [app_config.yaml](app_config.yaml) and managed by the [ConfigManager](movies_etl/config_manager.py) class, which is a wrapper around [Dynaconf](https://www.dynaconf.com/).
 
 ## Packaging and dependency management
 [Poetry](https://python-poetry.org/) is used for Python packaging and dependency management.
@@ -51,3 +50,6 @@ The logic is as follows:
 
 ## Orchestration
 An example Airflow DAG to run this pipeline on a schedule can be found [here](https://github.com/guidok91/airflow-demo/tree/master/dags/movie_ratings).
+
+## Execution instructions
+The repo includes a `Makefile`. Please run `make help` to see usage.
