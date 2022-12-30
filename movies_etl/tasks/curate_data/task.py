@@ -1,5 +1,3 @@
-import os
-
 from pyspark.sql import DataFrame
 
 from movies_etl.tasks.abstract.task import AbstractTask
@@ -17,7 +15,7 @@ class CurateDataTask(AbstractTask):
 
     @property
     def _dq_checks_config_file(self) -> str:
-        return f"{os.path.dirname(os.path.realpath(__file__))}/dq_checks.yaml"
+        return self.config_manager.get("data.curated.dq_checks_file")
 
     def _input(self) -> DataFrame:
         partition_expr = f"{self._partition_column_run_day} = {self.execution_date.strftime('%Y%m%d')}"

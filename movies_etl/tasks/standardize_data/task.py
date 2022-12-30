@@ -1,5 +1,3 @@
-import os
-
 from pyspark.sql import DataFrame
 
 from movies_etl.tasks.abstract.task import AbstractTask
@@ -20,7 +18,7 @@ class StandardizeDataTask(AbstractTask):
 
     @property
     def _dq_checks_config_file(self) -> str:
-        return f"{os.path.dirname(os.path.realpath(__file__))}/dq_checks.yaml"
+        return self.config_manager.get("data.standardized.dq_checks_file")
 
     def _input(self) -> DataFrame:
         self.logger.info(f"Reading raw data from {self._input_path}.")

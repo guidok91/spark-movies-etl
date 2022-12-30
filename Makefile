@@ -22,7 +22,7 @@ build:
 	poetry build
 	poetry run pip install dist/*.whl -t libs
 	mkdir deps
-	cp movies_etl/main.py app_config.yaml deps
+	cp movies_etl/main.py app_config.yaml movies_etl/tasks/*/dq_checks_*.yaml deps
 	poetry run python -m zipfile -c deps/libs.zip libs/*
 
 test:
@@ -45,11 +45,10 @@ run-cluster:
 	spark-submit \
 	--master yarn \
 	--deploy-mode cluster \
-	--packages=io.delta:delta-core_2.12:2.2.0 \
 	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	--py-files s3://movies-binaries/movies-etl/latest/libs.zip \
-	--files s3://movies-binaries/movies-etl/latest/app_config.yaml \
+	--files s3://movies-binaries/movies-etl/latest/*.yaml \  # TODO: check if wildcards work
 	s3://movies-binaries/movies-etl/latest/main.py \
 	--task ${task} \
 	--execution-date ${execution-date}
