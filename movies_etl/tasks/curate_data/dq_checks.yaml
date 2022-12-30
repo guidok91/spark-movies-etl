@@ -1,1 +1,40 @@
-# TODO
+filter ${table} [daily]:
+   where: run_date = ${run_date}
+
+checks for ${table} [daily]:
+  - schema:
+      name: Curated dataset should have specific schema.
+      fail:
+        when wrong column type:
+          movie_id: bigint
+          user_id: bigint
+          rating: float
+          rating_class: string
+          timestamp: bigint
+          original_title: string
+          original_language: string
+          budget: bigint
+          is_adult: boolean
+          is_multigenre: boolean
+          genres: array<struct<id:bigint,name:string>>
+          run_date: int
+  - row_count > 0:
+      name: Curated dataset should not be empty.
+  - duplicate_count(movie_id, user_id) = 0:
+      name: Curated dataset should have no duplicates.
+  -  invalid_count(rating) = 0:
+      valid min: 0
+      valid max: 5
+      name: Value of rating should be between 0 and 5.
+  - invalid_count(rating_class) = 0:
+      valid values: ["low", "mid", "high", "unk"]
+      name: rating_class should have valid values.
+  -  missing_count(timestamp) = 0:
+      name: Event timestamp cannot be NULL.
+  - invalid_count(original_language) = 0:
+      valid min length: 2
+      valid max length: 2
+      name: original_language should be 2 characters long.
+  - invalid_count(budget) = 0:
+      valid min: 0
+      name: Value of budget should be positive.

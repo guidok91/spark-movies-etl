@@ -1,9 +1,9 @@
 filter ${table} [daily]:
-   where: run_date = "${run_date}"
+   where: run_date = ${run_date}
 
 checks for ${table} [daily]:
   - schema:
-      name: Ingested dataset should have specific schema.
+      name: Standardized dataset should have specific schema.
       fail:
         when wrong column type:
           movie_id: bigint
@@ -17,4 +17,4 @@ checks for ${table} [daily]:
           genres: array<struct<id:bigint,name:string>>
           run_date: int
   - row_count > 0:
-      name: Ingested dataset should not be empty.
+      name: Standardized dataset should not be empty.
