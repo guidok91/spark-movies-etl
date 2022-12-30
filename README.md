@@ -21,8 +21,7 @@ The data pipeline consists of the following tasks:
 
 The datasets are initially partitioned by execution date (with the option to add more partitioning columns).
 
-Each task runs Data Quality checks on the output dataset just after writing.
-Data Quality checks are defined using [Soda](https://docs.soda.io/soda-core/overview-main.html).
+Each task runs Data Quality checks on the output dataset just after writing. Data Quality checks are defined using [Soda](https://docs.soda.io/soda-core/overview-main.html).
 
 ## Configuration management
 Configuration is defined in [app_config.yaml](app_config.yaml) and managed by the [ConfigManager](movies_etl/config_manager.py) class, which is a wrapper around [Dynaconf](https://www.dynaconf.com/).
