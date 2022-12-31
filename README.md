@@ -9,7 +9,7 @@ We define a Data Lakehouse architecture with the following layers:
 - `Raw`: Contains raw data files directly ingested from an event stream, e.g. Kafka. This data should generally not be accessible (can contain PII).
 - `Standardized`: Contains standardized data (catalogued tables) based on the raw data but without any transformations applied (besides masking of PII data if necessary).
 - `Curated`: Contains transformed data (catalogued tables) according to business and data quality rules.
-
+asdasd
 [Delta](https://delta.io/) is used as the table format.
 
 ![data architecture](https://user-images.githubusercontent.com/38698125/210155387-939af0c3-af98-47ff-8048-756f5d97f132.png)
