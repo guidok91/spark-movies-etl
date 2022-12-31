@@ -12,7 +12,7 @@ We define a Data Lakehouse architecture with the following layers:
 
 [Delta](https://delta.io/) is used as the table format.
 
-![data architecture](https://user-images.githubusercontent.com/38698125/210151162-2c6c351a-d564-4169-8f5b-ab57a9a4f3a9.png)
+![data architecture](https://user-images.githubusercontent.com/38698125/210155387-939af0c3-af98-47ff-8048-756f5d97f132.png)
 
 ## Data pipeline design
 The data pipeline consists of the following tasks:
@@ -46,7 +46,7 @@ The logic is as follows:
 (*) The app build contains:
 * The Python entrypoint file.
 * A zip containing all the dependencies (Python packages).
-* The `app_config.yaml` file.
+* The config files (`app_config.yaml` and Data Quality checks files).
 
 ## Orchestration
 An example Airflow DAG to run this pipeline on a schedule can be found [here](https://github.com/guidok91/airflow-demo/tree/master/dags/movie_ratings).
