@@ -16,9 +16,9 @@ def _parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def _init_spark(task: str) -> SparkSession:
+def _init_spark(task: str, execution_date: datetime.date) -> SparkSession:
     return (
-        SparkSession.builder.appName(f"Movies task: {task}")
+        SparkSession.builder.appName(f"Movies task {task} - {execution_date.strftime('%Y%m%d')}")
         .config("spark.sql.sources.partitionOverwriteMode", "dynamic")
         .enableHiveSupport()
         .getOrCreate()
@@ -27,7 +27,7 @@ def _init_spark(task: str) -> SparkSession:
 
 def main() -> None:
     args = _parse_args()
-    spark = _init_spark(args.task)
+    spark = _init_spark(args.task, args.execution_date)
     config_manager = ConfigManager()
 
     TaskRunner(spark, config_manager, args.task, args.execution_date).run()

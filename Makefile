@@ -10,7 +10,8 @@ help:
 	@echo  '  run-local       - Run a task locally. Example usage:'
 	@echo  '                    make run-local task=standardize execution-date=2021-01-01'
 	@echo  '                    make run-local task=curate execution-date=2021-01-01'
-	@echo  '  run-cluster     - Run a task on a cluster.'
+	@echo  '  run-cluster     - Run a task on a cluster. Example usage:'
+	@echo  '                    make run-cluster task=standardize execution-date=2021-01-01 env=staging'
 	@echo  '  clean           - Clean auxiliary files.'
 
 setup:
@@ -45,10 +46,12 @@ run-cluster:
 	spark-submit \
 	--master yarn \
 	--deploy-mode cluster \
+	--packages=io.delta:delta-core_2.12:2.2.0 \
 	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
+	--conf spark.yarn.appMasterEnv.ENV_FOR_DYNACONF=${env} \
 	--py-files s3://movies-binaries/movies-etl/latest/libs.zip \
-	--files s3://movies-binaries/movies-etl/latest/*.yaml \  # TODO: check if wildcards work
+	--files s3://movies-binaries/movies-etl/latest/*.yaml \
 	s3://movies-binaries/movies-etl/latest/main.py \
 	--task ${task} \
 	--execution-date ${execution-date}
