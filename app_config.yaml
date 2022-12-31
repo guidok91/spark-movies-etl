@@ -14,8 +14,10 @@ development:
       location: data-lake-raw-dev/movie_ratings
     standardized:
       table: default.movie_ratings_standardized
+      dq_checks_file: movies_etl/tasks/standardize_data/dq_checks_standardized.yaml
     curated:
       table: default.movie_ratings_curated
+      dq_checks_file: movies_etl/tasks/curate_data/dq_checks_curated.yaml
 
 staging:
   data:
@@ -23,8 +25,10 @@ staging:
       location: s3://data-lake-raw-staging/movie_ratings
     standardized:
       table: standardized_staging.movie_ratings
+      dq_checks_file: dq_checks_standardized.yaml
     curated:
       table: curated_staging.movie_ratings
+      dq_checks_file: dq_checks_curated.yaml
 
 live:
   data:
@@ -32,5 +36,7 @@ live:
       location: s3://data-lake-raw-live/movie_ratings
     standardized:
       table: standardized_live.movie_ratings
+      dq_checks_file: dq_checks_standardized.yaml
     curated:
       table: curated_live.movie_ratings
+      dq_checks_file: dq_checks_curated.yaml
