@@ -4,6 +4,10 @@ on:
   push:
     branches: [ master ]
 
+concurrency:
+  group: ci_cd_push_master
+  cancel-in-progress: true
+
 jobs:
   test:
     name: Test
