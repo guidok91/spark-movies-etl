@@ -21,7 +21,6 @@ class CurateDataTransformation(AbstractTransformation):
         self.movie_languages = movie_languages
 
     def transform(self, df: DataFrame) -> DataFrame:
-
         transformations = (
             self._normalize_columns,
             self._remove_duplicates,
