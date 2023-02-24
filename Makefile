@@ -6,7 +6,7 @@ help:
 	@echo  '  build           - Build and package the application and its dependencies,'
 	@echo  '                    to be distributed through spark-submit.'
 	@echo  '  test            - Run unit and integration tests.'
-	@echo  '  code-checks     - Run code checks (code formatter, linter, type checker)'
+	@echo  '  lint            - Run code linter tools.'
 	@echo  '  run-local       - Run a task locally. Example usage:'
 	@echo  '                    make run-local task=standardize execution-date=2021-01-01'
 	@echo  '                    make run-local task=curate execution-date=2021-01-01'
@@ -29,7 +29,7 @@ build:
 test:
 	poetry run pytest --cov -vvvv --showlocals --disable-warnings tests
 
-code-checks:
+lint:
 	poetry run pre-commit run --all-files
 
 run-local:
