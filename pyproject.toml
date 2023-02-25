@@ -5,7 +5,7 @@ description = "Data pipeline that ingests and transforms movie ratings data"
 authors = ["Guido Kosloff Gancedo <guidokosloff@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.9"
+python = "^3.10"
 dynaconf = "^3.1.11"
 delta-spark = "^2.2.0"
 soda-core-spark-df = "^3.0.23"
