@@ -10,7 +10,7 @@ from tests.movies_etl.unit.tasks.standardize_data.fixtures.data import (
     TEST_TRANSFORM_INPUT,
     TEST_TRANSFORM_OUTPUT_EXPECTED,
 )
-from tests.utils import assert_data_frames_equal
+from tests.movies_etl.utils import assert_data_frames_equal
 
 
 def test_transform(spark: SparkSession, schema_raw: StructType, schema_standardized: StructType) -> None:

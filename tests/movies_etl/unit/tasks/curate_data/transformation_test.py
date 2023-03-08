@@ -6,7 +6,7 @@ from tests.movies_etl.unit.tasks.curate_data.fixtures.data import (
     TEST_TRANSFORM_INPUT,
     TEST_TRANSFORM_OUTPUT_EXPECTED,
 )
-from tests.utils import assert_data_frames_equal
+from tests.movies_etl.utils import assert_data_frames_equal
 
 
 def test_transform(spark: SparkSession, schema_standardized: StructType, schema_curated: StructType) -> None:
