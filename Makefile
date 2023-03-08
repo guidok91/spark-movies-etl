@@ -27,7 +27,8 @@ run-local: # Run a task locally (example: make run-local task=standardize execut
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	movies_etl/main.py \
 	--task ${task} \
-	--execution-date ${execution-date}
+	--execution-date ${execution-date} \
+	--config-file-path app_config.yaml
 
 run-cluster: # Run a task on a cluster (example: make run-cluster task=standardize execution-date=2021-01-01 env=staging).
 	spark-submit \
@@ -41,7 +42,8 @@ run-cluster: # Run a task on a cluster (example: make run-cluster task=standardi
 	--files s3://movies-binaries/movies-etl/latest/*.yaml \
 	s3://movies-binaries/movies-etl/latest/main.py \
 	--task ${task} \
-	--execution-date ${execution-date}
+	--execution-date ${execution-date} \
+	--config-file-path app_config.yaml
 
 clean: # Clean auxiliary files.
 	rm -rf deps/ dist/ libs/ .pytest_cache .mypy_cache movies_etl.egg-info *.xml .coverage* derby.log metastore_db spark-warehouse

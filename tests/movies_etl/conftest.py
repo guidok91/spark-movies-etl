@@ -13,7 +13,7 @@ from pyspark.sql.types import (
     StructType,
 )
 
-from tests.utils import create_database, drop_database_cascade
+from tests.movies_etl.utils import create_database, drop_database_cascade
 
 
 @pytest.fixture(scope="session")

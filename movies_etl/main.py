@@ -1,5 +1,6 @@
 import argparse
 import datetime
+import pathlib
 
 from pyspark.sql import SparkSession
 
@@ -12,6 +13,7 @@ def _parse_args() -> argparse.Namespace:
 
     parser.add_argument("--task", type=str, required=True, choices=["standardize", "curate"])
     parser.add_argument("--execution-date", type=datetime.date.fromisoformat, required=True)
+    parser.add_argument("--config-file-path", type=pathlib.Path, required=True)
 
     return parser.parse_args()
 
@@ -28,7 +30,7 @@ def _init_spark(task: str, execution_date: datetime.date) -> SparkSession:
 def main() -> None:
     args = _parse_args()
     spark = _init_spark(args.task, args.execution_date)
-    config_manager = ConfigManager()
+    config_manager = ConfigManager(args.config_file_path)
 
     TaskRunner(spark, config_manager, args.task, args.execution_date).run()
 

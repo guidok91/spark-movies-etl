@@ -1,0 +1,7 @@
+---
+dynaconf_merge:
+  true
+
+global:
+  task_argument_class_mapping:
+    dummy: movies_etl.tasks.Dummy
