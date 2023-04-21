@@ -20,7 +20,7 @@ from tests.movies_etl.utils import create_database, drop_database_cascade
 def spark() -> Generator:
     spark = (
         SparkSession.builder.master("local[*]")
-        .config("spark.jars.packages", "io.delta:delta-core_2.12:2.2.0")
+        .config("spark.jars.packages", "io.delta:delta-core_2.12:2.3.0")
         .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
         .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")
         .config("spark.sql.sources.partitionOverwriteMode", "dynamic")
