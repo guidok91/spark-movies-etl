@@ -28,7 +28,7 @@ lint: # Run code linter tools.
 run-local: # Run a task locally (example: make run-local task=standardize execution-date=2021-01-01).
 	poetry run spark-submit \
 	--master local[*] \
-	--packages=io.delta:delta-core_2.12:2.3.0 \
+	--packages=io.delta:delta-core_2.12:2.4.0 \
 	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	movies_etl/main.py \
@@ -41,7 +41,7 @@ run-cluster: # Run a task on a cluster (example: make run-cluster task=standardi
 	spark-submit \
 	--master yarn \
 	--deploy-mode cluster \
-	--packages=io.delta:delta-core_2.12:2.3.0 \
+	--packages=io.delta:delta-core_2.12:2.4.0 \
 	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	--conf spark.yarn.appMasterEnv.ENV_FOR_DYNACONF=${env} \
