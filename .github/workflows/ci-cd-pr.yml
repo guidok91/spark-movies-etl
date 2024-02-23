@@ -51,4 +51,4 @@ jobs:
     - name: Build
       run: make docker-build
 
-    # TO DO: push docker image to ECR
+    # TO DO: push docker image to ECR with tag `spark-movies-etl:PR-<pr-number>`
