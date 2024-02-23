@@ -29,27 +29,21 @@ Configuration is defined in [app_config.yaml](app_config.yaml) and managed by th
 ## Packaging and dependency management
 [Poetry](https://python-poetry.org/) is used for Python packaging and dependency management.
 
+Since there are multiple ways of deploying and running Spark applications in production (Kubernetes, AWS EMR, Databricks, etc), this repo aims to be as agnostic and generic as possible. The application and its dependencies are built into a Docker image (see [Dockerfile](Dockerfile)).
+
 ## CI/CD
 Github Actions workflows for CI/CD are defined [here](.github/workflows) and can be seen [here](https://github.com/guidok91/spark-movies-etl/actions).
 
 The logic is as follows:
 * On PR creation/update:
   * Run code checks and tests.
-  * Build app (*).
-  * Release to S3 (to a specific location for the PR, e.g. `s3://movies-binaries/movies-etl/PR-123`).
+  * Build Docker image.
+  * Publish docker image to ECR container registry with a tag referring to the PR, for example `spark-movies-etl:PR-123`.
 * On push to master:
   * Run code checks and tests.
-  * Build app (*).
-  * Release to S3 (to the location for the master version, e.g. `s3://movies-binaries/movies-etl/latest`).
+  * Package app.
+  * Publish docker image to ECR container registry with the latest tag `spark-movies-etl:latest`.
   * Create Github release.
-
-(*) The app build contains:
-* The Python entrypoint file.
-* A zip containing all the dependencies (Python packages).
-* The config files (`app_config.yaml` and Data Quality checks files).
-
-## Orchestration
-An example Airflow DAG to run this pipeline on a schedule can be found [here](https://github.com/guidok91/airflow-demo/tree/master/dags/movie_ratings).
 
 ## Execution instructions
 The repo includes a `Makefile`. Please run `make help` to see usage.

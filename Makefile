@@ -8,12 +8,19 @@ setup: # Set up local virtual env for development.
 	poetry config virtualenvs.in-project true --local
 	poetry install
 
-.PHONY: build
-build: # Build and package the application and its dependencies to be used through spark-submit.
+.PHONY: docker-build
+docker-build: # Build the Docker image containing the application and its dependencies.
+	docker build . --platform=linux/amd64 -t spark-movies-etl
+
+.PHONY: docker-run
+docker-run: # Run a local container.
+	docker run --platform=linux/amd64 --rm -it spark-movies-etl bash
+
+.PHONY: package
+package: # Package the application and its dependencies to be used through spark-submit.
 	poetry build
 	poetry run pip install dist/*.whl -t libs
 	mkdir deps
-	cp movies_etl/main.py app_config.yaml movies_etl/tasks/*/dq_checks_*.yaml deps
 	poetry run python -m zipfile -c deps/libs.zip libs/*
 
 .PHONY: test
@@ -24,32 +31,18 @@ test: # Run unit and integration tests.
 lint: # Run code linter tools.
 	poetry run pre-commit run --all-files
 
-.PHONY: run-local
-run-local: # Run a task locally (example: make run-local task=standardize execution-date=2021-01-01).
+.PHONY: run-app
+run-app: # Run a pipeline task (example: TASK=standardize EXECUTION_DATE=2021-01-01 ENV_FOR_DYNACONF=development SPARK_MASTER=local[*] DEPLOY_MODE=client make run-app).
 	poetry run spark-submit \
-	--master local[*] \
+	--master ${SPARK_MASTER} \
+	--deploy-mode ${DEPLOY_MODE} \
 	--packages io.delta:delta-spark_2.12:3.1.0 \
 	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
+	--py-files deps/libs.zip \
 	movies_etl/main.py \
-	--task ${task} \
-	--execution-date ${execution-date} \
-	--config-file-path app_config.yaml
-
-.PHONY: run-cluster
-run-cluster: # Run a task on a cluster (example: make run-cluster task=standardize execution-date=2021-01-01 env=staging).
-	spark-submit \
-	--master yarn \
-	--deploy-mode cluster \
-	--packages io.delta:delta-spark_2.12:3.1.0 \
-	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
-	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
-	--conf spark.yarn.appMasterEnv.ENV_FOR_DYNACONF=${env} \
-	--py-files s3://movies-binaries/movies-etl/latest/libs.zip \
-	--files s3://movies-binaries/movies-etl/latest/*.yaml \
-	s3://movies-binaries/movies-etl/latest/main.py \
-	--task ${task} \
-	--execution-date ${execution-date} \
+	--task ${TASK} \
+	--execution-date ${EXECUTION_DATE} \
 	--config-file-path app_config.yaml
 
 .PHONY: clean
