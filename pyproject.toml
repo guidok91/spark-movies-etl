@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "movies-etl"
-version = "0.2.3"
+version = "0.2.4"
 description = "Data pipeline that ingests and transforms movie ratings data"
 authors = ["Guido Kosloff Gancedo <guidokosloff@gmail.com>"]
 
@@ -9,6 +9,7 @@ python = ">=3.9,<4.0"
 dynaconf = "^3.2.4"
 delta-spark = "3.1.0"
 soda-core-spark-df = "^3.2.1"
+venv-pack = "^0.2.0"
 
 [tool.poetry.dev-dependencies]
 pyspark = "3.5.0"
@@ -27,7 +28,7 @@ build-backend = "poetry.core.masonry.api"
 
 [tool.black]
 line-length = 120
-target-version = ['py310']
+target-version = ['py311']
 include = '\.pyi?$'
 exclude = '''
 (
