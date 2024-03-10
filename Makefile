@@ -3,7 +3,7 @@ help:
 	@grep -E '^[a-zA-Z0-9 -]+:.*#'  Makefile | while read -r l; do printf "\033[1;32m$$(echo $$l | cut -f 1 -d':')\033[00m:$$(echo $$l | cut -f 2- -d'#')\n"; done
 
 .PHONY: setup
-setup: # Set up local virtual env for development.
+setup: # Set up local virtual env with the app and its dependencies.
 	pip install --upgrade pip setuptools wheel poetry
 	poetry config virtualenvs.in-project true --local
 	poetry install
@@ -17,7 +17,7 @@ docker-run: # Run a local container.
 	docker run --platform=linux/amd64 --rm -it spark-movies-etl bash
 
 .PHONY: package
-package: # Package the application and its dependencies to be used in spark-submit.
+package: # Package the app and its dependencies to be used in spark-submit.
 	mkdir deps
 	poetry export -f requirements.txt --output deps/requirements.txt
 	poetry run python -m venv deps/.venv

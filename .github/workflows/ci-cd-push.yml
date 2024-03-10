@@ -62,4 +62,4 @@ jobs:
         automatic_release_tag: "${{ env.PACKAGE_VERSION }}"
         files: deps/*
 
-    # TO DO: push docker image to ECR with tag `spark-movies-etl:latest`
+    # TO DO: push docker image to Github Container Registry with tag `spark-movies-etl:latest`
