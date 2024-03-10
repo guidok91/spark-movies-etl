@@ -43,9 +43,11 @@ The logic is as follows:
   * Publish Docker image to Github Container Registry with a tag referring to the PR, like `ghcr.io/guidok91/spark-movies-etl:pr-123`.
 * On push to master:
   * Run code checks and tests.
+  * Create Github release.
   * Build Docker image.
   * Publish Docker image to Github Container Registry with the latest tag, e.g. `ghcr.io/guidok91/spark-movies-etl:master`.
-  * Create Github release.
+
+Docker images in the Github Container Registry can be found [here](https://github.com/guidok91/spark-movies-etl/pkgs/container/spark-movies-etl).
 
 ## Execution instructions
 The repo includes a `Makefile`. Please run `make help` to see usage.
