@@ -1,18 +1,18 @@
 [tool.poetry]
 name = "movies-etl"
-version = "0.2.5"
+version = "0.2.6"
 description = "Data pipeline that ingests and transforms movie ratings data"
 authors = ["Guido Kosloff Gancedo <guidokosloff@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
+pyspark = "3.5.1"
 dynaconf = "^3.2.4"
 delta-spark = "3.1.0"
 soda-core-spark-df = "^3.2.1"
 venv-pack = "^0.2.0"
 
 [tool.poetry.dev-dependencies]
-pyspark = "3.5.0"
 ruff = "^0.2.2"
 mypy = "^1.8.0"
 isort = "^5.13.2"
