@@ -21,7 +21,10 @@ package: # Package the app and its dependencies to be used in spark-submit.
 	mkdir deps
 	poetry export -f requirements.txt --output deps/requirements.txt
 	poetry run python -m venv deps/.venv
-	. deps/.venv/bin/activate && pip install -r deps/requirements.txt && venv-pack -o deps/venv.tar.gz
+	. deps/.venv/bin/activate && \
+		pip install --upgrade pip setuptools wheel && \
+		pip install -r deps/requirements.txt && \
+		venv-pack -o deps/venv.tar.gz
 	rm -r deps/.venv deps/requirements.txt
 
 .PHONY: test
@@ -48,4 +51,4 @@ run-app: # Run a pipeline task (example: TASK=standardize EXECUTION_DATE=2021-01
 
 .PHONY: clean
 clean: # Clean auxiliary files.
-	rm -rf deps/ dist/ libs/ .pytest_cache .mypy_cache movies_etl.egg-info *.xml .coverage* derby.log metastore_db spark-warehouse
+	rm -rf deps/ dist/ libs/ .pytest_cache .mypy_cache .ruff_cache movies_etl.egg-info *.xml .coverage* derby.log metastore_db spark-warehouse
