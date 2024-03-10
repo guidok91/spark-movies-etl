@@ -18,22 +18,22 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: 3.11
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
 
-    - name: Install dependencies
-      run: make setup
+      - name: Install dependencies
+        run: make setup
 
-    - name: Run linter
-      run: make lint
+      - name: Run linter
+        run: make lint
 
-    - name: Run tests
-      run: make test
+      - name: Run tests
+        run: make test
 
   release:
     name: Release
@@ -41,27 +41,27 @@ jobs:
     timeout-minutes: 15
     needs: test
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: 3.11
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
 
-    - name: Install dependencies
-      run: make setup
+      - name: Install dependencies
+        run: make setup
 
-    - name: Get package version
-      run: echo "PACKAGE_VERSION=$(poetry version --short)" >> $GITHUB_ENV
+      - name: Get package version
+        run: echo "PACKAGE_VERSION=$(poetry version --short)" >> $GITHUB_ENV
 
-    - name: Create Github release
-      uses: "marvinpinto/action-automatic-releases@v1.2.1"
-      with:
-        repo_token: "${{ secrets.GITHUB_TOKEN }}"
-        prerelease: false
-        automatic_release_tag: "${{ env.PACKAGE_VERSION }}"
-        files: deps/*
+      - name: Create Github release
+        uses: "marvinpinto/action-automatic-releases@v1.2.1"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          prerelease: false
+          automatic_release_tag: "${{ env.PACKAGE_VERSION }}"
+          files: deps/*
 
       - name: Log in to the Github Container Registry
         uses: docker/login-action@v3

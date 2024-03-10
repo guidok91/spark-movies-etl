@@ -18,22 +18,22 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Setup Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: 3.11
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: 3.11
 
-    - name: Install dependencies
-      run: make setup
+      - name: Install dependencies
+        run: make setup
 
-    - name: Run linter
-      run: make lint
+      - name: Run linter
+        run: make lint
 
-    - name: Run tests
-      run: make test
+      - name: Run tests
+        run: make test
 
   release:
     name: Release
