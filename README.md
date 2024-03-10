@@ -40,11 +40,11 @@ The logic is as follows:
 * On PR creation/update:
   * Run code checks and tests.
   * Build Docker image.
-  * Publish docker image to ECR container registry with a tag referring to the PR, for example `spark-movies-etl:PR-123`.
+  * Publish Docker image to Github Container Registry with a tag referring to the PR, like `ghcr.io/guidok91/spark-movies-etl:pr-123`.
 * On push to master:
   * Run code checks and tests.
   * Build Docker image.
-  * Publish docker image to ECR container registry with the latest tag `spark-movies-etl:latest`.
+  * Publish Docker image to Github Container Registry with the latest tag, e.g. `ghcr.io/guidok91/spark-movies-etl:master`.
   * Create Github release.
 
 ## Execution instructions
