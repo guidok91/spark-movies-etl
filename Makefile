@@ -22,6 +22,7 @@ package: # Package the app and its dependencies to be used in spark-submit.
 	poetry export -f requirements.txt --output deps/requirements.txt
 	poetry run python -m venv deps/.venv
 	. deps/.venv/bin/activate && pip install -r deps/requirements.txt && venv-pack -o deps/venv.tar.gz
+	rm -r deps/.venv deps/requirements.txt
 
 .PHONY: test
 test: # Run unit and integration tests.
