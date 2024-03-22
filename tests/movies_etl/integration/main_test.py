@@ -9,11 +9,8 @@ from movies_etl.main import main
 
 
 def test_run_end_to_end_idempotent(spark: SparkSession, config_file_base_path: str, execution_date: str) -> None:
-    _test_run_standardize(spark, config_file_base_path, execution_date)
-    _test_run_standardize(spark, config_file_base_path, execution_date)
-
-    _test_run_curate(spark, config_file_base_path, execution_date)
-    _test_run_curate(spark, config_file_base_path, execution_date)
+    _test_run(spark, config_file_base_path, execution_date)
+    _test_run(spark, config_file_base_path, execution_date)
 
 
 def test_run_inexistent_task(execution_date: str, config_file_base_path: str) -> None:
@@ -21,8 +18,6 @@ def test_run_inexistent_task(execution_date: str, config_file_base_path: str) ->
     config_file_path = f"{config_file_base_path}/test_app_config_invalid_tasks.yaml"
     sys.argv = [
         "main.py",
-        "--task",
-        "curate",
         "--execution-date",
         execution_date,
         "--config-file-path",
@@ -34,34 +29,11 @@ def test_run_inexistent_task(execution_date: str, config_file_base_path: str) ->
         main()
 
 
-def _test_run_standardize(spark: SparkSession, config_file_base_path: str, execution_date: str) -> None:
+def _test_run(spark: SparkSession, config_file_base_path: str, execution_date: str) -> None:
     # GIVEN
     config_file_path = f"{config_file_base_path}/test_app_config.yaml"
     sys.argv = [
         "main.py",
-        "--task",
-        "standardize",
-        "--execution-date",
-        execution_date,
-        "--config-file-path",
-        config_file_path,
-    ]
-
-    # WHEN
-    main()
-
-    # THEN
-    df_output = spark.read.table("test.movie_ratings_standardized")
-    assert df_output.count() == 2
-
-
-def _test_run_curate(spark: SparkSession, config_file_base_path: str, execution_date: str) -> None:
-    # GIVEN
-    config_file_path = f"{config_file_base_path}/test_app_config.yaml"
-    sys.argv = [
-        "main.py",
-        "--task",
-        "curate",
         "--execution-date",
         execution_date,
         "--config-file-path",

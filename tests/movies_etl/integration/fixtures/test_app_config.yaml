@@ -3,16 +3,8 @@ dynaconf_merge:
   true
 
 global:
-  task_argument_class_mapping:
-    standardize: movies_etl.tasks.StandardizeDataTask
-    curate: movies_etl.tasks.CurateDataTask
-
   data:
     raw:
       location: tests/movies_etl/integration/fixtures/data-lake-raw-test/movie_ratings
-    standardized:
-      table: test.movie_ratings_standardized
-      dq_checks_file: movies_etl/tasks/standardize_data/dq_checks_standardized.yaml
     curated:
       table: test.movie_ratings_curated
-      dq_checks_file: movies_etl/tasks/curate_data/dq_checks_curated.yaml
