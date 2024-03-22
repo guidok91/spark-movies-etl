@@ -1,33 +1,37 @@
 repos:
--   repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.3.0
+  - repo: 'https://github.com/pre-commit/pre-commit-hooks'
+    rev: v4.5.0
     hooks:
-    -   id: check-yaml
-    -   id: end-of-file-fixer
-    -   id: trailing-whitespace
--   repo: local
+      - id: check-yaml
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+  - repo: local
     hooks:
-    -   id: black
+      - id: black
         name: black
         entry: black movies_etl tests
         language: system
-        types: [python]
+        types:
+          - python
         pass_filenames: false
-    -   id: isort
+      - id: isort
         name: isort
         entry: isort movies_etl tests
         language: system
-        types: [python]
+        types:
+          - python
         pass_filenames: false
-    -   id: ruff
+      - id: ruff
         name: ruff
         entry: ruff movies_etl tests
         language: system
-        types: [python]
+        types:
+          - python
         pass_filenames: false
-    -   id: mypy
+      - id: mypy
         name: mypy
         entry: mypy movies_etl tests
         language: system
-        types: [python]
+        types:
+          - python
         pass_filenames: false
