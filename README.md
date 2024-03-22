@@ -2,26 +2,23 @@
 ![workflow](https://github.com/guidok91/spark-movies-etl/actions/workflows/ci-cd-push.yml/badge.svg)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
-Spark data pipeline that ingests and transforms movie ratings data.
+Spark data pipeline that processes movie ratings data.
 
 ## Data Architecture
 We define a Data Lakehouse architecture with the following layers:
 - `Raw`: Contains raw data files directly ingested from an event stream, e.g. Kafka. This data should generally not be accessible (can contain PII).
-- `Standardized`: Contains standardized data (catalogued tables) based on the raw data but without any transformations applied (besides masking of PII data if necessary).
-- `Curated`: Contains transformed data (catalogued tables) according to business and data quality rules.
+- `Curated`: Contains transformed data according to business and data quality rules. This data can be accessed as tables registered in a data catalog.
 
 [Delta](https://delta.io/) is used as the table format.
 
-![data architecture](https://user-images.githubusercontent.com/38698125/210155387-939af0c3-af98-47ff-8048-756f5d97f132.png)
+![data architecture](https://private-user-images.githubusercontent.com/38698125/315969697-d5054437-ac8c-45d6-98a5-e261954ca000.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTExMDI1NDQsIm5iZiI6MTcxMTEwMjI0NCwicGF0aCI6Ii8zODY5ODEyNS8zMTU5Njk2OTctZDUwNTQ0MzctYWM4Yy00NWQ2LTk4YTUtZTI2MTk1NGNhMDAwLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDAzMjIlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwMzIyVDEwMTA0NFomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTdmZDliMDM3ZDIyOWMwYjUyYjhkNTVhMDgzNmQxOWU2ZWU1NmU0MTBhZTI4ODU2MjEwNjVkOTg0OWM1MzBiMDImWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.cVKbjXeMhd5mhfMJjbyeO19cpGRteJOGXxCq6KOE5Kw)
 
 ## Data pipeline design
-The data pipeline consists of the following tasks:
- - Standardize task: ingests the dataset from the `Raw` layer into the `Standardized` one.
- - Curate task: consumes the dataset from `Standardized`, performs transformations and business logic, and persists into `Curated`.
+The data pipeline consumes data from the raw layer, performs transformations and business logic, and persists to the curated layer.
 
-The datasets are initially partitioned by execution date (with the option to add more partitioning columns).
+After persisting, Data Quality checks are run using [Soda](https://docs.soda.io/soda-core/overview-main.html).
 
-Each task runs Data Quality checks on the output dataset just after writing. Data Quality checks are defined using [Soda](https://docs.soda.io/soda-core/overview-main.html).
+The curated datasets are in principle partitioned by execution date (with the option to add more partitioning columns).
 
 ## Configuration management
 Configuration is defined in [app_config.yaml](app_config.yaml) and managed by the [ConfigManager](movies_etl/config_manager.py) class, which is a wrapper around [Dynaconf](https://www.dynaconf.com/).
