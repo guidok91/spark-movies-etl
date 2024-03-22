@@ -4,7 +4,7 @@ help:
 
 .PHONY: setup
 setup: # Set up local virtual env with the app and its dependencies.
-	pip install --upgrade pip setuptools wheel poetry
+	pip install --upgrade pip setuptools wheel poetry==1.8.2
 	poetry config virtualenvs.in-project true --local
 	poetry install
 
