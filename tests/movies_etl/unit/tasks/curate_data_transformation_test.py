@@ -3,7 +3,7 @@ from datetime import date
 from pyspark.sql import SparkSession
 
 from movies_etl.tasks.curate_data_transformation import CurateDataTransformation
-from tests.movies_etl.unit.tasks.fixtures.data import (
+from tests.movies_etl.unit.tasks.fixtures import (
     TEST_TRANSFORM_INPUT_ROWS,
     TEST_TRANSFORM_INPUT_SCHEMA,
     TEST_TRANSFORM_OUTPUT_EXPECTED_ROWS,
