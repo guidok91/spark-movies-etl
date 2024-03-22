@@ -8,6 +8,7 @@ development:
       location: data-lake-raw-dev/movie_ratings
     curated:
       table: default.movie_ratings_curated
+      location: data-lake-curated-dev
 
 staging:
   data:
@@ -15,6 +16,7 @@ staging:
       location: s3://data-lake-raw-staging/movie_ratings
     curated:
       table: curated_staging.movie_ratings
+      location: s3://data-lake-curated-staging
 
 live:
   data:
@@ -22,3 +24,4 @@ live:
       location: s3://data-lake-raw-live/movie_ratings
     curated:
       table: curated_live.movie_ratings
+      location: s3://data-lake-curated-live

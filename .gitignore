@@ -142,6 +142,7 @@ poetry.toml
 # Spark
 metastore_db
 spark-warehouse
+data-lake-curated-dev
 
 # VS Code
 .vscode
