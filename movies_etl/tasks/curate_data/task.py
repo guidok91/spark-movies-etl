@@ -25,6 +25,4 @@ class CurateDataTask(AbstractTask):
         return self.spark.read.table(self._input_table).where(partition_expr)
 
     def _transform(self, df: DataFrame) -> DataFrame:
-        return CurateDataTransformation(
-            movie_languages=self.config_manager.get("movie_languages_filter"),
-        ).transform(df)
+        return CurateDataTransformation().transform(df)

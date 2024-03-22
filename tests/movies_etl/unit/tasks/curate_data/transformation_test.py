@@ -11,7 +11,7 @@ from tests.movies_etl.utils import assert_data_frames_equal
 
 def test_transform(spark: SparkSession, schema_standardized: StructType, schema_curated: StructType) -> None:
     # GIVEN
-    transformation = CurateDataTransformation(movie_languages=["EN", "ES", "DE", "FR"])
+    transformation = CurateDataTransformation()
     df_input = spark.createDataFrame(
         TEST_TRANSFORM_INPUT,
         schema=schema_standardized,

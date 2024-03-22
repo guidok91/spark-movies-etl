@@ -16,7 +16,6 @@ TEST_TRANSFORM_INPUT = [
     ],
     [4, 104, 4.0, 1540000000, "Movie 4", "es", 4000, False, [{"id": 4, "name": "Genre 4"}], 20210101],
     [5, 105, 5.0, 1550000000, "Movie 5", "fr", 5000, True, [{"id": 5, "name": "Genre 5"}], 20210101],
-    [6, 106, 6.0, 1560000000, "Movie 6", "ru", 6000, False, [{"id": 6, "name": "Genre 6"}], 20210101],
 ]
 
 TEST_TRANSFORM_OUTPUT_EXPECTED = [
