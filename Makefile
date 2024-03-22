@@ -50,5 +50,5 @@ run-app: # Run pipeline (example: EXECUTION_DATE=2021-01-01 ENV_FOR_DYNACONF=dev
 
 .PHONY: clean
 clean: # Clean auxiliary files.
-	rm -rf deps/ dist/ libs/ .pytest_cache .mypy_cache .ruff_cache movies_etl.egg-info *.xml .coverage* derby.log metastore_db spark-warehouse
+	rm -rf deps/ dist/ libs/ .pytest_cache .mypy_cache .ruff_cache movies_etl.egg-info *.xml .coverage* derby.log metastore_db spark-warehouse data-lake-curated-dev
 	find . | grep -E "__pycache__" | xargs rm -rf

@@ -8,3 +8,4 @@ global:
       location: tests/movies_etl/integration/fixtures/data-lake-raw-test/movie_ratings
     curated:
       table: default.movie_ratings_curated_test
+      location: data-lake-curated-dev
