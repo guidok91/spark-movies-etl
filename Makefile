@@ -36,7 +36,7 @@ lint: # Run code linter tools.
 	poetry run pre-commit run --all-files
 
 .PHONY: run-app
-run-app: # Run a pipeline task (example: TASK=standardize EXECUTION_DATE=2021-01-01 ENV_FOR_DYNACONF=development SPARK_MASTER=local[*] DEPLOY_MODE=client make run-app).
+run-app: # Run pipeline (example: EXECUTION_DATE=2021-01-01 ENV_FOR_DYNACONF=development SPARK_MASTER=local[*] DEPLOY_MODE=client make run-app).
 	PYSPARK_DRIVER_PYTHON=python PYSPARK_PYTHON=./environment/bin/python poetry run spark-submit \
 	--master ${SPARK_MASTER} \
 	--deploy-mode ${DEPLOY_MODE} \
@@ -45,10 +45,10 @@ run-app: # Run a pipeline task (example: TASK=standardize EXECUTION_DATE=2021-01
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	--archives deps/venv.tar.gz#environment \
 	movies_etl/main.py \
-	--task ${TASK} \
 	--execution-date ${EXECUTION_DATE} \
 	--config-file-path app_config.yaml
 
 .PHONY: clean
 clean: # Clean auxiliary files.
 	rm -rf deps/ dist/ libs/ .pytest_cache .mypy_cache .ruff_cache movies_etl.egg-info *.xml .coverage* derby.log metastore_db spark-warehouse
+	find . | grep -E "__pycache__" | xargs rm -rf

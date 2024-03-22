@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "movies-etl"
 version = "0.2.6"
-description = "Data pipeline that ingests and transforms movie ratings data"
+description = "Data pipeline that processes movie ratings data"
 authors = ["Guido Kosloff Gancedo <guidokosloff@gmail.com>"]
 
 [tool.poetry.dependencies]
