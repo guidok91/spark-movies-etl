@@ -8,7 +8,7 @@ from pyspark.sql.window import Window
 from movies_etl.tasks.abstract.transformation import AbstractTransformation
 
 
-class RatingClass(str, Enum):
+class RatingClassification(str, Enum):
     LOW = "low"
     MID = "mid"
     HIGH = "high"
@@ -22,7 +22,7 @@ class CurateDataTransformation(AbstractTransformation):
             self._normalize_columns,
             self._remove_duplicates,
             self._calculate_multigenre,
-            self._calculate_rating_class,
+            self._calculate_rating_classification,
             self._select_final_columns,
         )
 
@@ -44,13 +44,13 @@ class CurateDataTransformation(AbstractTransformation):
         return df.withColumn("is_multigenre", size("genres") > 1)
 
     @staticmethod
-    def _calculate_rating_class(df: DataFrame) -> DataFrame:
+    def _calculate_rating_classification(df: DataFrame) -> DataFrame:
         return df.withColumn(
-            "rating_class",
-            when(col("rating") <= 2, RatingClass.LOW)
-            .when((col("rating") > 2) & (col("rating") <= 4), RatingClass.MID)
-            .when(col("rating") > 4, RatingClass.HIGH)
-            .otherwise(RatingClass.UNKNOWN),
+            "rating_classification",
+            when(col("rating") <= 2, RatingClassification.LOW)
+            .when((col("rating") > 2) & (col("rating") <= 4), RatingClassification.MID)
+            .when(col("rating") > 4, RatingClassification.HIGH)
+            .otherwise(RatingClassification.UNKNOWN),
         )
 
     @staticmethod
@@ -59,7 +59,7 @@ class CurateDataTransformation(AbstractTransformation):
             "movie_id",
             "user_id",
             "rating",
-            "rating_class",
+            "rating_classification",
             "timestamp",
             "original_title",
             "original_language",

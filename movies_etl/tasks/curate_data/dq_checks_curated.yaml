@@ -9,7 +9,7 @@ checks for ${table} [daily]:
           movie_id: bigint
           user_id: bigint
           rating: float
-          rating_class: string
+          rating_classification: string
           timestamp: bigint
           original_title: string
           original_language: string
@@ -26,9 +26,9 @@ checks for ${table} [daily]:
       valid min: 0
       valid max: 5
       name: Value of rating should be between 0 and 5.
-  - invalid_count(rating_class) = 0:
+  - invalid_count(rating_classification) = 0:
       valid values: ["low", "mid", "high", "unk"]
-      name: rating_class should have valid values.
+      name: rating_classification should have valid values.
   -  missing_count(timestamp) = 0:
       name: Event timestamp cannot be NULL.
   - invalid_count(original_language) = 0:

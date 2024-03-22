@@ -95,7 +95,7 @@ def schema_curated() -> StructType:
             StructField("movie_id", LongType()),
             StructField("user_id", LongType()),
             StructField("rating", FloatType()),
-            StructField("rating_class", StringType()),
+            StructField("rating_classification", StringType()),
             StructField("timestamp", LongType()),
             StructField("original_title", StringType()),
             StructField("original_language", StringType()),
