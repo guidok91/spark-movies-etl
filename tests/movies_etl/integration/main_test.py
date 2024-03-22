@@ -73,7 +73,7 @@ def _test_run_curate(spark: SparkSession, config_file_base_path: str, execution_
 
     # THEN
     df_output = spark.read.table("test.movie_ratings_curated")
-    assert df_output.count() == 1
+    assert df_output.count() == 2
 
 
 @pytest.fixture()

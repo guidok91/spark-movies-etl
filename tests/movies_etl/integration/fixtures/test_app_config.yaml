@@ -6,7 +6,7 @@ global:
   task_argument_class_mapping:
     standardize: movies_etl.tasks.StandardizeDataTask
     curate: movies_etl.tasks.CurateDataTask
-  movie_languages_filter: ["EN"]
+
   data:
     raw:
       location: tests/movies_etl/integration/fixtures/data-lake-raw-test/movie_ratings

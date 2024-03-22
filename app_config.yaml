@@ -6,7 +6,6 @@ global:
   task_argument_class_mapping:
     standardize: movies_etl.tasks.StandardizeDataTask
     curate: movies_etl.tasks.CurateDataTask
-  movie_languages_filter: ["EN", "FR", "DE", "ES"]
 
 development:
   data:

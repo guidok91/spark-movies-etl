@@ -1,6 +1,5 @@
 from enum import Enum
-from functools import partial, reduce
-from typing import List
+from functools import reduce
 
 from pyspark.sql import DataFrame
 from pyspark.sql.functions import col, row_number, size, upper, when
@@ -17,14 +16,11 @@ class RatingClass(str, Enum):
 
 
 class CurateDataTransformation(AbstractTransformation):
-    def __init__(self, movie_languages: List[str]):
-        self.movie_languages = movie_languages
 
     def transform(self, df: DataFrame) -> DataFrame:
         transformations = (
             self._normalize_columns,
             self._remove_duplicates,
-            partial(self._filter_languages, movie_languages=self.movie_languages),
             self._calculate_multigenre,
             self._calculate_rating_class,
             self._select_final_columns,
@@ -42,10 +38,6 @@ class CurateDataTransformation(AbstractTransformation):
         window_spec = Window.partitionBy(["movie_id", "user_id"]).orderBy("timestamp")
         df = df.withColumn("rnum", row_number().over(window_spec))
         return df.where(col("rnum") == 1).drop("rnum")
-
-    @staticmethod
-    def _filter_languages(df: DataFrame, movie_languages: List[str]) -> DataFrame:
-        return df.where(col("original_language").isin(movie_languages))
 
     @staticmethod
     def _calculate_multigenre(df: DataFrame) -> DataFrame:
