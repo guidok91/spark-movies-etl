@@ -1,18 +1,10 @@
-from enum import Enum
 from functools import reduce
 
 from pyspark.sql import DataFrame
-from pyspark.sql.functions import col, row_number, size, upper, when
+from pyspark.sql.functions import col, row_number, size, upper
 from pyspark.sql.window import Window
 
 from movies_etl.tasks.abstract.transformation import AbstractTransformation
-
-
-class RatingClassification(str, Enum):
-    LOW = "low"
-    MID = "mid"
-    HIGH = "high"
-    UNKNOWN = "unk"
 
 
 class CurateDataTransformation(AbstractTransformation):
@@ -22,7 +14,6 @@ class CurateDataTransformation(AbstractTransformation):
             self._normalize_columns,
             self._remove_duplicates,
             self._calculate_multigenre,
-            self._calculate_rating_classification,
             self._select_final_columns,
         )
 
@@ -44,22 +35,11 @@ class CurateDataTransformation(AbstractTransformation):
         return df.withColumn("is_multigenre", size("genres") > 1)
 
     @staticmethod
-    def _calculate_rating_classification(df: DataFrame) -> DataFrame:
-        return df.withColumn(
-            "rating_classification",
-            when(col("rating") <= 2, RatingClassification.LOW)
-            .when((col("rating") > 2) & (col("rating") <= 4), RatingClassification.MID)
-            .when(col("rating") > 4, RatingClassification.HIGH)
-            .otherwise(RatingClassification.UNKNOWN),
-        )
-
-    @staticmethod
     def _select_final_columns(df: DataFrame) -> DataFrame:
         return df.select(
             "movie_id",
             "user_id",
             "rating",
-            "rating_classification",
             "timestamp",
             "original_title",
             "original_language",
