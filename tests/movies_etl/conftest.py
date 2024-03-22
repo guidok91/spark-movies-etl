@@ -1,9 +1,8 @@
 from typing import Generator
 
 import pytest as pytest
-from pyspark.sql import SparkSession
-
-from tests.movies_etl.utils import create_database, drop_database_cascade
+from chispa.dataframe_comparer import assert_df_equality
+from pyspark.sql import DataFrame, SparkSession
 
 
 @pytest.fixture(scope="session")
@@ -17,6 +16,8 @@ def spark() -> Generator:
         .enableHiveSupport()
         .getOrCreate()
     )
-    create_database(spark, "test")
     yield spark
-    drop_database_cascade(spark, "test")
+
+
+def assert_data_frames_equal(left: DataFrame, right: DataFrame) -> None:
+    assert_df_equality(left, right, ignore_row_order=True, ignore_nullable=True)

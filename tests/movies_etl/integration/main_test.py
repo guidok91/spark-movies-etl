@@ -25,5 +25,5 @@ def _test_run(spark: SparkSession) -> None:
     main()
 
     # THEN
-    df_output = spark.read.table("test.movie_ratings_curated")
+    df_output = spark.read.table("default.movie_ratings_curated_test")
     assert df_output.count() == 2

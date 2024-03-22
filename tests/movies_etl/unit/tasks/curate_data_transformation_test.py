@@ -3,13 +3,13 @@ from datetime import date
 from pyspark.sql import SparkSession
 
 from movies_etl.tasks.curate_data_transformation import CurateDataTransformation
+from tests.movies_etl.conftest import assert_data_frames_equal
 from tests.movies_etl.unit.tasks.fixtures import (
     TEST_TRANSFORM_INPUT_ROWS,
     TEST_TRANSFORM_INPUT_SCHEMA,
     TEST_TRANSFORM_OUTPUT_EXPECTED_ROWS,
     TEST_TRANSFORM_OUTPUT_EXPECTED_SCHEMA,
 )
-from tests.movies_etl.utils import assert_data_frames_equal
 
 
 def test_transform(spark: SparkSession) -> None:

@@ -7,4 +7,4 @@ global:
     raw:
       location: tests/movies_etl/integration/fixtures/data-lake-raw-test/movie_ratings
     curated:
-      table: test.movie_ratings_curated
+      table: default.movie_ratings_curated_test
