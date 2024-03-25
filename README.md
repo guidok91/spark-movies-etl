@@ -11,7 +11,8 @@ We define a Data Lakehouse architecture with the following layers:
 
 [Delta](https://delta.io/) is used as the table format.
 
-![Data Architecture](https://private-user-images.githubusercontent.com/38698125/316302177-15394722-33da-4444-ae83-878c53fd8893.png?jwt=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJnaXRodWIuY29tIiwiYXVkIjoicmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbSIsImtleSI6ImtleTUiLCJleHAiOjE3MTEyNzczOTUsIm5iZiI6MTcxMTI3NzA5NSwicGF0aCI6Ii8zODY5ODEyNS8zMTYzMDIxNzctMTUzOTQ3MjItMzNkYS00NDQ0LWFlODMtODc4YzUzZmQ4ODkzLnBuZz9YLUFtei1BbGdvcml0aG09QVdTNC1ITUFDLVNIQTI1NiZYLUFtei1DcmVkZW50aWFsPUFLSUFWQ09EWUxTQTUzUFFLNFpBJTJGMjAyNDAzMjQlMkZ1cy1lYXN0LTElMkZzMyUyRmF3czRfcmVxdWVzdCZYLUFtei1EYXRlPTIwMjQwMzI0VDEwNDQ1NVomWC1BbXotRXhwaXJlcz0zMDAmWC1BbXotU2lnbmF0dXJlPTMyMjUyOTlmN2JhY2M1NzE4YWY4OTJlZGFhMjg5YTdjYjc2NDMyOTFjOWFkN2Y5M2FlOWU2OWVjMWYwY2FmZWUmWC1BbXotU2lnbmVkSGVhZGVycz1ob3N0JmFjdG9yX2lkPTAma2V5X2lkPTAmcmVwb19pZD0wIn0.iCSNTM8tVFZS8eom-kSNiXEVNANEa8EATEsYpCblyL8)
+<img width="1727" alt="316302177-15394722-33da-4444-ae83-878c53fd8893" src="https://github.com/guidok91/spark-movies-etl/assets/38698125/0eb8ec4b-6b60-4bd2-8892-883332902dff">
+
 
 ## Data pipeline design
 The Spark data pipeline consumes data from the raw layer (incrementally, for a given execution date), performs transformations and business logic, and persists to the curated layer.
