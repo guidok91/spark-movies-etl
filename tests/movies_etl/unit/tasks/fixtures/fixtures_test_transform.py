@@ -9,7 +9,7 @@ from pyspark.sql.types import (
     StructType,
 )
 
-TEST_TRANSFORM_INPUT_ROWS = [
+INPUT_ROWS = [
     [1, 101, 1.0, 1510000000, "Movie 1", "es", 1000, True, [{"id": 1, "name": "Genre 1"}]],
     [1, 101, 1.5, 1515000000, "Movie 1", "es", 1000, True, [{"id": 1, "name": "Genre 1"}]],
     [2, 102, 2.0, 1520000000, "Movie 2", "EN", 2000, False, [{"id": 2, "name": "Genre 2"}]],
@@ -27,7 +27,7 @@ TEST_TRANSFORM_INPUT_ROWS = [
     [4, 104, 4.0, 1540000000, "Movie 4", "es", 4000, False, [{"id": 4, "name": "Genre 4"}]],
     [5, 105, 5.0, 1550000000, "Movie 5", "fr", 5000, True, [{"id": 5, "name": "Genre 5"}]],
 ]
-TEST_TRANSFORM_INPUT_SCHEMA = StructType(
+INPUT_SCHEMA = StructType(
     [
         StructField("movie_id", LongType()),
         StructField("user_id", LongType()),
