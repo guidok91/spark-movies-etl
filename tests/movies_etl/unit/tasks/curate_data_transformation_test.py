@@ -6,23 +6,13 @@ from pyspark.sql import SparkSession
 
 from movies_etl.tasks.curate_data_transformation import CurateDataTransformation
 from tests.movies_etl.conftest import assert_data_frames_equal
-from tests.movies_etl.unit.tasks.fixtures import (
-    fixtures_test_transform,
-    fixtures_test_transform_missing_column,
-)
 
 
 def test_transform(spark: SparkSession) -> None:
     # GIVEN
     transformation = CurateDataTransformation(execution_date=date(2021, 1, 1))
-    df_input = spark.createDataFrame(
-        data=fixtures_test_transform.INPUT_ROWS,
-        schema=fixtures_test_transform.INPUT_SCHEMA,
-    )
-    df_expected = spark.createDataFrame(
-        data=fixtures_test_transform.TEST_TRANSFORM_OUTPUT_EXPECTED_ROWS,
-        schema=fixtures_test_transform.TEST_TRANSFORM_OUTPUT_EXPECTED_SCHEMA,
-    )
+    df_input = spark.read.json("tests/movies_etl/unit/tasks/fixtures/test_transform_input.ndjson")
+    df_expected = spark.read.json("tests/movies_etl/unit/tasks/fixtures/test_transform_output_expected.ndjson")
 
     # WHEN
     df_transformed = transformation.transform(df_input)
@@ -34,10 +24,7 @@ def test_transform(spark: SparkSession) -> None:
 def test_transform_missing_column(spark: SparkSession) -> None:
     # GIVEN
     transformation = CurateDataTransformation(execution_date=date(2021, 1, 1))
-    df_input = spark.createDataFrame(
-        data=fixtures_test_transform_missing_column.INPUT_ROWS,
-        schema=fixtures_test_transform_missing_column.INPUT_SCHEMA,
-    )
+    df_input = spark.read.json("tests/movies_etl/unit/tasks/fixtures/test_transform_missing_column_input.ndjson")
 
     # THEN
     with pytest.raises(

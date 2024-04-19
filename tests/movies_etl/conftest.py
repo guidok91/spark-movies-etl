@@ -20,4 +20,4 @@ def spark() -> Generator:
 
 
 def assert_data_frames_equal(left: DataFrame, right: DataFrame) -> None:
-    assert_df_equality(left, right, ignore_row_order=True, ignore_nullable=True)
+    assert_df_equality(left, right, ignore_row_order=True, ignore_column_order=True, ignore_nullable=True)
