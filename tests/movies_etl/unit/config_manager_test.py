@@ -4,12 +4,12 @@ import pytest
 
 from movies_etl.config_manager import ConfigException, ConfigManager
 
+CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
+
 
 def test_read_existent_key() -> None:
     # GIVEN
-    config_manager = ConfigManager(
-        config_file=f"{os.path.dirname(os.path.realpath(__file__))}/fixtures/test_app_config.yaml"
-    )
+    config_manager = ConfigManager(config_file=f"{CURRENT_DIR}/fixtures/test_app_config.yaml")
     value_expected = "v1"
 
     # WHEN
@@ -21,9 +21,7 @@ def test_read_existent_key() -> None:
 
 def test_read_inexistent_key() -> None:
     # GIVEN
-    config_manager = ConfigManager(
-        config_file=f"{os.path.dirname(os.path.realpath(__file__))}/fixtures/test_app_config.yaml"
-    )
+    config_manager = ConfigManager(config_file=f"{CURRENT_DIR}/fixtures/test_app_config.yaml")
 
     # THEN
     with pytest.raises(ConfigException):

@@ -57,7 +57,7 @@ class CurateDataTask:
         scan.add_variables(
             {
                 "table": self.output_table,
-                "run_date": self.execution_date.strftime("%Y%m%d"),
+                "run_date": self.execution_date.strftime("%Y-%m-%d"),
             }
         )
         scan.add_sodacl_yaml_file(dq_checks_config_file)

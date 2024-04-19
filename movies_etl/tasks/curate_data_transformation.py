@@ -40,7 +40,7 @@ class CurateDataTransformation:
     def _add_run_date(self, df: DataFrame) -> DataFrame:
         return df.withColumn(
             "run_date",
-            lit(int(self.execution_date.strftime("%Y%m%d"))),
+            lit(self.execution_date.strftime("%Y-%m-%d")),
         )
 
     @staticmethod

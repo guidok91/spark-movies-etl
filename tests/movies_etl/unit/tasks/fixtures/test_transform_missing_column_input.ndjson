@@ -1,0 +1,2 @@
+{"movie_id":1,"user_id":101,"rating":1.0,"timestamp":1510000000,"original_title":"Movie 1","original_language":"es","budget":1000,"adult":true}
+{"movie_id":2,"user_id":102,"rating":2.0,"timestamp":1520000000,"original_title":"Movie 2","original_language":"EN","budget":2000,"adult":false}

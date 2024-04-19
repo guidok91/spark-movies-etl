@@ -19,7 +19,7 @@ def _parse_args() -> argparse.Namespace:
 
 def _init_spark(execution_date: datetime.date, warehouse_location: str) -> SparkSession:
     return (
-        SparkSession.builder.appName(f"Movie ratings data pipeline  - {execution_date.strftime('%Y%m%d')}")
+        SparkSession.builder.appName(f"Movie ratings data pipeline  - {execution_date.strftime('%Y-%m-%d')}")
         .config("spark.sql.sources.partitionOverwriteMode", "dynamic")
         .config("spark.sql.warehouse.dir", warehouse_location)
         .enableHiveSupport()

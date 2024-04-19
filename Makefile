@@ -3,7 +3,7 @@ help:
 	@grep -E '^[a-zA-Z0-9 -]+:.*#'  Makefile | while read -r l; do printf "\033[1;32m$$(echo $$l | cut -f 1 -d':')\033[00m:$$(echo $$l | cut -f 2- -d'#')\n"; done
 
 .PHONY: setup
-setup: # Set up local virtual env with the app and its dependencies.
+setup: # Set up virtual env with the app and its dependencies.
 	pip install --upgrade pip setuptools wheel poetry==1.8.2
 	poetry config virtualenvs.in-project true --local
 	poetry install
@@ -32,7 +32,7 @@ test: # Run unit and integration tests.
 	poetry run pytest --cov -vvvv --showlocals --disable-warnings tests
 
 .PHONY: lint
-lint: # Run code linter tools.
+lint: # Run code linting tools.
 	poetry run pre-commit run --all-files
 
 .PHONY: run-app
