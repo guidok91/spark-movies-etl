@@ -19,7 +19,13 @@ The Spark data pipeline consumes data from the raw layer (incrementally, for a g
 
 After persisting, Data Quality checks are run using [Soda](https://docs.soda.io/soda-core/overview-main.html).
 
-The curated datasets are in principle partitioned by execution date (with the option to add more partitioning columns).
+The curated datasets are in principle partitioned by execution date.
+
+To optimize file size in the output table, the following properties are enabled on the Spark session:
+- Auto compaction: to periodically merge small files into bigger ones automatically.
+- Optimized writes: to write bigger sized files automatically.
+
+More information can be found on [the Delta docs](https://docs.delta.io/latest/optimizations-oss.html).
 
 ## Configuration management
 Configuration is defined in [app_config.yaml](app_config.yaml) and managed by the [ConfigManager](movies_etl/config_manager.py) class, which is a wrapper around [Dynaconf](https://www.dynaconf.com/).
