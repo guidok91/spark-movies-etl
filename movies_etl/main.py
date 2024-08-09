@@ -38,8 +38,9 @@ def main() -> None:
     )
 
     CurateDataTask(
+        input_path=config_manager.get("data.raw.location"),
+        output_table=config_manager.get("data.curated.table"),
         execution_date=args.execution_date,
-        config_manager=config_manager,
     ).run()
 
 
