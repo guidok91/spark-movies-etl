@@ -1,24 +1,20 @@
 import datetime
 import os
-from logging import Logger
 
 from pyspark.sql import Catalog, DataFrame, SparkSession
 from soda.scan import Scan
 
-from movies_etl.config_manager import ConfigManager
 from movies_etl.tasks.curate_data_transformation import CurateDataTransformation
 
 
 class CurateDataTask:
 
-    def __init__(
-        self, spark: SparkSession, logger: Logger, execution_date: datetime.date, config_manager: ConfigManager
-    ):
-        self.spark = spark
+    def __init__(self, execution_date: datetime.date, input_path: str, output_table: str) -> None:
         self.execution_date = execution_date
-        self.config_manager = config_manager
-        self.logger = logger
-        self.output_table = self.config_manager.get("data.curated.table")
+        self.input_path = input_path
+        self.output_table = output_table
+        self.spark: SparkSession = SparkSession.getActiveSession()  # type: ignore
+        self.logger = self.spark._jvm.org.apache.log4j.LogManager.getLogger(__name__)  # type: ignore
 
     def run(self) -> None:
         df = self._input()
@@ -27,9 +23,7 @@ class CurateDataTask:
         self._run_data_quality_checks()
 
     def _input(self) -> DataFrame:
-        input_path = os.path.join(
-            self.config_manager.get("data.raw.location"), self.execution_date.strftime("%Y/%m/%d")
-        )
+        input_path = os.path.join(self.input_path, self.execution_date.strftime("%Y/%m/%d"))
         self.logger.info(f"Reading raw data from {input_path}.")
         return self.spark.read.format("parquet").load(path=input_path)
 

@@ -17,8 +17,8 @@ def _parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def _init_spark(execution_date: datetime.date, warehouse_location: str) -> SparkSession:
-    return (
+def _init_spark(execution_date: datetime.date, warehouse_location: str) -> None:
+    (
         SparkSession.builder.appName(f"Movie ratings data pipeline  - {execution_date.strftime('%Y-%m-%d')}")
         .config("spark.sql.sources.partitionOverwriteMode", "dynamic")
         .config("spark.databricks.delta.autoCompact.enabled", "true")
@@ -32,17 +32,15 @@ def _init_spark(execution_date: datetime.date, warehouse_location: str) -> Spark
 def main() -> None:
     args = _parse_args()
     config_manager = ConfigManager(args.config_file_path)
-    spark = _init_spark(
+    _init_spark(
         execution_date=args.execution_date,
         warehouse_location=config_manager.get("data.curated.location"),
     )
-    logger = spark._jvm.org.apache.log4j.LogManager.getLogger(__name__)  # type: ignore
 
     CurateDataTask(
-        spark=spark,
-        logger=logger,
+        input_path=config_manager.get("data.raw.location"),
+        output_table=config_manager.get("data.curated.table"),
         execution_date=args.execution_date,
-        config_manager=config_manager,
     ).run()
 
 
