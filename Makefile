@@ -4,7 +4,7 @@ help:
 
 .PHONY: setup
 setup: # Set up virtual env with the app and its dependencies.
-	pip install --upgrade pip setuptools wheel poetry==1.8.2
+	pip install --upgrade pip setuptools wheel poetry==1.8.3
 	poetry config virtualenvs.in-project true --local
 	poetry install
 
@@ -13,7 +13,7 @@ docker-build: # Build the Docker image containing the application and its depend
 	docker build . --platform=linux/amd64 -t spark-movies-etl
 
 .PHONY: docker-run
-docker-run: # Run a local container.
+docker-run: # Spin up a local container in interactive mode.
 	docker run --platform=linux/amd64 --rm -it spark-movies-etl bash
 
 .PHONY: package
@@ -40,7 +40,7 @@ run-app: # Run pipeline (example: EXECUTION_DATE=2021-01-01 ENV_FOR_DYNACONF=dev
 	PYSPARK_DRIVER_PYTHON=python PYSPARK_PYTHON=./environment/bin/python poetry run spark-submit \
 	--master ${SPARK_MASTER} \
 	--deploy-mode ${DEPLOY_MODE} \
-	--packages io.delta:delta-spark_2.12:3.1.0 \
+	--packages io.delta:delta-spark_2.12:3.2.0 \
 	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	--archives deps/venv.tar.gz#environment \

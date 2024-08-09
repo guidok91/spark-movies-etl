@@ -55,3 +55,5 @@ Docker images in the Github Container Registry can be found [here](https://githu
 
 ## Execution instructions
 The repo includes a `Makefile`. Please run `make help` to see usage.
+
+To start with, you can run `make docker-build` and `make docker-run` to spin up a Docker container for the project.
