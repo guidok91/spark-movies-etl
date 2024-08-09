@@ -7,20 +7,20 @@ authors = ["Guido Kosloff Gancedo <guidokosloff@gmail.com>"]
 [tool.poetry.dependencies]
 python = ">=3.9,<4.0"
 pyspark = "3.5.1"
-dynaconf = "^3.2.4"
-delta-spark = "3.1.0"
-soda-core-spark-df = "^3.2.1"
+dynaconf = "^3.2.6"
+delta-spark = "3.2.0"
+soda-core-spark-df = "^3.3.13"
 venv-pack = "^0.2.0"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "^0.2.2"
-mypy = "^1.8.0"
+ruff = "^0.5.7"
+mypy = "^1.11.1"
 isort = "^5.13.2"
-pytest = "^8.0.1"
-pytest-cov = "^4.1.0"
-chispa = "^0.10.0"
-black = "^24.2.0"
-pre-commit = "^3.6.2"
+pytest = "^8.3.2"
+pytest-cov = "^5.0.0"
+chispa = "^0.10.1"
+black = "^24.8.0"
+pre-commit = "^3.8.0"
 
 [build-system]
 requires = ["poetry-core"]

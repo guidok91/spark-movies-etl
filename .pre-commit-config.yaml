@@ -1,6 +1,6 @@
 repos:
   - repo: 'https://github.com/pre-commit/pre-commit-hooks'
-    rev: v4.5.0
+    rev: v4.6.0
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
@@ -23,7 +23,7 @@ repos:
         pass_filenames: false
       - id: ruff
         name: ruff
-        entry: ruff movies_etl tests
+        entry: ruff check movies_etl tests
         language: system
         types:
           - python
