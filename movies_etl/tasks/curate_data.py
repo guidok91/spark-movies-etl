@@ -1,6 +1,5 @@
 import datetime
 import os
-from logging import Logger
 
 from pyspark.sql import Catalog, DataFrame, SparkSession
 from soda.scan import Scan
@@ -11,13 +10,11 @@ from movies_etl.tasks.curate_data_transformation import CurateDataTransformation
 
 class CurateDataTask:
 
-    def __init__(
-        self, spark: SparkSession, logger: Logger, execution_date: datetime.date, config_manager: ConfigManager
-    ):
-        self.spark = spark
+    def __init__(self, execution_date: datetime.date, config_manager: ConfigManager):
+        self.spark: SparkSession = SparkSession.getActiveSession()  # type: ignore
+        self.logger = self.spark._jvm.org.apache.log4j.LogManager.getLogger(__name__)  # type: ignore
         self.execution_date = execution_date
         self.config_manager = config_manager
-        self.logger = logger
         self.output_table = self.config_manager.get("data.curated.table")
 
     def run(self) -> None:
