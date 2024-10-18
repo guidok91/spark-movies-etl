@@ -1,3 +1,4 @@
+import os
 from typing import Generator
 
 import pytest as pytest
@@ -9,7 +10,7 @@ from pyspark.sql import DataFrame, SparkSession
 def spark() -> Generator:
     spark = (
         SparkSession.builder.master("local[*]")
-        .config("spark.jars.packages", "io.delta:delta-spark_2.12:3.2.1")
+        .config("spark.jars.packages", f"io.delta:delta-spark_2.12:{os.environ['DELTA_VERSION']}")
         .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
         .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")
         .config("spark.sql.sources.partitionOverwriteMode", "dynamic")

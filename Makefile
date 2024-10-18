@@ -1,5 +1,5 @@
 POETRY_VERSION=1.8.4
-DELTA_VERSION=3.2.1
+DELTA_VERSION=$(shell poetry run python -c "from importlib.metadata import version; print(version('delta-spark'))")
 
 .PHONY: help
 help:
@@ -32,7 +32,7 @@ package: # Package the app and its dependencies to be used in spark-submit.
 
 .PHONY: test
 test: # Run unit and integration tests.
-	poetry run pytest --cov -vvvv --showlocals --disable-warnings tests
+	DELTA_VERSION=$(DELTA_VERSION) poetry run pytest --cov -vvvv --showlocals --disable-warnings tests
 
 .PHONY: lint
 lint: # Run code linting tools.
