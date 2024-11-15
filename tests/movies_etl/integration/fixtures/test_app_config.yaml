@@ -4,8 +4,5 @@ dynaconf_merge:
 
 global:
   data:
-    raw:
-      location: tests/movies_etl/integration/fixtures/data-lake-raw-test/movie_ratings
-    curated:
-      table: default.movie_ratings_curated_test
-      location: data-lake-curated-dev
+    path_raw: tests/movies_etl/integration/fixtures/data-lake-test/movie_ratings_raw
+    path_curated: tests/movies_etl/integration/fixtures/data-lake-test/movie_ratings_curated

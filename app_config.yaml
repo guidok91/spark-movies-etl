@@ -4,24 +4,15 @@ dynaconf_merge:
 
 development:
   data:
-    raw:
-      location: data-lake-raw-dev/movie_ratings
-    curated:
-      table: default.movie_ratings_curated
-      location: data-lake-curated-dev
+    path_raw: data-lake-dev/movie_ratings_raw
+    path_curated: data-lake-dev/movie_ratings_curated
 
 staging:
   data:
-    raw:
-      location: s3://data-lake-raw-staging/movie_ratings
-    curated:
-      table: curated_staging.movie_ratings
-      location: s3://data-lake-curated-staging
+    path_raw: s3://data-lake-staging/movie_ratings_raw
+    path_curated: s3://data-lake-staging/movie_ratings_curated
 
 live:
   data:
-    raw:
-      location: s3://data-lake-raw-live/movie_ratings
-    curated:
-      table: curated_live.movie_ratings
-      location: s3://data-lake-curated-live
+    path_raw: s3://data-lake-live/movie_ratings_raw
+    path_curated: s3://data-lake-live/movie_ratings_curated
