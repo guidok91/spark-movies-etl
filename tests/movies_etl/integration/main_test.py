@@ -42,5 +42,7 @@ def _test_run(spark: SparkSession) -> None:
     main()
 
     # THEN
-    df_output = spark.read.table("default.movie_ratings_curated_test")
+    df_output = spark.read.format("delta").load(
+        path="tests/movies_etl/integration/fixtures/data-lake-test/movie_ratings_curated"
+    )
     assert df_output.count() == 2

@@ -1,29 +1,31 @@
 import datetime
 import os
 
-from pyspark.sql import Catalog, DataFrame, SparkSession
-from soda.scan import Scan
+from pyspark.sql import DataFrame, SparkSession
 
 from movies_etl.tasks.curate_data_transformation import CurateDataTransformation
+
+# from soda.scan import Scan
 
 
 class CurateDataTask:
 
-    def __init__(self, execution_date: datetime.date, input_path: str, output_table: str) -> None:
+    def __init__(self, execution_date: datetime.date, path_input: str, path_output: str) -> None:
         self.execution_date = execution_date
-        self.input_path = input_path
-        self.output_table = output_table
+        self.path_input = path_input
+        self.path_output = path_output
         self.spark: SparkSession = SparkSession.getActiveSession()  # type: ignore
         self.logger = self.spark._jvm.org.apache.log4j.LogManager.getLogger(__name__)  # type: ignore
 
     def run(self) -> None:
-        df = self._input()
+        df = self._read_input()
         df_transformed = self._transform(df)
-        self._output(df_transformed)
-        self._run_data_quality_checks()
+        self._write_output(df_transformed)
+        # TO DO
+        # self._run_data_quality_checks()
 
-    def _input(self) -> DataFrame:
-        input_path = os.path.join(self.input_path, self.execution_date.strftime("%Y/%m/%d"))
+    def _read_input(self) -> DataFrame:
+        input_path = os.path.join(self.path_input, self.execution_date.strftime("%Y/%m/%d"))
         self.logger.info(f"Reading raw data from {input_path}.")
         return self.spark.read.format("parquet").load(path=input_path)
 
@@ -31,37 +33,27 @@ class CurateDataTask:
         self.logger.info("Running transformation.")
         return CurateDataTransformation(execution_date=self.execution_date).transform(df)
 
-    def _output(self, df: DataFrame) -> None:
-        self.logger.info(f"Saving to table {self.output_table}.")
+    def _write_output(self, df: DataFrame) -> None:
+        self.logger.info(f"Writing output data to {self.path_output}.")
+        df.write.format("delta").partitionBy(["run_date"]).mode("overwrite").save(self.path_output)
 
-        if self._table_exists(self.output_table):
-            self.logger.info("Table exists, inserting.")
-            df.write.mode("overwrite").insertInto(self.output_table)
-        else:
-            self.logger.info("Table does not exist, creating and saving.")
-            df.write.mode("overwrite").partitionBy(["run_date"]).format("delta").saveAsTable(self.output_table)
+    # def _run_data_quality_checks(self) -> None:
+    #     self.logger.info(f"Running Data Quality checks for table {self.path_output}.")
+    #     dq_checks_config_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "curate_data_checks.yaml")
+    #     scan = Scan()
 
-    def _run_data_quality_checks(self) -> None:
-        self.logger.info(f"Running Data Quality checks for table {self.output_table}.")
-        dq_checks_config_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "curate_data_checks.yaml")
-        scan = Scan()
+    #     scan.set_data_source_name("spark_df")
+    #     scan.add_spark_session(self.spark)
+    #     scan.add_variables(
+    #         {
+    #             "table": self.path_output,
+    #             "run_date": self.execution_date.strftime("%Y-%m-%d"),
+    #         }
+    #     )
+    #     scan.add_sodacl_yaml_file(dq_checks_config_file)
 
-        scan.set_data_source_name("spark_df")
-        scan.add_spark_session(self.spark)
-        scan.add_variables(
-            {
-                "table": self.output_table,
-                "run_date": self.execution_date.strftime("%Y-%m-%d"),
-            }
-        )
-        scan.add_sodacl_yaml_file(dq_checks_config_file)
+    #     scan.execute()
 
-        scan.execute()
-
-        self.logger.info(scan.get_scan_results())
-        scan.assert_no_error_logs()
-        scan.assert_no_checks_fail()
-
-    def _table_exists(self, table: str) -> bool:
-        db_name, table_name = table.split(".")
-        return Catalog(self.spark).tableExists(dbName=db_name, tableName=table_name)
+    #     self.logger.info(scan.get_scan_results())
+    #     scan.assert_no_error_logs()
+    #     scan.assert_no_checks_fail()

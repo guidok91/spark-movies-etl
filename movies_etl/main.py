@@ -17,14 +17,12 @@ def _parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
-def _init_spark(execution_date: datetime.date, warehouse_location: str) -> None:
+def _init_spark(execution_date: datetime.date) -> None:
     (
         SparkSession.builder.appName(f"Movie ratings data pipeline  - {execution_date.strftime('%Y-%m-%d')}")
         .config("spark.sql.sources.partitionOverwriteMode", "dynamic")
         .config("spark.databricks.delta.autoCompact.enabled", "true")
         .config("spark.databricks.delta.optimizeWrite.enabled", "true")
-        .config("spark.sql.warehouse.dir", warehouse_location)
-        .enableHiveSupport()
         .getOrCreate()
     )
 
@@ -32,15 +30,12 @@ def _init_spark(execution_date: datetime.date, warehouse_location: str) -> None:
 def main() -> None:
     args = _parse_args()
     config_manager = ConfigManager(args.config_file_path)
-    _init_spark(
-        execution_date=args.execution_date,
-        warehouse_location=config_manager.get("data.curated.location"),
-    )
+    _init_spark(execution_date=args.execution_date)
 
     CurateDataTask(
-        input_path=config_manager.get("data.raw.location"),
-        output_table=config_manager.get("data.curated.table"),
         execution_date=args.execution_date,
+        path_input=config_manager.get("data.path_raw"),
+        path_output=config_manager.get("data.path_curated"),
     ).run()
 
 
