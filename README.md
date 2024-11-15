@@ -11,7 +11,7 @@ We define a Data Lakehouse architecture with the following layers:
 
 [Delta](https://delta.io/) is used as the table format.
 
-<img width="1727" alt="316302177-15394722-33da-4444-ae83-878c53fd8893" src="https://github.com/guidok91/spark-movies-etl/assets/38698125/0eb8ec4b-6b60-4bd2-8892-883332902dff">
+<img width="1727" src="https://github.com/user-attachments/assets/eb7778f6-7f2f-4036-aa62-3574cb48b084">
 
 
 ## Data pipeline design
