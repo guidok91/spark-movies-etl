@@ -33,6 +33,8 @@ Configuration is defined in [app_config.yaml](app_config.yaml) and managed by th
 ## Packaging and dependency management
 [Poetry](https://python-poetry.org/) is used for Python packaging and dependency management.
 
+Dependabot is configured to periodically upgrade repo dependencies. See [dependabot.yml](.github/dependabot.yml).
+
 Since there are multiple ways of deploying and running Spark applications in production (Kubernetes, AWS EMR, Databricks, etc), this repo aims to be as agnostic and generic as possible. The application and its dependencies are built into a Docker image (see [Dockerfile](Dockerfile)).
 
 In order to distribute code and dependencies across Spark executors [this method](https://spark.apache.org/docs/latest/api/python/user_guide/python_packaging.html#using-virtualenv) is used.
