@@ -7,7 +7,7 @@ Spark data pipeline that processes movie ratings data.
 ## Data Architecture
 We define a Data Lakehouse architecture with the following layers:
 - `Raw`: Contains raw data files directly ingested from an event stream, e.g. Kafka. This data should generally not be accessible (can contain PII, duplicates, quality issues, etc).
-- `Curated`: Contains transformed data according to business and data quality rules. This data can be accessed as tables registered in a data catalog.
+- `Curated`: Contains transformed data according to business and data quality rules. This data should be accessed as tables registered in a data catalog.
 
 [Delta](https://delta.io/) is used as the table format.
 
