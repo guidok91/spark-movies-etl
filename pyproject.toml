@@ -9,7 +9,7 @@ python = "~3.12"
 pyspark = "~3.5.3"
 dynaconf = "~3.2.6"
 delta-spark = "~3.2.1"
-soda-core-spark-df = "~3.4.1"
+soda-core-spark-df = "~3.4.2"
 venv-pack = "~0.2.0"
 
 [tool.poetry.group.dev.dependencies]
