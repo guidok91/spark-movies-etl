@@ -13,7 +13,7 @@ soda-core-spark-df = "~3.4.2"
 venv-pack = "~0.2.0"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "~0.8.1"
+ruff = "~0.9.1"
 mypy = "~1.13.0"
 isort = "~5.13.2"
 pytest = "~8.3.3"
