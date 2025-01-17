@@ -6,7 +6,7 @@ authors = ["Guido Kosloff Gancedo <guidokosloff@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "~3.13"
-pyspark = "~3.5.3"
+pyspark = "~3.5.4"
 dynaconf = "~3.2.6"
 delta-spark = "~3.2.1"
 soda-core-spark-df = "~3.4.2"
