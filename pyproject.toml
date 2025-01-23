@@ -6,21 +6,21 @@ authors = ["Guido Kosloff Gancedo <guidokosloff@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "~3.13"
-pyspark = "~3.5.3"
-dynaconf = "~3.2.6"
-delta-spark = "~3.2.1"
-soda-core-spark-df = "~3.4.2"
+pyspark = "~3.5.4"
+dynaconf = "~3.2.7"
+delta-spark = "~3.3.0"
+soda-core-spark-df = "~3.4.4"
 venv-pack = "~0.2.0"
 
 [tool.poetry.group.dev.dependencies]
-ruff = "~0.8.1"
-mypy = "~1.13.0"
+ruff = "~0.9.2"
+mypy = "~1.14.1"
 isort = "~5.13.2"
-pytest = "~8.3.3"
+pytest = "~8.3.4"
 pytest-cov = "~6.0.0"
 chispa = "~0.10.1"
 black = "~24.10.0"
-pre-commit = "~4.0.1"
+pre-commit = "~4.1.0"
 
 [build-system]
 requires = ["poetry-core"]
