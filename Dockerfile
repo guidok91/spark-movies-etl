@@ -1,7 +1,9 @@
 FROM python:3.13-slim
 
+ENV PATH="/root/.local/bin:$PATH"
+
 RUN apt-get update && \
-    apt-get install -y default-jre-headless make git && \
+    apt-get install -y default-jre-headless make git curl && \
     rm -rf /var/lib/apt/lists/*
 
 COPY . .

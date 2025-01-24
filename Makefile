@@ -20,6 +20,7 @@ docker-run: # Spin up a local container in interactive mode.
 
 .PHONY: package
 package: # Package the app and its dependencies to be used in spark-submit.
+	rm -rf deps
 	mkdir deps
 	poetry export -f requirements.txt --output deps/requirements.txt
 	poetry run python -m venv deps/.venv
