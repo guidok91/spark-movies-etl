@@ -1,6 +1,8 @@
 import datetime
 import os
+import pkgutil
 
+import yaml
 from pyspark.sql import DataFrame, SparkSession
 from soda.scan import Scan
 
@@ -39,13 +41,13 @@ class CurateDataTask:
         self.logger.info(f"Running Data Quality checks for output ({self.path_output}).")
         self.spark.read.format("delta").load(self.path_output).createOrReplaceTempView("movie_ratings_curated")
 
-        dq_checks_config_file = os.path.join(os.path.dirname(os.path.abspath(__file__)), "curate_data_checks.yaml")
+        dq_checks_config = str(yaml.safe_load(pkgutil.get_data(__name__, "curate_data_checks.yaml")))  # type: ignore
         scan = Scan()
 
         scan.set_data_source_name("spark_df")
         scan.add_spark_session(self.spark)
         scan.add_variables({"run_date": self.execution_date.strftime("%Y-%m-%d")})
-        scan.add_sodacl_yaml_file(dq_checks_config_file)
+        scan.add_sodacl_yaml_str(dq_checks_config)
 
         scan.execute()
 

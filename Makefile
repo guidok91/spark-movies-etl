@@ -19,16 +19,10 @@ docker-run: # Spin up a local container in interactive mode.
 	docker run --platform=linux/amd64 --rm -it spark-movies-etl bash
 
 .PHONY: package
-package: # Package the app and its dependencies to be used in spark-submit.
+package: # Package the app to be used in spark-submit.
 	rm -rf deps
 	mkdir deps
-	poetry export -f requirements.txt --output deps/requirements.txt
-	poetry run python -m venv deps/.venv
-	. deps/.venv/bin/activate && \
-		pip install --upgrade pip setuptools wheel && \
-		pip install -r deps/requirements.txt && \
-		venv-pack -o deps/venv.tar.gz
-	rm -r deps/.venv deps/requirements.txt
+	zip -r deps/deps.zip movies_etl
 
 .PHONY: test
 test: # Run unit and integration tests.
@@ -40,13 +34,13 @@ lint: # Run code linting tools.
 
 .PHONY: run-app
 run-app: # Run pipeline (example: EXECUTION_DATE=2021-01-01 ENV_FOR_DYNACONF=development SPARK_MASTER=local[*] DEPLOY_MODE=client make run-app).
-	PYSPARK_DRIVER_PYTHON=python PYSPARK_PYTHON=./environment/bin/python poetry run spark-submit \
+	poetry run spark-submit \
 	--master ${SPARK_MASTER} \
 	--deploy-mode ${DEPLOY_MODE} \
 	--packages io.delta:delta-spark_2.12:$(DELTA_VERSION) \
 	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
-	--archives deps/venv.tar.gz#environment \
+	--py-files deps/deps.zip \
 	movies_etl/main.py \
 	--execution-date ${EXECUTION_DATE} \
 	--config-file-path app_config.yaml
