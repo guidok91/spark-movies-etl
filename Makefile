@@ -1,4 +1,3 @@
-POETRY_VERSION=1.8.4
 DELTA_VERSION=$(shell poetry run python -c "from importlib.metadata import version; print(version('delta-spark'))")
 
 .PHONY: help
@@ -7,7 +6,7 @@ help:
 
 .PHONY: setup
 setup: # Set up virtual env with the app and its dependencies.
-	pip install --upgrade pip setuptools wheel poetry==$(POETRY_VERSION)
+	curl -sSL https://install.python-poetry.org | python3 -
 	poetry config virtualenvs.in-project true --local
 	poetry install
 
