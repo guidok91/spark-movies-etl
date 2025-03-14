@@ -53,7 +53,7 @@ jobs:
         run: make setup
 
       - name: Get package version
-        run: echo "PACKAGE_VERSION=$(poetry version --short)" >> $GITHUB_ENV
+        run: echo "PACKAGE_VERSION=$(uv pip show movies-etl | grep Version | awk '{print $2}')" >> $GITHUB_ENV
 
       - name: Create Github release
         uses: "marvinpinto/action-automatic-releases@v1.2.1"
