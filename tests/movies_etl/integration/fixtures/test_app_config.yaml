@@ -1,8 +1,0 @@
----
-dynaconf_merge:
-  true
-
-global:
-  data:
-    path_raw: tests/movies_etl/integration/fixtures/data-lake-test/movie_ratings_raw
-    path_curated: tests/movies_etl/integration/fixtures/data-lake-test/movie_ratings_curated
