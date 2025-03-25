@@ -1,4 +1,5 @@
 DELTA_VERSION=$(shell uv run python -c "from importlib.metadata import version; print(version('delta-spark'))")
+UV_VERSION=0.6.9
 
 .PHONY: help
 help:
@@ -6,7 +7,7 @@ help:
 
 .PHONY: setup
 setup: # Set up virtual env with the app and its dependencies.
-	curl -LsSf https://astral.sh/uv/install.sh | sh
+	curl -LsSf https://astral.sh/uv/$(UV_VERSION)/install.sh | sh
 	uv sync
 
 .PHONY: docker-build
