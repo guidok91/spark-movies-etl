@@ -136,9 +136,6 @@ dmypy.json
 .DS_Store
 .idea/
 
-# Poetry
-poetry.toml
-
 # Spark
 metastore_db
 spark-warehouse

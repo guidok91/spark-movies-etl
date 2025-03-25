@@ -1,4 +1,5 @@
-DELTA_VERSION=$(shell poetry run python -c "from importlib.metadata import version; print(version('delta-spark'))")
+DELTA_VERSION=$(shell uv run python -c "from importlib.metadata import version; print(version('delta-spark'))")
+UV_VERSION=0.6.9
 
 .PHONY: help
 help:
@@ -6,9 +7,8 @@ help:
 
 .PHONY: setup
 setup: # Set up virtual env with the app and its dependencies.
-	curl -sSL https://install.python-poetry.org | python3 -
-	poetry config virtualenvs.in-project true --local
-	poetry install
+	curl -LsSf https://astral.sh/uv/$(UV_VERSION)/install.sh | sh
+	uv sync
 
 .PHONY: docker-build
 docker-build: # Build the Docker image containing the application and its dependencies.
@@ -26,15 +26,15 @@ package: # Package the app to be used in spark-submit.
 
 .PHONY: test
 test: # Run unit and integration tests.
-	DELTA_VERSION=$(DELTA_VERSION) poetry run pytest --cov -vvvv --showlocals --disable-warnings tests
+	DELTA_VERSION=$(DELTA_VERSION) uv run pytest --cov -vvvv --showlocals --disable-warnings tests
 
 .PHONY: lint
 lint: # Run code linting tools.
-	poetry run pre-commit run --all-files
+	uv run pre-commit run --all-files
 
 .PHONY: run-app
 run-app: # Run pipeline (example: EXECUTION_DATE=2021-01-01 ENV_FOR_DYNACONF=development SPARK_MASTER=local[*] DEPLOY_MODE=client make run-app).
-	poetry run spark-submit \
+	uv run spark-submit \
 	--master ${SPARK_MASTER} \
 	--deploy-mode ${DEPLOY_MODE} \
 	--packages io.delta:delta-spark_2.12:$(DELTA_VERSION) \
