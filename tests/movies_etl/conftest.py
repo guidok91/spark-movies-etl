@@ -1,5 +1,5 @@
 import os
-from typing import Generator
+from collections.abc import Generator
 
 import pytest as pytest
 from chispa.dataframe_comparer import assert_df_equality

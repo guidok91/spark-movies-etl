@@ -10,7 +10,6 @@ from movies_etl.tasks.curate_data_transformation import CurateDataTransformation
 
 
 class CurateDataTask:
-
     def __init__(self, execution_date: datetime.date, path_input: str, path_output: str) -> None:
         self.execution_date = execution_date
         self.path_input = path_input

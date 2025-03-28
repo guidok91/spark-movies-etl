@@ -7,7 +7,6 @@ from pyspark.sql.window import Window
 
 
 class CurateDataTransformation:
-
     def __init__(self, execution_date: datetime.date):
         self.execution_date = execution_date
 
