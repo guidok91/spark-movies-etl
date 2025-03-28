@@ -7,31 +7,18 @@ repos:
       - id: trailing-whitespace
   - repo: local
     hooks:
-      - id: black
-        name: black
-        entry: black movies_etl tests
+      - id: ruff-lint
+        name: ruff-lint
+        entry: bash -c 'set +e; ruff check movies_etl tests; ruff check --fix movies_etl tests; exit $(($? != 0))'
         language: system
-        types:
-          - python
         pass_filenames: false
-      - id: isort
-        name: isort
-        entry: isort movies_etl tests
+      - id: ruff-format
+        name: ruff-format
+        entry: ruff format movies_etl tests
         language: system
-        types:
-          - python
-        pass_filenames: false
-      - id: ruff
-        name: ruff
-        entry: ruff check movies_etl tests
-        language: system
-        types:
-          - python
         pass_filenames: false
       - id: mypy
         name: mypy
         entry: mypy movies_etl tests
         language: system
-        types:
-          - python
         pass_filenames: false
