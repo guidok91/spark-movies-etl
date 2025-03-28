@@ -33,7 +33,7 @@ lint: # Run code linting tools.
 	uv run pre-commit run --all-files
 
 .PHONY: run-app
-run-app: # Run pipeline (example: EXECUTION_DATE=2021-01-01 ENV_FOR_DYNACONF=development SPARK_MASTER=local[*] DEPLOY_MODE=client make run-app).
+run-app: # Run pipeline (example: PATH_INPUT=data-lake-dev/movie_ratings_raw PATH_OUTPUT=data-lake-dev/movie_ratings_curated EXECUTION_DATE=2021-01-01 SPARK_MASTER=local[*] DEPLOY_MODE=client make run-app).
 	uv run spark-submit \
 	--master ${SPARK_MASTER} \
 	--deploy-mode ${DEPLOY_MODE} \
@@ -42,8 +42,9 @@ run-app: # Run pipeline (example: EXECUTION_DATE=2021-01-01 ENV_FOR_DYNACONF=dev
 	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
 	--py-files deps/deps.zip \
 	movies_etl/main.py \
-	--execution-date ${EXECUTION_DATE} \
-	--config-file-path app_config.yaml
+	--path-input ${PATH_INPUT} \
+	--path-output ${PATH_OUTPUT} \
+	--execution-date ${EXECUTION_DATE}
 
 .PHONY: clean
 clean: # Clean auxiliary files.

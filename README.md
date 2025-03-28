@@ -27,9 +27,6 @@ To optimize file size in the output table, the following properties are enabled 
 
 More information can be found on [the Delta docs](https://docs.delta.io/latest/optimizations-oss.html).
 
-## Configuration management
-Configuration is defined in [app_config.yaml](app_config.yaml) and managed by the [ConfigManager](movies_etl/config_manager.py) class, which is a wrapper around [Dynaconf](https://www.dynaconf.com/).
-
 ## Packaging and dependency management
 [uv](https://docs.astral.sh/uv) is used for Python packaging and dependency management.
 
