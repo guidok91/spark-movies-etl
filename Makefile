@@ -32,11 +32,11 @@ test: # Run unit and integration tests.
 lint: # Run code linting tools.
 	uv run pre-commit run --all-files
 
-.PHONY: run-app
-run-app: # Run pipeline (example: TABLE_INPUT=movie_ratings_raw TABLE_OUTPUT=movie_ratings_curated EXECUTION_DATE=2021-01-01 SPARK_MASTER=local[*] DEPLOY_MODE=client make run-app).
+.PHONY: run-app-local
+run-app-local: # Run pipeline locally (example: EXECUTION_DATE=2021-01-01 make run-app-local).
 	uv run spark-submit \
-	--master ${SPARK_MASTER} \
-	--deploy-mode ${DEPLOY_MODE} \
+	--master local[*] \
+	--deploy-mode client \
     --packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:$(ICEBERG_VERSION) \
     --conf spark.sql.defaultCatalog=local \
     --conf spark.sql.catalog.local=org.apache.iceberg.spark.SparkCatalog \
@@ -44,8 +44,8 @@ run-app: # Run pipeline (example: TABLE_INPUT=movie_ratings_raw TABLE_OUTPUT=mov
     --conf spark.sql.catalog.local.warehouse=data-lake-dev \
 	--py-files deps/deps.zip \
 	movies_etl/main.py \
-	--table-input ${TABLE_INPUT} \
-	--table-output ${TABLE_OUTPUT} \
+	--table-input movie_ratings_raw \
+	--table-output movie_ratings_curated \
 	--execution-date ${EXECUTION_DATE}
 
 .PHONY: clean

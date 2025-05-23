@@ -22,7 +22,7 @@ After persisting, Data Quality checks are run using [Soda](https://docs.soda.io/
 The curated datasets are in principle partitioned by execution date.
 
 Note that for the purpose of running this project locally, we use an Iceberg catalog in the local file system.
-In production, we could use for instance the AWS Glue data catalog, persisting data to S3. [See doc](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-format-iceberg.html).
+In production, we could use for instance the AWS Glue data catalog, persisting data to S3. [See doc](https://iceberg.apache.org/docs/latest/aws/#spark).
 
 ## Packaging and dependency management
 [uv](https://docs.astral.sh/uv) is used for Python packaging and dependency management.
