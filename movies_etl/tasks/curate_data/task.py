@@ -4,7 +4,7 @@ import datetime
 from pyspark.sql import Catalog, DataFrame
 from pyspark.sql.functions import col
 
-from movies_etl.tasks.curate_data.curate_data_transformation import CurateDataTransformation
+from movies_etl.tasks.curate_data.transformation import CurateDataTransformation
 from movies_etl.tasks.task import Task
 
 
