@@ -1,4 +1,4 @@
-DELTA_VERSION=$(shell uv run python -c "from importlib.metadata import version; print(version('delta-spark'))")
+ICEBERG_VERSION=1.9.0
 UV_VERSION=0.6.9
 
 .PHONY: help
@@ -26,24 +26,26 @@ package: # Package the app to be used in spark-submit.
 
 .PHONY: test
 test: # Run unit and integration tests.
-	DELTA_VERSION=$(DELTA_VERSION) uv run pytest --cov -vvvv --showlocals --disable-warnings tests
+	ICEBERG_VERSION=$(ICEBERG_VERSION) uv run pytest --cov -vvvv --showlocals --disable-warnings tests
 
 .PHONY: lint
 lint: # Run code linting tools.
 	uv run pre-commit run --all-files
 
-.PHONY: run-app
-run-app: # Run pipeline (example: PATH_INPUT=data-lake-dev/movie_ratings_raw PATH_OUTPUT=data-lake-dev/movie_ratings_curated EXECUTION_DATE=2021-01-01 SPARK_MASTER=local[*] DEPLOY_MODE=client make run-app).
+.PHONY: run-app-local
+run-app-local: # Run pipeline locally (example: EXECUTION_DATE=2021-01-01 make run-app-local).
 	uv run spark-submit \
-	--master ${SPARK_MASTER} \
-	--deploy-mode ${DEPLOY_MODE} \
-	--packages io.delta:delta-spark_2.12:$(DELTA_VERSION) \
-	--conf spark.sql.extensions=io.delta.sql.DeltaSparkSessionExtension \
-	--conf spark.sql.catalog.spark_catalog=org.apache.spark.sql.delta.catalog.DeltaCatalog \
+	--master local[*] \
+	--deploy-mode client \
+    --packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:$(ICEBERG_VERSION) \
+    --conf spark.sql.defaultCatalog=local \
+    --conf spark.sql.catalog.local=org.apache.iceberg.spark.SparkCatalog \
+    --conf spark.sql.catalog.local.type=hadoop \
+    --conf spark.sql.catalog.local.warehouse=data-lake-dev \
 	--py-files deps/deps.zip \
 	movies_etl/main.py \
-	--path-input ${PATH_INPUT} \
-	--path-output ${PATH_OUTPUT} \
+	--table-input movie_ratings_raw \
+	--table-output movie_ratings_curated \
 	--execution-date ${EXECUTION_DATE}
 
 .PHONY: clean

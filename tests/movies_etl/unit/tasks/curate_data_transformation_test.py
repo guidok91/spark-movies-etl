@@ -1,5 +1,4 @@
 import os
-from datetime import date
 
 import pytest
 from pyspark.errors.exceptions.captured import AnalysisException
@@ -13,7 +12,7 @@ CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))
 
 def test_transform(spark: SparkSession) -> None:
     # GIVEN
-    transformation = CurateDataTransformation(execution_date=date(2021, 1, 1))
+    transformation = CurateDataTransformation()
     df_input = spark.read.json(f"{CURRENT_DIR}/fixtures/test_transform_input.ndjson")
     df_expected = spark.read.json(f"{CURRENT_DIR}/fixtures/test_transform_output_expected.ndjson")
 
@@ -26,7 +25,7 @@ def test_transform(spark: SparkSession) -> None:
 
 def test_transform_missing_column(spark: SparkSession) -> None:
     # GIVEN
-    transformation = CurateDataTransformation(execution_date=date(2021, 1, 1))
+    transformation = CurateDataTransformation()
     df_input = spark.read.json(f"{CURRENT_DIR}/fixtures/test_transform_missing_column_input.ndjson")
 
     # THEN

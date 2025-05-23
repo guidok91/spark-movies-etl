@@ -1,21 +1,16 @@
-import datetime
 from functools import reduce
 
 from pyspark.sql import DataFrame
-from pyspark.sql.functions import col, lit, row_number, size, upper
+from pyspark.sql.functions import col, row_number, size, upper
 from pyspark.sql.window import Window
 
 
 class CurateDataTransformation:
-    def __init__(self, execution_date: datetime.date):
-        self.execution_date = execution_date
-
     def transform(self, df: DataFrame) -> DataFrame:
         transformations = (
             self._normalize_columns,
             self._remove_duplicates,
             self._calculate_multigenre,
-            self._add_run_date,
             self._select_final_columns,
         )
 
@@ -35,12 +30,6 @@ class CurateDataTransformation:
     @staticmethod
     def _calculate_multigenre(df: DataFrame) -> DataFrame:
         return df.withColumn("is_multigenre", size("genres") > 1)
-
-    def _add_run_date(self, df: DataFrame) -> DataFrame:
-        return df.withColumn(
-            "run_date",
-            lit(self.execution_date.strftime("%Y-%m-%d")),
-        )
 
     @staticmethod
     def _select_final_columns(df: DataFrame) -> DataFrame:

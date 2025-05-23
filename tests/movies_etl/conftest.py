@@ -10,10 +10,16 @@ from pyspark.sql import DataFrame, SparkSession
 def spark() -> Generator:
     spark = (
         SparkSession.builder.master("local[*]")
-        .config("spark.jars.packages", f"io.delta:delta-spark_2.12:{os.environ['DELTA_VERSION']}")
-        .config("spark.sql.extensions", "io.delta.sql.DeltaSparkSessionExtension")
-        .config("spark.sql.catalog.spark_catalog", "org.apache.spark.sql.delta.catalog.DeltaCatalog")
-        .config("spark.sql.sources.partitionOverwriteMode", "dynamic")
+        .config(
+            "spark.jars.packages", f"org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:{os.environ['ICEBERG_VERSION']}"
+        )
+        .config("spark.sql.defaultCatalog", "local")
+        .config("spark.sql.catalog.local", "org.apache.iceberg.spark.SparkCatalog")
+        .config("spark.sql.catalog.local.type", "hadoop")
+        .config(
+            "spark.sql.catalog.local.warehouse",
+            f"{os.path.dirname(os.path.abspath(__file__))}/integration/fixtures/data-lake-test",
+        )
         .getOrCreate()
     )
     yield spark

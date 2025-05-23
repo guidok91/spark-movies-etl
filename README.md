@@ -6,12 +6,12 @@ Spark data pipeline that processes movie ratings data.
 
 ## Data Architecture
 We define a Data Lakehouse architecture with the following layers:
-- `Raw`: Contains raw data files directly ingested from an event stream, e.g. Kafka. This data should generally not be accessible (can contain PII, duplicates, quality issues, etc).
+- `Raw`: Contains raw data directly ingested from an event stream, e.g. Kafka. This data should generally not be accessible (can contain PII, duplicates, quality issues, etc).
 - `Curated`: Contains transformed data according to business and data quality rules. This data should be accessed as tables registered in a data catalog.
 
-[Delta](https://delta.io/) is used as the table format.
+[Apache Iceberg](https://iceberg.apache.org/) is used as the table format for both the raw and curated layers.
 
-<img width="1727" src="https://github.com/user-attachments/assets/eb7778f6-7f2f-4036-aa62-3574cb48b084">
+<img width="1434" alt="data-architecture" src="https://github.com/user-attachments/assets/256f8504-a072-4508-80c5-c66dffdf3d74" />
 
 
 ## Data pipeline design
@@ -21,11 +21,8 @@ After persisting, Data Quality checks are run using [Soda](https://docs.soda.io/
 
 The curated datasets are in principle partitioned by execution date.
 
-To optimize file size in the output table, the following properties are enabled on the Spark session:
-- Auto compaction: to periodically merge small files into bigger ones automatically.
-- Optimized writes: to write bigger sized files automatically.
-
-More information can be found on [the Delta docs](https://docs.delta.io/latest/optimizations-oss.html).
+Note that for the purpose of running this project locally, we use an Iceberg catalog in the local file system.
+In production, we could use for instance the AWS Glue data catalog, persisting data to S3. [See doc](https://iceberg.apache.org/docs/latest/aws/#spark).
 
 ## Packaging and dependency management
 [uv](https://docs.astral.sh/uv) is used for Python packaging and dependency management.
