@@ -1,27 +1,24 @@
+import argparse
 import datetime
-import pkgutil
 
-import yaml
-from pyspark.sql import Catalog, DataFrame, SparkSession
+from pyspark.sql import Catalog, DataFrame
 from pyspark.sql.functions import col
-from soda.scan import Scan
 
-from movies_etl.tasks.curate_data_transformation import CurateDataTransformation
+from movies_etl.tasks.curate_data.transformation import CurateDataTransformation
+from movies_etl.tasks.task import Task
 
 
-class CurateDataTask:
+class CurateDataTask(Task):
     def __init__(self, execution_date: datetime.date, table_input: str, table_output: str) -> None:
         self.execution_date = execution_date
         self.table_input = table_input
         self.table_output = table_output
-        self.spark: SparkSession = SparkSession.getActiveSession()  # type: ignore
-        self.logger = self.spark._jvm.org.apache.log4j.LogManager.getLogger(__name__)  # type: ignore
+        super().__init__()
 
     def run(self) -> None:
         df = self._read_input()
         df_transformed = self._transform(df)
         self._write_output(df_transformed)
-        self._run_data_quality_checks()
 
     def _read_input(self) -> DataFrame:
         self.logger.info(f"Reading raw data from {self.table_input}.")
@@ -41,20 +38,20 @@ class CurateDataTask:
             self.logger.info("Table does not exist, creating and saving.")
             df.writeTo(self.table_output).partitionedBy(col("run_date")).create()
 
-    def _run_data_quality_checks(self) -> None:
-        self.logger.info(f"Running Data Quality checks on table ({self.table_output}).")
-        self.spark.read.table(self.table_output).createOrReplaceTempView("movie_ratings_curated")
 
-        dq_checks_config = str(yaml.safe_load(pkgutil.get_data(__name__, "curate_data_checks.yaml")))  # type: ignore
-        scan = Scan()
+def main() -> None:
+    parser = argparse.ArgumentParser(allow_abbrev=False)
+    parser.add_argument("--execution-date", type=datetime.date.fromisoformat, required=True)
+    parser.add_argument("--table-input", type=str, required=True)
+    parser.add_argument("--table-output", type=str, required=True)
+    args = parser.parse_args()
 
-        scan.set_data_source_name("spark_df")
-        scan.add_spark_session(self.spark)
-        scan.add_variables({"run_date": self.execution_date.strftime("%Y-%m-%d")})
-        scan.add_sodacl_yaml_str(dq_checks_config)
+    CurateDataTask(
+        execution_date=args.execution_date,
+        table_input=args.table_input,
+        table_output=args.table_output,
+    ).run()
 
-        scan.execute()
 
-        self.logger.info(scan.get_scan_results())
-        scan.assert_no_error_logs()
-        scan.assert_no_checks_fail()
+if __name__ == "__main__":
+    main()

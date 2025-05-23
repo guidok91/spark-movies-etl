@@ -11,13 +11,13 @@ We define a Data Lakehouse architecture with the following layers:
 
 [Apache Iceberg](https://iceberg.apache.org/) is used as the table format for both the raw and curated layers.
 
-<img width="1434" alt="data-architecture" src="https://github.com/user-attachments/assets/256f8504-a072-4508-80c5-c66dffdf3d74" />
+<img width="1615" alt="image" src="https://github.com/user-attachments/assets/ce41d5b5-0c45-409a-a837-ef0d70da0a7f" />
 
 
 ## Data pipeline design
 The Spark data pipeline consumes data from the raw layer (incrementally, for a given execution date), performs transformations and business logic, and persists to the curated layer.
 
-After persisting, Data Quality checks are run using [Soda](https://docs.soda.io/soda-core/overview-main.html).
+After persisting, Data Quality checks can be run using [Soda](https://docs.soda.io/soda-core/overview-main.html).
 
 The curated datasets are in principle partitioned by execution date.
 

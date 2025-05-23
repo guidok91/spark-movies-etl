@@ -18,7 +18,7 @@ def spark() -> Generator:
         .config("spark.sql.catalog.local.type", "hadoop")
         .config(
             "spark.sql.catalog.local.warehouse",
-            f"{os.path.dirname(os.path.abspath(__file__))}/integration/fixtures/data-lake-test",
+            f"{os.path.dirname(os.path.abspath(__file__))}/integration/tasks/curate_data/fixtures/data-lake-test",
         )
         .getOrCreate()
     )

@@ -140,7 +140,7 @@ dmypy.json
 metastore_db
 spark-warehouse
 data-lake-dev/movie_ratings_curated
-tests/movies_etl/integration/fixtures/data-lake-test/movie_ratings_curated
+tests/movies_etl/integration/tasks/curate_data/fixtures/data-lake-test/movie_ratings_curated
 
 # VS Code
 .vscode

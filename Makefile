@@ -1,5 +1,13 @@
 ICEBERG_VERSION=1.9.0
 UV_VERSION=0.6.9
+SPARK_ARGS = --master local[*] \
+	--deploy-mode client \
+    --packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:$(ICEBERG_VERSION) \
+    --conf spark.sql.defaultCatalog=local \
+    --conf spark.sql.catalog.local=org.apache.iceberg.spark.SparkCatalog \
+    --conf spark.sql.catalog.local.type=hadoop \
+    --conf spark.sql.catalog.local.warehouse=data-lake-dev \
+	--py-files deps/deps.zip
 
 .PHONY: help
 help:
@@ -32,20 +40,21 @@ test: # Run unit and integration tests.
 lint: # Run code linting tools.
 	uv run pre-commit run --all-files
 
-.PHONY: run-app-local
-run-app-local: # Run pipeline locally (example: EXECUTION_DATE=2021-01-01 make run-app-local).
+.PHONY: run-curate-data
+run-curate-data: # Run curate data task locally (example: EXECUTION_DATE=2021-01-01 make run-curate-data).
 	uv run spark-submit \
-	--master local[*] \
-	--deploy-mode client \
-    --packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:$(ICEBERG_VERSION) \
-    --conf spark.sql.defaultCatalog=local \
-    --conf spark.sql.catalog.local=org.apache.iceberg.spark.SparkCatalog \
-    --conf spark.sql.catalog.local.type=hadoop \
-    --conf spark.sql.catalog.local.warehouse=data-lake-dev \
-	--py-files deps/deps.zip \
-	movies_etl/main.py \
+	$(SPARK_ARGS) \
+	movies_etl/tasks/curate_data/task.py \
 	--table-input movie_ratings_raw \
 	--table-output movie_ratings_curated \
+	--execution-date ${EXECUTION_DATE}
+
+.PHONY: run-curate-data-quality-checks
+run-curate-data-quality-checks: # Run curate data quality checks locally (example: EXECUTION_DATE=2021-01-01 make run-curate-data-quality-checks).
+	uv run spark-submit \
+	$(SPARK_ARGS) \
+	movies_etl/tasks/curate_data_quality_checks/task.py \
+	--table-input movie_ratings_curated \
 	--execution-date ${EXECUTION_DATE}
 
 .PHONY: clean
