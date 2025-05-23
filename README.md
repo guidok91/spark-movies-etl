@@ -9,7 +9,7 @@ We define a Data Lakehouse architecture with the following layers:
 - `Raw`: Contains raw data directly ingested from an event stream, e.g. Kafka. This data should generally not be accessible (can contain PII, duplicates, quality issues, etc).
 - `Curated`: Contains transformed data according to business and data quality rules. This data should be accessed as tables registered in a data catalog.
 
-[Apache Iceberg](https://iceberg.apache.org/) is used as the table format.
+[Apache Iceberg](https://iceberg.apache.org/) is used as the table format for both the raw and curated layers.
 
 <img width="1434" alt="data-architecture" src="https://github.com/user-attachments/assets/256f8504-a072-4508-80c5-c66dffdf3d74" />
 
@@ -20,6 +20,9 @@ The Spark data pipeline consumes data from the raw layer (incrementally, for a g
 After persisting, Data Quality checks are run using [Soda](https://docs.soda.io/soda-core/overview-main.html).
 
 The curated datasets are in principle partitioned by execution date.
+
+Note that for the purpose of running this project locally, we use an Iceberg catalog in the local file system.  
+In production, we could use for instance the AWS Glue data catalog, persisting data to S3. [See doc](https://docs.aws.amazon.com/glue/latest/dg/aws-glue-programming-etl-format-iceberg.html).
 
 ## Packaging and dependency management
 [uv](https://docs.astral.sh/uv) is used for Python packaging and dependency management.
