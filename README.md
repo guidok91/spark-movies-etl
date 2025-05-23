@@ -11,7 +11,7 @@ We define a Data Lakehouse architecture with the following layers:
 
 [Apache Iceberg](https://iceberg.apache.org/) is used as the table format.
 
-<img width="1112" alt="image" src="https://github.com/user-attachments/assets/4da3345a-320a-409a-8a3b-9c3e60e75570" />
+<img width="1434" alt="data-architecture" src="https://github.com/user-attachments/assets/256f8504-a072-4508-80c5-c66dffdf3d74" />
 
 
 ## Data pipeline design
