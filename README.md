@@ -6,12 +6,12 @@ Spark data pipeline that processes movie ratings data.
 
 ## Data Architecture
 We define a Data Lakehouse architecture with the following layers:
-- `Raw`: Contains raw data files directly ingested from an event stream, e.g. Kafka. This data should generally not be accessible (can contain PII, duplicates, quality issues, etc).
+- `Raw`: Contains raw data directly ingested from an event stream, e.g. Kafka. This data should generally not be accessible (can contain PII, duplicates, quality issues, etc).
 - `Curated`: Contains transformed data according to business and data quality rules. This data should be accessed as tables registered in a data catalog.
 
-[Delta](https://delta.io/) is used as the table format.
+[Apache Iceberg](https://iceberg.apache.org/) is used as the table format.
 
-<img width="1727" src="https://github.com/user-attachments/assets/eb7778f6-7f2f-4036-aa62-3574cb48b084">
+<img width="1112" alt="image" src="https://github.com/user-attachments/assets/4da3345a-320a-409a-8a3b-9c3e60e75570" />
 
 
 ## Data pipeline design
@@ -20,12 +20,6 @@ The Spark data pipeline consumes data from the raw layer (incrementally, for a g
 After persisting, Data Quality checks are run using [Soda](https://docs.soda.io/soda-core/overview-main.html).
 
 The curated datasets are in principle partitioned by execution date.
-
-To optimize file size in the output table, the following properties are enabled on the Spark session:
-- Auto compaction: to periodically merge small files into bigger ones automatically.
-- Optimized writes: to write bigger sized files automatically.
-
-More information can be found on [the Delta docs](https://docs.delta.io/latest/optimizations-oss.html).
 
 ## Packaging and dependency management
 [uv](https://docs.astral.sh/uv) is used for Python packaging and dependency management.

@@ -132,19 +132,6 @@ wheels = [
 ]
 
 [[package]]
-name = "delta-spark"
-version = "3.3.0"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "importlib-metadata" },
-    { name = "pyspark" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/2f/a4/d2c4638ee561b5986c355e9b0a2f245d86597370fe8d1c2b2b6942ec4b74/delta-spark-3.3.0.tar.gz", hash = "sha256:bf163a60eaebd362f84f941066a7ca400bb63553f5ffb4924873a2b2ad4811a8", size = 22483 }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/a7/fc/e57607f6685d13ad71c93f1c63ceabd1eff667c4ca0ebea733a8f37eb711/delta_spark-3.3.0-py3-none-any.whl", hash = "sha256:bd28e455e1e59bf3c74ab2ba71cfa14fffd9cfa1c55c9fb522448acc68674881", size = 21919 },
-]
-
-[[package]]
 name = "deprecated"
 version = "1.2.18"
 source = { registry = "https://pypi.org/simple" }
@@ -270,7 +257,6 @@ name = "movies-etl"
 version = "0.4.0"
 source = { editable = "." }
 dependencies = [
-    { name = "delta-spark" },
     { name = "pyspark" },
     { name = "setuptools" },
     { name = "soda-core-spark-df" },
@@ -290,7 +276,6 @@ dev = [
 
 [package.metadata]
 requires-dist = [
-    { name = "delta-spark", specifier = "~=3.3.0" },
     { name = "pyspark", specifier = "~=3.5.4" },
     { name = "setuptools", specifier = "~=78.0.2" },
     { name = "soda-core-spark-df", specifier = "~=3.4.4" },
