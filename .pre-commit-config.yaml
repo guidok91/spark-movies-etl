@@ -4,6 +4,7 @@ repos:
     hooks:
       - id: check-yaml
       - id: end-of-file-fixer
+        exclude: data-lake-*
       - id: trailing-whitespace
   - repo: local
     hooks:
