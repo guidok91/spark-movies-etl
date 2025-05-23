@@ -4,7 +4,7 @@ import pytest
 from pyspark.errors.exceptions.captured import AnalysisException
 from pyspark.sql import SparkSession
 
-from movies_etl.main import main
+from movies_etl.tasks.curate_data.task import main
 
 
 def test_run_end_to_end_idempotent(spark: SparkSession) -> None:
@@ -15,7 +15,7 @@ def test_run_end_to_end_idempotent(spark: SparkSession) -> None:
 def test_run_error_inexistent_input_table(spark: SparkSession) -> None:
     # GIVEN
     sys.argv = [
-        "main.py",
+        "curate_data.py",
         "--execution-date",
         "2020-01-01",
         "--table-input",
@@ -34,7 +34,7 @@ def test_run_error_inexistent_input_table(spark: SparkSession) -> None:
 def _test_run(spark: SparkSession) -> None:
     # GIVEN
     sys.argv = [
-        "main.py",
+        "curate_data.py",
         "--execution-date",
         "2021-06-03",
         "--table-input",

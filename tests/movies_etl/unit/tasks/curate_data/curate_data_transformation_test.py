@@ -4,7 +4,7 @@ import pytest
 from pyspark.errors.exceptions.captured import AnalysisException
 from pyspark.sql import SparkSession
 
-from movies_etl.tasks.curate_data_transformation import CurateDataTransformation
+from movies_etl.tasks.curate_data.curate_data_transformation import CurateDataTransformation
 from tests.movies_etl.conftest import assert_data_frames_equal
 
 CURRENT_DIR = os.path.dirname(os.path.realpath(__file__))

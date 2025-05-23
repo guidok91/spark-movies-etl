@@ -1,7 +1,7 @@
-filter movie_ratings_curated [daily]:
+filter table [daily]:
    where: run_date = '${run_date}'
 
-checks for movie_ratings_curated [daily]:
+checks for table [daily]:
   - schema:
       name: Curated dataset should have specific schema.
       fail:
