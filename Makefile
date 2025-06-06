@@ -1,5 +1,5 @@
-ICEBERG_VERSION=1.9.0
-UV_VERSION=0.6.9
+ICEBERG_VERSION=1.9.1
+UV_VERSION=0.7.11
 SPARK_ARGS = --master local[*] \
 	--deploy-mode client \
     --packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:$(ICEBERG_VERSION) \
