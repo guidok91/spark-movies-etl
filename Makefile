@@ -1,5 +1,5 @@
-ICEBERG_VERSION=1.9.0
-UV_VERSION=0.6.9
+ICEBERG_VERSION=1.9.1
+UV_VERSION=0.7.11
 SPARK_ARGS = --master local[*] \
 	--deploy-mode client \
     --packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.12:$(ICEBERG_VERSION) \
@@ -56,6 +56,11 @@ run-curate-data-quality-checks: # Run curate data quality checks locally (exampl
 	movies_etl/tasks/curate_data_quality_checks/task.py \
 	--table-input movie_ratings_curated \
 	--execution-date ${EXECUTION_DATE}
+
+.PHONY: spark-sql-shell
+spark-sql-shell: # Run Spark SQL shell locally.
+	uv run spark-sql \
+	$(SPARK_ARGS)
 
 .PHONY: clean
 clean: # Clean auxiliary files.
