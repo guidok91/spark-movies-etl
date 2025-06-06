@@ -57,6 +57,11 @@ run-curate-data-quality-checks: # Run curate data quality checks locally (exampl
 	--table-input movie_ratings_curated \
 	--execution-date ${EXECUTION_DATE}
 
+.PHONY: spark-sql-shell
+spark-sql-shell: # Run Spark SQL shell locally.
+	uv run spark-sql \
+	$(SPARK_ARGS)
+
 .PHONY: clean
 clean: # Clean auxiliary files.
 	rm -rf deps/ dist/ libs/ .pytest_cache .mypy_cache .ruff_cache movies_etl.egg-info *.xml .coverage* derby.log metastore_db spark-warehouse
