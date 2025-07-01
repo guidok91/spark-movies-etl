@@ -6,7 +6,7 @@ authors = [{ name = "Guido Kosloff Gancedo", email = "guidokosloff@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.13,<3.14"
 dependencies = [
-    "pyspark~=3.5.6",
+    "pyspark~=4.0.0",
     "soda-core-spark-df~=3.5.4",
     "python-dotenv~=1.1.0",
     "setuptools~=80.9.0",
