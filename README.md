@@ -15,11 +15,11 @@ We define a Data Lakehouse architecture with the following layers:
 
 
 ## Data pipeline design
-The Spark data pipeline consumes data from the raw layer (incrementally, for a given execution date), performs transformations and business logic, and persists to the curated layer.
+The Spark data pipeline consumes data from the raw layer (incrementally, for a given date), performs transformations and business logic, and persists to the curated layer.
 
 After persisting, Data Quality checks can be run using [Soda](https://docs.soda.io/soda-core/overview-main.html).
 
-The curated datasets are in principle partitioned by execution date.
+The curated datasets are in partitioned by ingestion date.
 
 Note that for the purpose of running this project locally, we use an Iceberg catalog in the local file system.
 In production, we could use for instance the AWS Glue data catalog, persisting data to S3. [See doc](https://iceberg.apache.org/docs/latest/aws/#spark).

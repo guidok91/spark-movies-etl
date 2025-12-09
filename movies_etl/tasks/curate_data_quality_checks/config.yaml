@@ -1,5 +1,5 @@
 filter table [daily]:
-   where: run_date = '${run_date}'
+   where: ingestion_date = '${ingestion_date}'
 
 checks for table [daily]:
   - schema:
@@ -16,7 +16,7 @@ checks for table [daily]:
           is_adult: boolean
           is_multigenre: boolean
           genres: array<struct<id:bigint,name:string>>
-          run_date: string
+          ingestion_date: string
   - row_count > 0:
       name: Curated dataset should not be empty.
   - duplicate_count(movie_id, user_id) = 0:

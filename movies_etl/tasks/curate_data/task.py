@@ -22,7 +22,9 @@ class CurateDataTask(Task):
 
     def _read_input(self) -> DataFrame:
         self.logger.info(f"Reading raw data from {self.table_input}.")
-        return self.spark.read.table(self.table_input).where(f"run_date = '{self.execution_date.strftime('%Y-%m-%d')}'")
+        return self.spark.read.table(self.table_input).where(
+            f"ingestion_date = '{self.execution_date.strftime('%Y-%m-%d')}'"
+        )
 
     def _transform(self, df: DataFrame) -> DataFrame:
         self.logger.info("Running transformation.")
@@ -36,7 +38,7 @@ class CurateDataTask(Task):
             df.writeTo(self.table_output).overwritePartitions()
         else:
             self.logger.info("Table does not exist, creating and saving.")
-            df.writeTo(self.table_output).partitionedBy(col("run_date")).create()
+            df.writeTo(self.table_output).partitionedBy(col("ingestion_date")).create()
 
 
 def main() -> None:
