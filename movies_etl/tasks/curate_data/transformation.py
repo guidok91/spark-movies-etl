@@ -22,8 +22,8 @@ class CurateDataTransformation:
 
     @staticmethod
     def _remove_duplicates(df: DataFrame) -> DataFrame:
-        """Drop duplicates based on `movie_id` and `user_id`, keeping the first event (based on `timestamp`)."""
-        window_spec = Window.partitionBy(["movie_id", "user_id"]).orderBy("timestamp")
+        """Drop duplicates based on `rating_id`, keeping the first event (based on `timestamp`)."""
+        window_spec = Window.partitionBy(["rating_id"]).orderBy("timestamp")
         df = df.withColumn("rnum", row_number().over(window_spec))
         return df.where(col("rnum") == 1).drop("rnum")
 
@@ -34,6 +34,7 @@ class CurateDataTransformation:
     @staticmethod
     def _select_final_columns(df: DataFrame) -> DataFrame:
         return df.select(
+            "rating_id",
             "movie_id",
             "user_id",
             "rating",
