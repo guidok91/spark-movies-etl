@@ -44,5 +44,5 @@ class CurateDataTransformation:
             "is_adult",
             "is_multigenre",
             "genres",
-            "run_date",
+            "ingestion_date",
         )

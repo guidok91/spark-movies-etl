@@ -28,7 +28,7 @@ class CurateDataQualityCheckTask(Task):
 
         scan.set_data_source_name("spark_df")
         scan.add_spark_session(self.spark)
-        scan.add_variables({"run_date": self.execution_date.strftime("%Y-%m-%d")})
+        scan.add_variables({"ingestion_date": self.execution_date.strftime("%Y-%m-%d")})
         scan.add_sodacl_yaml_str(dq_checks_config)
 
         scan.execute()
