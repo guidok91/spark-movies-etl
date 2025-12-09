@@ -17,7 +17,7 @@ checks for table [daily]:
           is_adult: boolean
           is_multigenre: boolean
           genres: array<struct<id:bigint,name:string>>
-          ingestion_date: string
+          ingestion_date: date
   - row_count > 0:
       name: Curated dataset should not be empty.
   - duplicate_count(rating_id) = 0:
