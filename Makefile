@@ -1,4 +1,4 @@
-UV_VERSION=0.9.7
+UV_VERSION=0.9.17
 ICEBERG_VERSION=1.10.0
 SPARK_ARGS = --master local[*] \
 	--deploy-mode client \
