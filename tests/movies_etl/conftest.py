@@ -20,6 +20,7 @@ def spark() -> Generator:
             "spark.sql.catalog.local.warehouse",
             f"{os.path.dirname(os.path.abspath(__file__))}/integration/tasks/curate_data/fixtures/data-lake-test",
         )
+        .config("spark.sql.session.timeZone", "UTC")
         .getOrCreate()
     )
     yield spark
