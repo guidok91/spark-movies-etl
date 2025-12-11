@@ -60,7 +60,8 @@ run-curate-data-quality-checks: # Run curate data quality checks locally (exampl
 .PHONY: spark-sql-shell
 spark-sql-shell: # Run Spark SQL shell locally.
 	uv run spark-sql \
-	$(SPARK_ARGS)
+	$(SPARK_ARGS) \
+	--conf "spark.hadoop.hive.cli.print.header=true"
 
 .PHONY: clean
 clean: # Clean auxiliary files.
