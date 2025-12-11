@@ -1,7 +1,7 @@
 from functools import reduce
 
 from pyspark.sql import DataFrame
-from pyspark.sql.functions import col, row_number, size, upper
+from pyspark.sql.functions import col, row_number, size, timestamp_seconds, upper
 from pyspark.sql.window import Window
 
 
@@ -21,6 +21,7 @@ class CurateDataTransformation:
             df.withColumn("is_adult", col("adult"))
             .withColumn("original_language", upper("original_language"))
             .withColumn("is_multigenre", size("genres") > 1)
+            .withColumn("timestamp", timestamp_seconds("timestamp"))
         )
 
     @staticmethod
