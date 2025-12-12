@@ -51,7 +51,7 @@ class CurateDataTask(Task):
             self.spark.sql(f"""
                 CREATE TABLE {self.table_output}
                 USING iceberg
-                PARTITIONED BY (days(timestamp))
+                PARTITIONED BY (day(timestamp))
                 AS SELECT * FROM incoming_data
             """)
 
