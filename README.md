@@ -6,8 +6,8 @@ Spark data pipeline that processes movie ratings data.
 
 ## Data Architecture
 We define a Data Lakehouse architecture with the following layers:
-- `Raw`: Contains raw data directly ingested from an event stream, e.g. Kafka. This data should generally not be accessible (can contain PII, duplicates, quality issues, etc).
-- `Curated`: Contains transformed data according to business and data quality rules. This data should be accessed as tables registered in a data catalog.
+- `Raw`: Contains raw data directly ingested from an event stream, e.g. Kafka. This data should generally not be shared (can contain PII, duplicates, quality issues, etc).
+- `Curated`: Contains transformed data according to business and data quality rules. This data can be shared and accessed as tables registered in a data catalog.
 
 [Apache Iceberg](https://iceberg.apache.org/) is used as the table format for both the raw and curated layers.
 
@@ -15,14 +15,15 @@ We define a Data Lakehouse architecture with the following layers:
 
 
 ## Data pipeline design
-The Spark data pipeline consumes data from the raw layer (incrementally, for a given date), performs transformations and business logic, and persists to the curated layer.
+The Spark data pipeline:
+- Reads data from the raw layer — incrementally for a given date, filtering by `ingestion_date`.
+- Performs data cleaning, transformations and business logic.
+- Writes to the curated layer — partitioned by `day(timestamp)`, leveraging [Iceberg's hidden partitioning](https://iceberg.apache.org/docs/latest/partitioning/) for optimal querying.
 
 After persisting, Data Quality checks can be run using [Soda](https://docs.soda.io/soda-core/overview-main.html).
 
-The curated datasets are in partitioned by ingestion date.
-
 Note that for the purpose of running this project locally, we use an Iceberg catalog in the local file system.
-In production, we could use for instance the AWS Glue data catalog, persisting data to S3. [See doc](https://iceberg.apache.org/docs/latest/aws/#spark).
+In production, we could for instance use the AWS Glue data catalog, persisting data to S3. [See doc](https://iceberg.apache.org/docs/latest/aws/#spark).
 
 Additionally, in a production scenario it's recommended to periodically run [Iceberg table maintenance operations](https://iceberg.apache.org/docs/latest/maintenance/).
 
