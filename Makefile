@@ -1,6 +1,6 @@
 UV_VERSION=0.9.17
 ICEBERG_VERSION=1.10.0
-SPARK_ARGS = --master local[*] \
+SPARK_ARGS=--master local[*] \
 	--deploy-mode client \
 	--packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.13:$(ICEBERG_VERSION) \
 	--conf spark.sql.defaultCatalog=local \
