@@ -10,7 +10,7 @@ checks for table [daily]:
           movie_id: bigint
           user_id: bigint
           rating: float
-          timestamp: bigint
+          timestamp: timestamp
           original_title: string
           original_language: string
           budget: bigint
