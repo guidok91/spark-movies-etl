@@ -61,6 +61,7 @@ run-curate-data-quality-checks: # Run curate data quality checks locally (exampl
 spark-sql-shell: # Run Spark SQL shell locally.
 	uv run spark-sql \
 	$(SPARK_ARGS) \
+	--conf "spark.sql.session.timeZone=UTC" \
 	--conf "spark.hadoop.hive.cli.print.header=true"
 
 .PHONY: clean
