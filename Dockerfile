@@ -1,5 +1,6 @@
 FROM python:3.13-slim
 
+ENV TZ=UTC
 ENV PATH="/root/.local/bin:$PATH"
 
 RUN apt-get update && \

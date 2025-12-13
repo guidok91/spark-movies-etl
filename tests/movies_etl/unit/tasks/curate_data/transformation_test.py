@@ -1,5 +1,5 @@
 # ruff: noqa: UP017
-from datetime import date, datetime, timezone
+from datetime import date, datetime
 
 import pytest
 from pyspark.errors.exceptions.captured import AnalysisException
@@ -97,7 +97,7 @@ def test_transform(spark: SparkSession) -> None:
             "movie_id": 1,
             "user_id": 101,
             "rating": 1.0,
-            "timestamp": datetime(2017, 11, 6, 20, 26, 40, tzinfo=timezone.utc),
+            "timestamp": datetime(2017, 11, 6, 20, 26, 40),
             "original_title": "Movie 1",
             "original_language": "ES",
             "budget": 1000,
@@ -111,7 +111,7 @@ def test_transform(spark: SparkSession) -> None:
             "movie_id": 2,
             "user_id": 102,
             "rating": 2.0,
-            "timestamp": datetime(2018, 3, 2, 14, 13, 20, tzinfo=timezone.utc),
+            "timestamp": datetime(2018, 3, 2, 14, 13, 20),
             "original_title": "Movie 2",
             "original_language": "EN",
             "budget": 2000,
@@ -125,7 +125,7 @@ def test_transform(spark: SparkSession) -> None:
             "movie_id": 3,
             "user_id": 103,
             "rating": 3.0,
-            "timestamp": datetime(2018, 6, 26, 8, 0, 0, tzinfo=timezone.utc),
+            "timestamp": datetime(2018, 6, 26, 8, 0, 0),
             "original_title": "Movie 3",
             "original_language": "DE",
             "budget": 3000,
@@ -139,7 +139,7 @@ def test_transform(spark: SparkSession) -> None:
             "movie_id": 4,
             "user_id": 104,
             "rating": 4.0,
-            "timestamp": datetime(2018, 10, 20, 1, 46, 40, tzinfo=timezone.utc),
+            "timestamp": datetime(2018, 10, 20, 1, 46, 40),
             "original_title": "Movie 4",
             "original_language": "ES",
             "budget": 4000,
@@ -153,7 +153,7 @@ def test_transform(spark: SparkSession) -> None:
             "movie_id": 5,
             "user_id": 105,
             "rating": 5.0,
-            "timestamp": datetime(2019, 2, 12, 19, 33, 20, tzinfo=timezone.utc),
+            "timestamp": datetime(2019, 2, 12, 19, 33, 20),
             "original_title": "Movie 5",
             "original_language": "FR",
             "budget": 5000,

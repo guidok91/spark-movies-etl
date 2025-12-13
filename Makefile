@@ -1,6 +1,7 @@
-UV_VERSION=0.9.17
-ICEBERG_VERSION=1.10.0
-SPARK_ARGS=--master local[*] \
+export TZ=UTC
+export UV_VERSION=0.9.17
+export ICEBERG_VERSION=1.10.0
+export SPARK_ARGS=--master local[*] \
 	--deploy-mode client \
 	--packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.13:$(ICEBERG_VERSION) \
 	--conf spark.sql.defaultCatalog=local \
@@ -61,7 +62,6 @@ run-curate-data-quality-checks: # Run curate data quality checks locally (exampl
 spark-sql-shell: # Run Spark SQL shell locally.
 	uv run spark-sql \
 	$(SPARK_ARGS) \
-	--conf "spark.sql.session.timeZone=UTC" \
 	--conf "spark.hadoop.hive.cli.print.header=true"
 
 .PHONY: clean
