@@ -40,11 +40,8 @@ class CurateDataTask(Task):
                 MERGE INTO {self.table_output} AS target
                 USING incoming_data AS source
                 ON target.rating_id = source.rating_id
-                WHEN MATCHED THEN
-                    UPDATE SET {", ".join([f"target.{col} = source.{col}" for col in df.columns])}
-                WHEN NOT MATCHED THEN
-                    INSERT ({", ".join(df.columns)})
-                    VALUES ({", ".join([f"source.{col}" for col in df.columns])})
+                WHEN MATCHED THEN UPDATE SET *
+                WHEN NOT MATCHED THEN INSERT *
             """)
         else:
             self.logger.info("Table does not exist, creating with CTAS.")
