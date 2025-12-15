@@ -19,7 +19,12 @@ class PanderaSchema(DataFrameModel):
     is_adult: T.BooleanType = pa.Field()
     is_multigenre: T.BooleanType = pa.Field()
     genres: T.ArrayType(  # type: ignore[valid-type]
-        T.StructType([T.StructField("id", T.LongType(), True), T.StructField("name", T.StringType(), True)])
+        T.StructType(
+            [
+                T.StructField("id", T.LongType()),
+                T.StructField("name", T.StringType()),
+            ]
+        )
     ) = pa.Field()
     ingestion_date: T.DateType = pa.Field()
 

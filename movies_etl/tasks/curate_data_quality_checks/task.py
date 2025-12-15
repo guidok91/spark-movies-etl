@@ -9,7 +9,7 @@ from movies_etl.tasks.task import Task
 class CurateDataQualityCheckTask(Task):
     def run(self) -> None:
         df = self._read_input()
-        df_validation = PanderaSchema.validate(check_obj=df)
+        df_validation = PanderaSchema.validate(df)
         errors = dict(df_validation.pandera.errors)
         msg = f"Data quality checks for table {self.table_input} (execution date {self.execution_date})"
 
