@@ -33,20 +33,20 @@ def str_length(
 
 
 class PanderaSchema(DataFrameModel):
-    rating_id: T.StringType() = pa.Field()  # type: ignore[valid-type]
-    movie_id: T.LongType() = pa.Field()  # type: ignore[valid-type]
-    user_id: T.LongType() = pa.Field()  # type: ignore[valid-type]
-    rating: T.FloatType() = pa.Field(in_range={"min_value": 0.0, "max_value": 5.0})  # type: ignore[valid-type]
-    timestamp: T.TimestampType() = pa.Field(nullable=False)  # type: ignore[valid-type]
-    original_title: T.StringType() = pa.Field()  # type: ignore[valid-type]
-    original_language: T.StringType() = pa.Field(str_length={"min_value": 2, "max_value": 2})  # type: ignore[valid-type]
-    budget: T.LongType() = pa.Field(ge=0)  # type: ignore[valid-type]
-    is_adult: T.BooleanType() = pa.Field()  # type: ignore[valid-type]
-    is_multigenre: T.BooleanType() = pa.Field()  # type: ignore[valid-type]
+    rating_id: T.StringType = pa.Field()
+    movie_id: T.LongType = pa.Field()
+    user_id: T.LongType = pa.Field()
+    rating: T.FloatType = pa.Field(in_range={"min_value": 0.0, "max_value": 5.0})
+    timestamp: T.TimestampType = pa.Field(nullable=False)
+    original_title: T.StringType = pa.Field()
+    original_language: T.StringType = pa.Field(str_length={"min_value": 2, "max_value": 2})
+    budget: T.LongType = pa.Field(ge=0)
+    is_adult: T.BooleanType = pa.Field()
+    is_multigenre: T.BooleanType = pa.Field()
     genres: T.ArrayType(  # type: ignore[valid-type]
         T.StructType([T.StructField("id", T.LongType(), True), T.StructField("name", T.StringType(), True)])
     ) = pa.Field()
-    ingestion_date: T.DateType() = pa.Field()  # type: ignore[valid-type]
+    ingestion_date: T.DateType = pa.Field()
 
     @pa.dataframe_check
     @classmethod
