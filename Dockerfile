@@ -1,4 +1,4 @@
-FROM python:3.12-slim
+FROM python:3.14-slim
 
 ENV TZ=UTC
 ENV PATH="/root/.local/bin:$PATH"
