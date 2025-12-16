@@ -9,21 +9,13 @@ from movies_etl.tasks.task import Task
 
 class CurateDataTask(Task):
     def __init__(self, execution_date: datetime.date, table_input: str, table_output: str) -> None:
-        self.execution_date = execution_date
-        self.table_input = table_input
+        super().__init__(execution_date, table_input)
         self.table_output = table_output
-        super().__init__()
 
     def run(self) -> None:
         df = self._read_input()
         df_transformed = self._transform(df)
         self._write_output(df_transformed)
-
-    def _read_input(self) -> DataFrame:
-        self.logger.info(f"Reading raw data from {self.table_input}.")
-        return self.spark.read.table(self.table_input).where(
-            f"ingestion_date = '{self.execution_date.strftime('%Y-%m-%d')}'"
-        )
 
     def _transform(self, df: DataFrame) -> DataFrame:
         self.logger.info("Running transformation.")
