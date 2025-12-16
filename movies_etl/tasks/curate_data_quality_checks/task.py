@@ -14,7 +14,7 @@ class CurateDataQualityCheckTask(Task):
         msg = f"Data quality checks for table {self.table_input} (execution date {self.execution_date})"
 
         if errors:
-            raise ValueError(f"{msg} failed. Details: {json.dumps(errors, indent=2)})")
+            raise ValueError(f"{msg} failed. Details:\n{json.dumps(errors, indent=2)})")
         else:
             self.logger.info(f"{msg} passed!")
 
