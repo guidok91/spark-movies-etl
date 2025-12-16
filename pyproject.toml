@@ -6,7 +6,7 @@ authors = [{ name = "Guido Kosloff Gancedo", email = "guidokosloff@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
-    "pyspark~=3.5.7",
+    "pyspark~=4.1.0",
     "pandera[pyspark]~=0.27.0",
     "setuptools~=80.9.0",
 ]
