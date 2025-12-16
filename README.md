@@ -11,7 +11,7 @@ We define a Data Lakehouse architecture with the following layers:
 
 [Apache Iceberg](https://iceberg.apache.org/) is used as the table format for both the raw and curated layers.
 
-<img width="1615" alt="image" src="https://github.com/user-attachments/assets/ce41d5b5-0c45-409a-a837-ef0d70da0a7f" />
+<img width="1615" alt="image" src="https://github.com/user-attachments/assets/4c86e798-0cb2-4e43-b972-89a806e8a07a" />
 
 
 ## Data pipeline design
@@ -20,7 +20,7 @@ The Spark data pipeline:
 - Performs data cleaning, transformations and business logic.
 - Writes to the curated layer — partitioned by `day(timestamp)`, leveraging [Iceberg's hidden partitioning](https://iceberg.apache.org/docs/latest/partitioning/) for optimal querying.
 
-After persisting, Data Quality checks can be run using [Soda](https://docs.soda.io/soda-core/overview-main.html).
+After persisting, Data Quality checks are run on the curated data using [Pandera](https://pandera.readthedocs.io/en/stable/pyspark_sql.html).
 
 Note that for the purpose of running this project locally, we use an Iceberg catalog in the local file system.
 In production, we could for instance use the AWS Glue data catalog, persisting data to S3. [See doc](https://iceberg.apache.org/docs/latest/aws/#spark).
