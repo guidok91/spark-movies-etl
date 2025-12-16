@@ -35,7 +35,7 @@ class PanderaSchema(DataFrameModel):
 
     class Config:
         strict = True
-        coerce = True
+        coerce = False
         unique = ["rating_id"]
 
 
