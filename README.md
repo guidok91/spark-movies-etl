@@ -16,9 +16,9 @@ We define a Data Lakehouse architecture with the following layers:
 
 ## Data pipeline design
 The Spark data pipeline:
-- Reads data from the raw layer — incrementally for a given date, filtering by `ingestion_date`.
+- Reads data from the raw layer (`movie_ratings_raw` table) incrementally for a given date (filtering by `ingestion_date`).
 - Performs data cleaning, transformations and business logic.
-- Writes to the curated layer — partitioned by `day(timestamp)`, leveraging [Iceberg's hidden partitioning](https://iceberg.apache.org/docs/latest/partitioning/) for optimal querying.
+- Writes to the curated layer (`movie_ratings_curated` table) partitioned by `day(timestamp)` (leveraging [Iceberg's hidden partitioning](https://iceberg.apache.org/docs/latest/partitioning/) for optimal querying).
 
 After persisting, Data Quality checks are run on the curated data using [Pandera](https://pandera.readthedocs.io/en/stable/pyspark_sql.html).
 
@@ -52,7 +52,22 @@ The logic is as follows:
 
 Docker images in the Github Container Registry can be found [here](https://github.com/guidok91/spark-movies-etl/pkgs/container/spark-movies-etl).
 
-## Execution instructions
+## Local development/execution instructions
+A sample `movie_ratings_raw` table in a local Iceberg catalog ([data-lake-dev](data-lake-dev) directory) is included.
+
 The repo includes a `Makefile`. Please run `make help` to see usage.
 
-To start with, you can run `make docker-build` and `make docker-run` to spin up a Docker container for the project.
+To run the pipeline locally, run:
+* `make setup` to install a local virtual env with the app and its dependencies.
+* `make package` to compile the dependencies to be used in `spark-submit`.
+* `EXECUTION_DATE=2021-01-01 make run-curate-data` to run the data transformation task.
+* `EXECUTION_DATE=2021-01-01 make run-curate-data-quality-checks` to run the data quality checks on the output data.
+
+Afterwards, we can run `make spark-sql-shell` to explore the data with SparkSQL, for example:
+```sql
+SELECT original_title, DATE_FORMAT(timestamp, 'yyyy-MM') AS month, ROUND(AVG(rating), 2) AS avg_rating
+FROM movie_ratings_curated
+WHERE original_title IN ('A Clockwork Orange', 'Scary Movie', 'Superbad')
+GROUP BY ALL
+ORDER BY original_title, month;
+```

@@ -42,7 +42,7 @@ lint: # Run code linting tools.
 	uv run pre-commit run --all-files
 
 .PHONY: run-curate-data
-run-curate-data: # Run curate data task locally (example: EXECUTION_DATE=2021-01-01 make run-curate-data).
+run-curate-data: # Run curate data task locally.
 	uv run spark-submit \
 	$(SPARK_ARGS) \
 	movies_etl/tasks/curate_data/task.py \
@@ -51,7 +51,7 @@ run-curate-data: # Run curate data task locally (example: EXECUTION_DATE=2021-01
 	--execution-date ${EXECUTION_DATE}
 
 .PHONY: run-curate-data-quality-checks
-run-curate-data-quality-checks: # Run curate data quality checks locally (example: EXECUTION_DATE=2021-01-01 make run-curate-data-quality-checks).
+run-curate-data-quality-checks: # Run curate data quality checks locally.
 	uv run spark-submit \
 	$(SPARK_ARGS) \
 	movies_etl/tasks/curate_data_quality_checks/task.py \
