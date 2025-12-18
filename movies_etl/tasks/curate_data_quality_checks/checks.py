@@ -28,7 +28,7 @@ class PanderaSchema(DataFrameModel):
     ) = pa.Field(nullable=False)
     ingestion_date: T.DateType = pa.Field(nullable=False)
 
-    @pa.dataframe_check(error="Dataframe must not be empty.")
+    @pa.dataframe_check(error="Dataframe must not be empty")
     @classmethod
     def row_count_check(cls, df: DataFrame) -> bool:
         return df.count() > 0

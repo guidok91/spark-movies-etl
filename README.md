@@ -57,7 +57,7 @@ A sample `movie_ratings_raw` table in a local Iceberg catalog ([data-lake-dev](d
 
 The repo includes a `Makefile`. Please run `make help` to see usage.
 
-To run the pipeline locally, run:
+To execute the pipeline locally, run:
 * `make setup` to install a local virtual env with the app and its dependencies.
 * `make package` to compile the dependencies to be used in `spark-submit`.
 * `EXECUTION_DATE=2021-01-01 make run-curate-data` to run the data transformation task.
@@ -65,9 +65,17 @@ To run the pipeline locally, run:
 
 Afterwards, we can run `make spark-sql-shell` to explore the data with SparkSQL, for example:
 ```sql
-SELECT original_title, DATE_FORMAT(timestamp, 'yyyy-MM') AS month, ROUND(AVG(rating), 2) AS avg_rating
-FROM movie_ratings_curated
-WHERE original_title IN ('A Clockwork Orange', 'Scary Movie', 'Superbad')
-GROUP BY ALL
-ORDER BY original_title, month;
+SELECT
+    original_title,
+    DATE_FORMAT(timestamp, 'yyyy-MM') AS month,
+    ROUND(AVG(rating), 2) AS avg_rating
+FROM
+    movie_ratings_curated
+WHERE
+    original_title IN ('A Clockwork Orange', 'Scary Movie', 'Superbad')
+GROUP BY
+    ALL
+ORDER BY
+    original_title,
+    month;
 ```
