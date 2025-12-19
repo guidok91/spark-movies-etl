@@ -18,8 +18,8 @@ repos:
         entry: ruff format --exit-non-zero-on-format movies_etl tests
         language: system
         pass_filenames: false
-      - id: mypy
-        name: mypy
-        entry: mypy movies_etl tests
+      - id: ty
+        name: ty
+        entry: ty check movies_etl tests
         language: system
         pass_filenames: false
