@@ -14,7 +14,7 @@ dependencies = [
 [dependency-groups]
 dev = [
     "ruff~=0.14.8",
-    "mypy~=1.19.0",
+    "ty~=0.0.4",
     "pytest~=9.0.2",
     "pytest-cov~=7.0.0",
     "chispa~=0.11.1",
@@ -32,11 +32,8 @@ source = ["movies_etl"]
 [tool.coverage.report]
 show_missing = true
 
-[tool.mypy]
-ignore_missing_imports = true
-disallow_untyped_calls = true
-disallow_untyped_defs = true
-disallow_incomplete_defs = true
+[tool.ty.rules]
+no-matching-overload = "ignore"
 
 [tool.ruff]
 line-length = 120

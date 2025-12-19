@@ -66,6 +66,6 @@ spark-sql-shell: # Run Spark SQL shell locally.
 
 .PHONY: clean
 clean: # Clean auxiliary files.
-	rm -rf deps/ dist/ libs/ .pytest_cache .mypy_cache .ruff_cache movies_etl.egg-info *.xml .coverage* derby.log metastore_db spark-warehouse
+	rm -rf deps/ dist/ libs/ .pytest_cache .ty .ruff_cache movies_etl.egg-info *.xml .coverage* derby.log metastore_db spark-warehouse
 	find . | grep -E "__pycache__" | xargs rm -rf
 	find . | grep -E "movie_ratings_curated" | xargs rm -rf
