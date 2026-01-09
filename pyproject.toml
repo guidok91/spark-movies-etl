@@ -1,24 +1,24 @@
 [project]
 name = "movies-etl"
-version = "0.5.0"
+version = "0.6.0"
 description = "Data pipeline that processes movie ratings data"
 authors = [{ name = "Guido Kosloff Gancedo", email = "guidokosloff@gmail.com" }]
 readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
-    "pyspark~=3.5.7",
-    "pandera[pyspark]~=0.27.0",
+    "pyspark~=4.1.1",
+    "pandera[pyspark]~=0.28.1",
     "setuptools~=80.9.0",
 ]
 
 [dependency-groups]
 dev = [
-    "ruff~=0.14.8",
-    "ty~=0.0.4",
+    "ruff~=0.14.11",
+    "ty~=0.0.10",
     "pytest~=9.0.2",
     "pytest-cov~=7.0.0",
     "chispa~=0.11.1",
-    "pre-commit~=4.5.0",
+    "pre-commit~=4.5.1",
 ]
 
 [build-system]

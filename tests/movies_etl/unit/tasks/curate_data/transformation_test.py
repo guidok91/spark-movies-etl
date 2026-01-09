@@ -194,7 +194,5 @@ def test_transform_missing_column(spark: SparkSession) -> None:
     transformation = CurateDataTransformation()
 
     # THEN
-    with pytest.raises(
-        AnalysisException, match=r".*A column or function parameter with name `genres` cannot be resolved*"
-    ):
+    with pytest.raises(AnalysisException, match=r".*`genres` cannot be resolved*"):
         transformation.transform(df_input)

@@ -2,6 +2,7 @@ import argparse
 import datetime
 
 from pyspark.sql import Catalog, DataFrame
+from pyspark.sql.functions import col, days
 
 from movies_etl.tasks.curate_data.transformation import CurateDataTransformation
 from movies_etl.tasks.task import Task
@@ -24,27 +25,22 @@ class CurateDataTask(Task):
     def _write_output(self, df: DataFrame) -> None:
         self.logger.info(f"Saving to table {self.table_output}.")
 
-        df.createOrReplaceTempView("incoming_data")
-
         if Catalog(self.spark).tableExists(tableName=self.table_output):
             self.logger.info("Table exists, performing MERGE operation.")
-            self.spark.sql(f"""
-                MERGE INTO {self.table_output} AS target
-                USING incoming_data AS source
-                ON target.rating_id = source.rating_id
-                WHEN MATCHED THEN UPDATE SET *
-                WHEN NOT MATCHED THEN INSERT *
-            """)
+            (
+                df.mergeInto(
+                    table=self.table_output,
+                    condition=col(f"{self.table_output}.rating_id") == col(f"{self.table_input}.rating_id"),
+                )
+                .whenMatched()
+                .updateAll()
+                .whenNotMatched()
+                .insertAll()
+                .merge()
+            )
         else:
             self.logger.info("Table does not exist, creating with CTAS.")
-            self.spark.sql(f"""
-                CREATE TABLE {self.table_output}
-                USING iceberg
-                PARTITIONED BY (day(timestamp))
-                AS SELECT * FROM incoming_data
-            """)
-
-        self.spark.catalog.dropTempView("incoming_data")
+            df.writeTo(self.table_output).using("iceberg").partitionedBy(days("timestamp")).create()
 
 
 def main() -> None:
