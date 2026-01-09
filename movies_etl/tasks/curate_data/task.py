@@ -2,7 +2,7 @@ import argparse
 import datetime
 
 from pyspark.sql import Catalog, DataFrame
-from pyspark.sql.functions import col
+from pyspark.sql.functions import col, days
 
 from movies_etl.tasks.curate_data.transformation import CurateDataTransformation
 from movies_etl.tasks.task import Task
@@ -40,14 +40,7 @@ class CurateDataTask(Task):
             )
         else:
             self.logger.info("Table does not exist, creating with CTAS.")
-            df.createOrReplaceTempView("incoming_data")
-            self.spark.sql(f"""
-                CREATE TABLE {self.table_output}
-                USING iceberg
-                PARTITIONED BY (day(timestamp))
-                AS SELECT * FROM incoming_data
-            """)
-            self.spark.catalog.dropTempView("incoming_data")
+            df.writeTo(self.table_output).using("iceberg").partitionedBy(days("timestamp")).create()
 
 
 def main() -> None:
