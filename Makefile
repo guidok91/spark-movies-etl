@@ -3,7 +3,7 @@ export UV_VERSION=0.9.17
 export ICEBERG_VERSION=1.10.0
 export SPARK_ARGS=--master local[*] \
 	--deploy-mode client \
-	--packages org.apache.iceberg:iceberg-spark-runtime-3.5_2.13:$(ICEBERG_VERSION) \
+	--packages org.apache.iceberg:iceberg-spark-runtime-4.0_2.13:$(ICEBERG_VERSION) \
 	--conf spark.sql.defaultCatalog=local \
 	--conf spark.sql.catalog.local=org.apache.iceberg.spark.SparkCatalog \
 	--conf spark.sql.catalog.local.type=hadoop \
