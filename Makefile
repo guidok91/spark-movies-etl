@@ -1,5 +1,5 @@
 export TZ=UTC
-export UV_VERSION=0.9.22
+export UV_VERSION=0.9.26
 export ICEBERG_VERSION=1.10.1
 export SPARK_ARGS=--master local[*] \
 	--deploy-mode client \
