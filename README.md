@@ -18,7 +18,7 @@ We define a Data Lakehouse architecture with the following layers:
 The Spark data pipeline:
 - Reads data from the raw layer (`movie_ratings_raw` table) incrementally for a given date (filtering by `ingestion_date`).
 - Performs data cleaning, transformations and business logic.
-- Writes to the curated layer (`movie_ratings_curated` table) partitioned by `day(timestamp)` (leveraging [Iceberg's hidden partitioning](https://iceberg.apache.org/docs/latest/partitioning/) for optimal querying).
+- Writes to the curated layer (`movie_ratings_curated` table) partitioned by `days(timestamp)` (leveraging [Iceberg's hidden partitioning](https://iceberg.apache.org/docs/latest/partitioning/) for optimal querying).
 
 After persisting, Data Quality checks are run on the curated data using [Pandera](https://pandera.readthedocs.io/en/stable/pyspark_sql.html).
 
