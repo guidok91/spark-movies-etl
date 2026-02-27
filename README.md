@@ -4,6 +4,12 @@
 
 Spark data pipeline that processes movie ratings data.
 
+- [Data Architecture](#data-architecture)
+- [Data pipeline design](#data-pipeline-design)
+- [Packaging and dependency management](#packaging-and-dependency-management)
+- [CI/CD](#cicd)
+- [Local development/execution instructions](#local-developmentexecution-instructions)
+
 ## Data Architecture
 We define a Data Lakehouse architecture with the following layers:
 - `Raw`: Contains raw data directly ingested from an event stream, e.g. Kafka. This data should generally not be shared (can contain PII, duplicates, quality issues, etc).
