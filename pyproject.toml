@@ -7,13 +7,13 @@ readme = "README.md"
 requires-python = ">=3.12,<3.13"
 dependencies = [
     "pyspark~=4.1.1",
-    "pandera[pyspark]~=0.28.1",
-    "setuptools~=80.9.0",
+    "pandera[pyspark]~=0.29.0",
+    "setuptools~=82.0.0",
 ]
 
 [dependency-groups]
 dev = [
-    "ruff~=0.14.13",
+    "ruff~=0.15.4",
     "ty~=0.0.12",
     "pytest~=9.0.2",
     "pytest-cov~=7.0.0",
