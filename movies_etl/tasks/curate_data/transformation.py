@@ -18,7 +18,7 @@ class CurateDataTransformation:
     @staticmethod
     def _transform_columns(df: DataFrame) -> DataFrame:
         return (
-            df.withColumn("is_adult", col("adult"))
+            df.withColumnRenamed("adult", "is_adult")
             .withColumn("original_language", upper("original_language"))
             .withColumn("is_multigenre", size("genres") > 1)
             .withColumn("timestamp", timestamp_seconds("timestamp"))

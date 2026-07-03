@@ -30,7 +30,7 @@ class CurateDataTask(Task):
             (
                 df.mergeInto(
                     table=self.table_output,
-                    condition=col(f"{self.table_output}.rating_id") == col(f"{self.table_input}.rating_id"),
+                    condition=col(f"{self.table_output}.rating_id") == df["rating_id"],
                 )
                 .whenMatched()
                 .updateAll()
