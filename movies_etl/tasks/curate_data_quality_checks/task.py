@@ -9,8 +9,8 @@ from movies_etl.tasks.task import Task
 class CurateDataQualityCheckTask(Task):
     def run(self) -> None:
         df = self._read_input()
-        df_validation = PanderaSchema.validate(df)
-        errors = dict(df_validation.pandera.errors)
+        df_validation = PanderaSchema.validate(df)  # ty: ignore[invalid-argument-type]
+        errors = dict(df_validation.pandera.errors)  # ty: ignore[unresolved-attribute]
         msg = f"Data quality checks for table {self.table_input} (execution date {self.execution_date})"
 
         if errors:

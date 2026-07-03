@@ -1,6 +1,6 @@
 export TZ=UTC
-export UV_VERSION=0.9.26
-export ICEBERG_VERSION=1.10.1
+export UV_VERSION=0.11.26
+export ICEBERG_VERSION=1.11.0
 export SPARK_ARGS=--master local[*] \
 	--deploy-mode client \
 	--packages org.apache.iceberg:iceberg-spark-runtime-4.0_2.13:$(ICEBERG_VERSION) \

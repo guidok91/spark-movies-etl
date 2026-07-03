@@ -13,7 +13,7 @@ class CurateDataTransformation:
             self._select_final_columns,
         )
 
-        return reduce(DataFrame.transform, transformations, df)  # type: ignore
+        return reduce(DataFrame.transform, transformations, df)
 
     @staticmethod
     def _transform_columns(df: DataFrame) -> DataFrame:
