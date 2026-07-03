@@ -1,25 +1,29 @@
 [project]
 name = "movies-etl"
-version = "0.6.0"
+version = "0.6.1"
 description = "Data pipeline that processes movie ratings data"
 authors = [{ name = "Guido Kosloff Gancedo", email = "guidokosloff@gmail.com" }]
 readme = "README.md"
-requires-python = ">=3.12,<3.13"
+requires-python = "~=3.14.0"
 dependencies = [
-    "pyspark~=4.1.1",
-    "pandera[pyspark]~=0.28.1",
-    "setuptools~=80.9.0",
+    "pyspark~=4.1.2",
+    "pandera[pyspark]~=0.32.1",
 ]
 
 [dependency-groups]
 dev = [
-    "ruff~=0.14.13",
-    "ty~=0.0.12",
-    "pytest~=9.0.2",
-    "pytest-cov~=7.0.0",
-    "chispa~=0.11.1",
-    "pre-commit~=4.5.1",
+    "ruff~=0.15.20",
+    "ty~=0.0.56",
+    "pytest~=9.1.1",
+    "pytest-cov~=7.1.0",
+    "chispa~=0.12.0",
+    "pre-commit~=4.6.0",
 ]
+
+[tool.uv]
+# pyspark.pandas (used by pandera.pyspark) imports pandas.core.common._builtin_table,
+# which was removed in pandas 3.0. Constrain below 3.0 until PySpark supports it.
+constraint-dependencies = ["pandas<3"]
 
 [build-system]
 requires = ["hatchling"]

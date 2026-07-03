@@ -18,7 +18,7 @@ class PanderaSchema(DataFrameModel):
     budget: T.LongType = pa.Field(ge=0, nullable=False)
     is_adult: T.BooleanType = pa.Field(nullable=False)
     is_multigenre: T.BooleanType = pa.Field(nullable=False)
-    genres: T.ArrayType(  # type: ignore[valid-type]
+    genres: T.ArrayType(  # ty: ignore[invalid-type-form]
         T.StructType(
             [
                 T.StructField("id", T.LongType()),
@@ -56,4 +56,4 @@ def str_length(
     if max_value is not None:
         cond = cond & (str_len <= max_value)
 
-    return data.dataframe.filter(~cond).limit(1).count() == 0  # type: ignore[arg-type]
+    return data.dataframe.filter(~cond).limit(1).count() == 0  # ty: ignore[invalid-argument-type]
