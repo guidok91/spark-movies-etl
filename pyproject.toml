@@ -8,7 +8,6 @@ requires-python = "~=3.14.0"
 dependencies = [
     "pyspark~=4.1.2",
     "pandera[pyspark]~=0.32.1",
-    "setuptools~=82.0.1",
 ]
 
 [dependency-groups]
