@@ -1,0 +1,39 @@
+# Version control
+.git
+.github
+.gitignore
+
+# Virtual envs / build artifacts
+.venv
+.venv_build
+deps
+dist
+libs
+build
+*.egg-info
+
+# Local data lake / Spark state
+data-lake-dev
+spark-warehouse
+metastore_db
+derby.log
+
+# Tests and fixtures
+tests
+.pytest_cache
+.coverage
+.coverage.*
+*.xml
+
+# Caches
+__pycache__
+.ruff_cache
+.ty
+
+# Editor / OS
+.idea
+.vscode
+.DS_Store
+
+# Misc
+fixes.txt

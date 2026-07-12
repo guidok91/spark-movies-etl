@@ -1,7 +1,7 @@
 import os
 from collections.abc import Generator
 
-import pytest as pytest
+import pytest
 from chispa.dataframe_comparer import assert_df_equality
 from pyspark.sql import DataFrame, SparkSession
 
