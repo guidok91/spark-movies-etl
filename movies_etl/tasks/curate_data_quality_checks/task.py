@@ -8,7 +8,7 @@ from movies_etl.tasks.task import Task
 
 class CurateDataQualityCheckTask(Task):
     def run(self) -> None:
-        df = self._read_input(branch="audit_branch")
+        df = self._read_input(read_from_wap_branch=True)
         df_validation = PanderaSchema.validate(df)  # ty: ignore[invalid-argument-type]
         errors = dict(df_validation.pandera.errors)  # ty: ignore[unresolved-attribute]
         msg = f"Data quality checks for table {self.table_input} (execution date {self.execution_date})"
@@ -17,7 +17,7 @@ class CurateDataQualityCheckTask(Task):
             raise ValueError(f"{msg} failed. Details:\n{json.dumps(errors, indent=2)})")
         else:
             self.logger.info(f"{msg} passed!")
-            self.spark.sql(f"CALL system.fast_forward('{self.table_input}', 'main', 'audit_branch')")
+            self.spark.sql(f"CALL system.fast_forward('{self.table_input}', 'main', '{self.WAP_BRANCH}')")
 
 
 def main() -> None:
