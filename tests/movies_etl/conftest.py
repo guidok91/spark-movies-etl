@@ -8,21 +8,10 @@ from pyspark.sql import DataFrame, SparkSession
 
 @pytest.fixture(scope="session")
 def spark() -> Generator:
-    spark = (
-        SparkSession.builder.master("local[*]")
-        .config(
-            "spark.jars.packages", f"org.apache.iceberg:iceberg-spark-runtime-4.1_2.13:{os.environ['ICEBERG_VERSION']}"
-        )
-        .config("spark.sql.extensions", "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions")
-        .config("spark.sql.defaultCatalog", "local")
-        .config("spark.sql.catalog.local", "org.apache.iceberg.spark.SparkCatalog")
-        .config("spark.sql.catalog.local.type", "hadoop")
-        .config(
-            "spark.sql.catalog.local.warehouse",
-            f"{os.path.dirname(os.path.abspath(__file__))}/integration/tasks/curate_data/fixtures/data-lake-test",
-        )
-        .getOrCreate()
-    )
+    spark = SparkSession.builder.config(
+        "spark.sql.catalog.local.warehouse",
+        f"{os.path.dirname(os.path.abspath(__file__))}/integration/tasks/curate_data/fixtures/data-lake-test",
+    ).getOrCreate()
     yield spark
 
 
