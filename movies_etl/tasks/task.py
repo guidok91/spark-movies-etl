@@ -19,7 +19,6 @@ class Task(ABC):
         raise NotImplementedError
 
     def _read_input(self, read_from_wap_branch: bool = False) -> DataFrame:
-        self.logger.info(f"Reading data from {self.table_input}.")
-        if read_from_wap_branch:
-            self.spark.sql(f"SET spark.wap.branch = {self.WAP_BRANCH}")
-        return self.spark.read.table(self.table_input).where(f"ingestion_date = '{self.execution_date}'")
+        table = f"{self.table_input}.branch_{self.WAP_BRANCH}" if read_from_wap_branch else self.table_input
+        self.logger.info(f"Reading data from {table}.")
+        return self.spark.read.table(table).where(f"ingestion_date = '{self.execution_date}'")

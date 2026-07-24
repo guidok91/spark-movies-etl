@@ -44,6 +44,7 @@ class CurateDataTask(Task):
             .insertAll()
             .merge()
         )
+        self.spark.sql("RESET spark.wap.branch")
 
 
 def main() -> None:
