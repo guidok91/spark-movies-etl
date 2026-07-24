@@ -28,15 +28,14 @@ class CurateDataTask(Task):
         if not Catalog(self.spark).tableExists(tableName=self.table_output):
             self.logger.info("Table does not exist, creating it.")
             df.limit(0).writeTo(f"{self.table_output}").using("iceberg").partitionedBy(days("timestamp")).create()
-            self.spark.sql(f"ALTER TABLE {self.table_output} SET TBLPROPERTIES ('write.wap.enabled'='true')")
             self.spark.sql(f"ALTER TABLE {self.table_output} CREATE BRANCH `{self.WAP_BRANCH}`")
 
         self.logger.info("Merging into table.")
-        self.spark.sql(f"SET spark.wap.branch = {self.WAP_BRANCH}")
+        table_output_branch = f"{self.table_output}.branch_{self.WAP_BRANCH}"
         (
             df.mergeInto(
-                table=self.table_output,
-                condition=col(f"{self.table_output}.rating_id") == df["rating_id"],
+                table=table_output_branch,
+                condition=col(f"{table_output_branch}.rating_id") == df["rating_id"],
             )
             .whenMatched()
             .updateAll()
@@ -44,7 +43,6 @@ class CurateDataTask(Task):
             .insertAll()
             .merge()
         )
-        self.spark.sql("RESET spark.wap.branch")
 
 
 def main() -> None:
