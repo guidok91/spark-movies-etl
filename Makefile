@@ -1,15 +1,7 @@
 export TZ=UTC
 export UV_VERSION=0.11.26
-export ICEBERG_VERSION=1.11.0
-export SPARK_ARGS=--master local[*] \
-	--deploy-mode client \
-	--packages org.apache.iceberg:iceberg-spark-runtime-4.1_2.13:$(ICEBERG_VERSION) \
-	--conf spark.sql.extensions=org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions \
-	--conf spark.sql.defaultCatalog=local \
-	--conf spark.sql.catalog.local=org.apache.iceberg.spark.SparkCatalog \
-	--conf spark.sql.catalog.local.type=hadoop \
-	--conf spark.sql.catalog.local.warehouse=data-lake-dev \
-	--py-files deps/deps.zip
+export SPARK_CONF_DIR=$(CURDIR)/conf
+export SPARK_ADDITIONAL_ARGS=--conf spark.sql.catalog.local.warehouse=data-lake-dev --py-files deps/deps.zip
 
 .PHONY: help
 help:
@@ -36,7 +28,7 @@ package: # Package the app to be used in spark-submit.
 
 .PHONY: test
 test: # Run unit and integration tests.
-	ICEBERG_VERSION=$(ICEBERG_VERSION) uv run pytest --cov -vvvv --showlocals --disable-warnings tests
+	uv run pytest --cov -vvvv --showlocals --disable-warnings tests
 
 .PHONY: lint
 lint: # Run code linting tools.
@@ -45,7 +37,7 @@ lint: # Run code linting tools.
 .PHONY: run-curate-data
 run-curate-data: # Run curate data task locally.
 	uv run spark-submit \
-	$(SPARK_ARGS) \
+	$(SPARK_ADDITIONAL_ARGS) \
 	movies_etl/tasks/curate_data/task.py \
 	--table-input movie_ratings_raw \
 	--table-output movie_ratings_curated \
@@ -54,7 +46,7 @@ run-curate-data: # Run curate data task locally.
 .PHONY: run-curate-data-quality-checks
 run-curate-data-quality-checks: # Run curate data quality checks locally.
 	uv run spark-submit \
-	$(SPARK_ARGS) \
+	$(SPARK_ADDITIONAL_ARGS) \
 	movies_etl/tasks/curate_data_quality_checks/task.py \
 	--table-input movie_ratings_curated \
 	--execution-date ${EXECUTION_DATE}
@@ -62,7 +54,7 @@ run-curate-data-quality-checks: # Run curate data quality checks locally.
 .PHONY: spark-sql-shell
 spark-sql-shell: # Run Spark SQL shell locally.
 	uv run spark-sql \
-	$(SPARK_ARGS) \
+	$(SPARK_ADDITIONAL_ARGS) \
 	--conf "spark.hadoop.hive.cli.print.header=true"
 
 .PHONY: clean
