@@ -11,8 +11,9 @@ def spark() -> Generator:
     spark = (
         SparkSession.builder.master("local[*]")
         .config(
-            "spark.jars.packages", f"org.apache.iceberg:iceberg-spark-runtime-4.0_2.13:{os.environ['ICEBERG_VERSION']}"
+            "spark.jars.packages", f"org.apache.iceberg:iceberg-spark-runtime-4.1_2.13:{os.environ['ICEBERG_VERSION']}"
         )
+        .config("spark.sql.extensions", "org.apache.iceberg.spark.extensions.IcebergSparkSessionExtensions")
         .config("spark.sql.defaultCatalog", "local")
         .config("spark.sql.catalog.local", "org.apache.iceberg.spark.SparkCatalog")
         .config("spark.sql.catalog.local.type", "hadoop")

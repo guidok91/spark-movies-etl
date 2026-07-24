@@ -16,6 +16,8 @@ class Task(ABC):
     def run(self) -> None:
         raise NotImplementedError
 
-    def _read_input(self) -> DataFrame:
+    def _read_input(self, branch: str | None = None) -> DataFrame:
         self.logger.info(f"Reading data from {self.table_input}.")
+        if branch:
+            self.spark.sql(f"SET spark.wap.branch = {branch}")
         return self.spark.read.table(self.table_input).where(f"ingestion_date = '{self.execution_date}'")

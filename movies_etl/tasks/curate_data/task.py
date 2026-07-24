@@ -25,22 +25,25 @@ class CurateDataTask(Task):
     def _write_output(self, df: DataFrame) -> None:
         self.logger.info(f"Saving to table {self.table_output}.")
 
-        if Catalog(self.spark).tableExists(tableName=self.table_output):
-            self.logger.info("Table exists, performing MERGE operation.")
-            (
-                df.mergeInto(
-                    table=self.table_output,
-                    condition=col(f"{self.table_output}.rating_id") == df["rating_id"],
-                )
-                .whenMatched()
-                .updateAll()
-                .whenNotMatched()
-                .insertAll()
-                .merge()
+        if not Catalog(self.spark).tableExists(tableName=self.table_output):
+            self.logger.info("Table does not exist, creating it.")
+            df.limit(0).writeTo(f"{self.table_output}").using("iceberg").partitionedBy(days("timestamp")).create()
+            self.spark.sql(f"ALTER TABLE {self.table_output} SET TBLPROPERTIES ('write.wap.enabled'='true')")
+            self.spark.sql(f"ALTER TABLE {self.table_output} CREATE BRANCH `audit_branch`")
+
+        self.logger.info("Merging into table.")
+        self.spark.sql("SET spark.wap.branch = audit_branch")
+        (
+            df.mergeInto(
+                table=self.table_output,
+                condition=col(f"{self.table_output}.rating_id") == df["rating_id"],
             )
-        else:
-            self.logger.info("Table does not exist, creating with CTAS.")
-            df.writeTo(self.table_output).using("iceberg").partitionedBy(days("timestamp")).create()
+            .whenMatched()
+            .updateAll()
+            .whenNotMatched()
+            .insertAll()
+            .merge()
+        )
 
 
 def main() -> None:
