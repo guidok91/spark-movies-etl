@@ -25,8 +25,10 @@ The Spark data pipeline:
 - Reads data from the raw layer (`movie_ratings_raw` table) incrementally for a given date (filtering by `ingestion_date`).
 - Performs data cleaning, transformations and business logic.
 - Writes to the curated layer (`movie_ratings_curated` table) partitioned by `days(timestamp)` (leveraging [Iceberg's hidden partitioning](https://iceberg.apache.org/docs/latest/partitioning/) for optimal querying).
+- After persisting, Data Quality checks are run on the curated data using [Pandera](https://pandera.readthedocs.io/en/stable/pyspark_sql.html).
 
-After persisting, Data Quality checks are run on the curated data using [Pandera](https://pandera.readthedocs.io/en/stable/pyspark_sql.html).
+The data is processed using the Write-Audit-Publish pattern (using [Iceberg's branching](https://iceberg.apache.org/docs/latest/branching/#audit-branch)):
+data is written to an audit branch, and only after the data quality checks pass, the changes are visible in the main branch.
 
 Note that for the purpose of running this project locally, we use an Iceberg catalog in the local file system.
 In production, we could for instance use the AWS Glue data catalog, persisting data to S3. [See doc](https://iceberg.apache.org/docs/latest/aws/#spark).

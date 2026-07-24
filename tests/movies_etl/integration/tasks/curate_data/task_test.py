@@ -5,6 +5,7 @@ from pyspark.errors.exceptions.captured import AnalysisException
 from pyspark.sql import SparkSession
 
 from movies_etl.tasks.curate_data.task import main
+from movies_etl.tasks.task import Task
 
 
 def test_run_end_to_end_idempotent(spark: SparkSession) -> None:
@@ -47,5 +48,8 @@ def _test_run(spark: SparkSession) -> None:
     main()
 
     # THEN
-    df_output = spark.read.table("movie_ratings_curated")
-    assert df_output.count() == 2
+    df_main = spark.read.table("movie_ratings_curated")
+    assert df_main.count() == 0
+
+    df_wap_branch = spark.read.table(f"movie_ratings_curated.branch_{Task.WAP_BRANCH}")
+    assert df_wap_branch.count() == 2

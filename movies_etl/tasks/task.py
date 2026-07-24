@@ -6,6 +6,8 @@ from pyspark.sql import DataFrame, SparkSession
 
 
 class Task(ABC):
+    WAP_BRANCH = "wap_branch"
+
     def __init__(self, execution_date: datetime.date, table_input: str) -> None:
         self.execution_date = execution_date
         self.table_input = table_input
@@ -16,6 +18,7 @@ class Task(ABC):
     def run(self) -> None:
         raise NotImplementedError
 
-    def _read_input(self) -> DataFrame:
-        self.logger.info(f"Reading data from {self.table_input}.")
-        return self.spark.read.table(self.table_input).where(f"ingestion_date = '{self.execution_date}'")
+    def _read_input(self, read_from_wap_branch: bool = False) -> DataFrame:
+        table = f"{self.table_input}.branch_{self.WAP_BRANCH}" if read_from_wap_branch else self.table_input
+        self.logger.info(f"Reading data from {table}.")
+        return self.spark.read.table(table).where(f"ingestion_date = '{self.execution_date}'")
