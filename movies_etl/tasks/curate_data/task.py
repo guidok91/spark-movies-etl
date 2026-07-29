@@ -28,9 +28,9 @@ class CurateDataTask(Task):
         if not Catalog(self.spark).tableExists(tableName=self.table_output):
             self.logger.info("Table does not exist, creating it.")
             df.limit(0).writeTo(f"{self.table_output}").using("iceberg").partitionedBy(days("timestamp")).create()
-            self.spark.sql(f"ALTER TABLE {self.table_output} CREATE BRANCH `{self.WAP_BRANCH}`")
 
         self.logger.info("Merging into table.")
+        self.spark.sql(f"ALTER TABLE {self.table_output} CREATE OR REPLACE BRANCH `{self.WAP_BRANCH}`")
         table_output_branch = f"{self.table_output}.branch_{self.WAP_BRANCH}"
         (
             df.mergeInto(
