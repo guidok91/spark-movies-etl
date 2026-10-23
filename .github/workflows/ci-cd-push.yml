@@ -56,12 +56,9 @@ jobs:
         run: echo "PACKAGE_VERSION=$(uv pip show movies-etl | grep Version | awk '{print $2}')" >> $GITHUB_ENV
 
       - name: Create Github release
-        uses: "marvinpinto/action-automatic-releases@v1.2.1"
-        with:
-          repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          prerelease: false
-          automatic_release_tag: "${{ env.PACKAGE_VERSION }}"
-          files: deps/*
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: gh release create "$PACKAGE_VERSION" --target "$GITHUB_SHA" --generate-notes
 
       - name: Log in to the Github Container Registry
         uses: docker/login-action@v3
