@@ -1,12 +1,14 @@
-name: CI/CD - PR
+name: CI/CD
 
 on:
   pull_request:
     branches: [ master ]
+  push:
+    branches: [ master ]
 
 concurrency:
-  group: ${{ github.workflow }} - ${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  group: ${{ github.workflow }} - ${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
   REGISTRY: ghcr.io
@@ -41,11 +43,29 @@ jobs:
     timeout-minutes: 15
     needs: test
     permissions:
-      contents: read
+      contents: write
       packages: write
     steps:
       - name: Checkout code
         uses: actions/checkout@v7
+
+      - name: Setup Python
+        if: github.event_name == 'push'
+        uses: actions/setup-python@v6
+        with:
+          python-version: 3.14
+
+      - name: Install dependencies
+        if: github.event_name == 'push'
+        run: make setup
+
+      - name: Create Github release
+        if: github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PACKAGE_VERSION=$(uv pip show movies-etl | grep Version | awk '{print $2}')
+          gh release create "$PACKAGE_VERSION" --target "$GITHUB_SHA" --generate-notes
 
       - name: Log in to the Github Container Registry
         uses: docker/login-action@v3

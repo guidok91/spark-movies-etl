@@ -1,6 +1,6 @@
 # Movies data ETL (Spark)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
-![workflow](https://github.com/guidok91/spark-movies-etl/actions/workflows/ci-cd-push.yml/badge.svg)
+![workflow](https://github.com/guidok91/spark-movies-etl/actions/workflows/ci-cd.yml/badge.svg?event=push)
 
 Spark data pipeline that processes movie ratings data.
 
