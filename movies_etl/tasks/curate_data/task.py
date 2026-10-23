@@ -30,8 +30,8 @@ class CurateDataTask(Task):
             df.limit(0).writeTo(f"{self.table_output}").using("iceberg").partitionedBy(days("timestamp")).create()
 
         self.logger.info("Merging into table.")
-        self.spark.sql(f"ALTER TABLE {self.table_output} CREATE OR REPLACE BRANCH `{self.WAP_BRANCH}`")
-        table_output_branch = f"{self.table_output}.branch_{self.WAP_BRANCH}"
+        self.spark.sql(f"ALTER TABLE {self.table_output} CREATE OR REPLACE BRANCH `{self.wap_branch}`")
+        table_output_branch = f"{self.table_output}.branch_{self.wap_branch}"
         (
             df.mergeInto(
                 table=table_output_branch,
