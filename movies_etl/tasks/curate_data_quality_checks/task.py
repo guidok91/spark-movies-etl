@@ -17,7 +17,8 @@ class CurateDataQualityCheckTask(Task):
             raise ValueError(f"{msg} failed. Details:\n{json.dumps(errors, indent=2)})")
         else:
             self.logger.info(f"{msg} passed, updating main table branch.")
-            self.spark.sql(f"CALL system.fast_forward('{self.table_input}', 'main', '{self.WAP_BRANCH}')")
+            self.spark.sql(f"CALL system.fast_forward('{self.table_input}', 'main', '{self.wap_branch}')")
+            self.spark.sql(f"ALTER TABLE {self.table_input} DROP BRANCH `{self.wap_branch}`")
 
 
 def main() -> None:
