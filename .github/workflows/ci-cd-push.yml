@@ -52,13 +52,12 @@ jobs:
       - name: Install dependencies
         run: make setup
 
-      - name: Get package version
-        run: echo "PACKAGE_VERSION=$(uv pip show movies-etl | grep Version | awk '{print $2}')" >> $GITHUB_ENV
-
       - name: Create Github release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: gh release create "$PACKAGE_VERSION" --target "$GITHUB_SHA" --generate-notes
+        run: |
+          PACKAGE_VERSION=$(uv pip show movies-etl | grep Version | awk '{print $2}')
+          gh release create "$PACKAGE_VERSION" --target "$GITHUB_SHA" --generate-notes
 
       - name: Log in to the Github Container Registry
         uses: docker/login-action@v3
