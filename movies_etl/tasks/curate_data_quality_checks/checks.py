@@ -30,7 +30,7 @@ class PanderaSchema(DataFrameModel):
     def row_count_check(cls, df: DataFrame) -> bool:
         return df.count() > 0
 
-    class Config:
+    class Config:  # ty: ignore[invalid-attribute-override]
         strict = True
         coerce = False
         unique = ["rating_id"]
