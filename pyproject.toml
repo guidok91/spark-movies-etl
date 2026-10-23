@@ -1,6 +1,6 @@
 [project]
 name = "movies-etl"
-version = "0.6.3"
+version = "0.6.4"
 description = "Data pipeline that processes movie ratings data"
 authors = [{ name = "Guido Kosloff Gancedo", email = "guidokosloff@gmail.com" }]
 readme = "README.md"
