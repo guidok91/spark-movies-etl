@@ -1,5 +1,5 @@
 export TZ=UTC
-export UV_VERSION=0.11.26
+export UV_VERSION=0.13.5
 export SPARK_CONF_DIR=$(CURDIR)/conf
 export SPARK_ADDITIONAL_ARGS=--conf spark.sql.catalog.local.warehouse=data-lake-dev --py-files deps/deps.zip
 
