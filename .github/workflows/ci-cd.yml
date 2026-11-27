@@ -28,6 +28,12 @@ jobs:
         with:
           python-version: 3.14
 
+      - name: Setup Java
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: 21
+
       - name: Install dependencies
         run: make setup
 
